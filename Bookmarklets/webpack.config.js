@@ -47,8 +47,8 @@ const bookmarkletsPageConfig = {
     plugins: [
         new webpack.DefinePlugin({
             'process.env.bookmarkletsRoot': PROD 
-                ? JSON.stringify('http://localhost:8080/bookmarklets')
-                : JSON.stringify('http://tech.skbkontur.ru/react-ui-testing/bookmarklets')
+                ? JSON.stringify('http://tech.skbkontur.ru/react-ui-testing/bookmarklets')
+                : JSON.stringify('http://localhost:8080/bookmarklets')
         }),
         new HtmlWebpackPlugin({
             template: './src/bookmarklets-page/index.html',
