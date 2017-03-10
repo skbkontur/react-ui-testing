@@ -8,6 +8,11 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteInitAction();
         }
 
+        public string Text
+        {
+            get { return GetValueFromElement(x => x.Text); }
+        }
+
         private void ExecuteInitAction()
         {
             foreach(var controlActionAttribute in GetType().GetCurrentTypeAttributes<ICompoundControlActionAttribute>())

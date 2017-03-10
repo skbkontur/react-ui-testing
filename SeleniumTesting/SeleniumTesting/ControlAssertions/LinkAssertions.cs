@@ -1,4 +1,3 @@
-using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
@@ -11,6 +10,18 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<Link, string, LinkAssertions> Text { get { return HaveComplexProperty(x => x.GetText(), "текст"); } }
+        public IAndContraint<LinkAssertions> BeDisabled()
+        {
+            HaveProperty(x => x.IsDisabled, "disabled").BeTrue();
+            return AndThis();
+        }
+
+        public IAndContraint<LinkAssertions> BeEnabled()
+        {
+            HaveProperty(x => x.IsDisabled, "disabled").BeFalse();
+            return AndThis();
+        }
+
+        public PropertyControlContext<Link, string> Text { get { return HaveComplexProperty(x => x.Text, "текст"); } }
     }
 }

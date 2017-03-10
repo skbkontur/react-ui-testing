@@ -7,6 +7,8 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        public string Text { get { return ExecuteOnElement(element => element.Text); } }
+        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
+
+        public string Text { get { return GetValueFromElement(element => element.Text); } }
     }
 }

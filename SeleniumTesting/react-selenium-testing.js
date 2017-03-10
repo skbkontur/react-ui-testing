@@ -1,132 +1,198 @@
+function extendStaticObject(base, overrides) {
+    var oldBase = Object.assign({}, base);
+    for (var overrideKey of Object.keys(overrides)) {
+        base[overrideKey] = overrides[overrideKey](oldBase);
+    }
+}
+
+function injectReactDevToolsHook(injectModule) {
+    if (!global.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+        global.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { inject: () => {} };
+    }    
+    var oldInject = global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject;
+    global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = x => {
+        var ReactMount = x.Mount;
+        if (oldInject) {
+            oldInject(x);
+        }
+        injectModule(x)
+    };
+}
+
 if (process.env.enableReactTesting) {
     global.ReactTesting = {
         addRenderContainer: () => {},
         removeRenderContainer: () => {},
     };
+    injectReactDevToolsHook(exposeReactInternalsIntoDomHook);
+}
 
-    function stringifySafe(value) {
-        if (typeof value === 'string') {
-            return value;
-        }
-        if (value === undefined || value === null) {
-            return '';
-        }
-        try {
-            return JSON.stringify(value);
-        }
-        catch (e) {
-            return '';
-        }
-    }
+function exposeReactInternalsIntoDomHook({ Mount, Reconciler }) {
+    var ReactMount = Mount;
+    extendStaticObject(Reconciler, {
+        receiveComponent: base => (instance, nextElement, transaction, context) => {
+            base.receiveComponent(instance, nextElement, transaction, context);
 
-    function fixInstance(instance) {
-        var instanceProps = instance._currentElement.props;
-        if (instance._currentElement._owner && instance._currentElement._owner._currentElement.type) {
-            fixInstance(instance._currentElement._owner);
-        }    
-        if (instance._renderedComponent && instanceProps && (instanceProps['data-tid'] || instance._currentElement.type.name)) {
-            var result = instance._renderedComponent._hostNode || (instance._renderedComponent._renderedComponent && instance._renderedComponent._renderedComponent._hostNode);
-            if (result && result.attributes && instanceProps) {
-                if (instanceProps['data-tid']) {
-                    var dataTidAttr = document.createAttribute("data-tid");
-                    dataTidAttr.value = instanceProps['data-tid'];
-                    result.attributes && (result.attributes.setNamedItem(dataTidAttr));
-                }
-                for (var prop in instanceProps) {
-                    if (!prop.startsWith('$$') && !prop.startsWith('on') && (prop !== 'children')) {
-                        if (typeof instanceProps[prop] !== 'function') {
-                            var attr = document.createAttribute(`data-prop-${prop}`);
-                            attr.value = stringifySafe(instanceProps[prop]);
-                            result.attributes && (result.attributes.setNamedItem(attr));
-                        }
-                    }
-                }
-            }                  
-        }
-    }
-
-    if (!global.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-        global.__REACT_DEVTOOLS_GLOBAL_HOOK__ = {
-            inject: () => {},
-        };
-    }    
-    var oldInject = global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject;
-    global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = x => {
-        if (oldInject) {
-            oldInject(x);
-        }            
-        var oldreceiveComponent = x.Reconciler.receiveComponent;
-        x.Reconciler.receiveComponent = function(internalInstance, nextElement, transaction, context) {
-            oldreceiveComponent(internalInstance, nextElement, transaction, context);
-
-            var prevElement = internalInstance._currentElement;
-            if (nextElement === prevElement && context === internalInstance._context) {
+            var prevElement = instance._currentElement;
+            if (nextElement === prevElement && context === instance._context) {
                 return;
             }
 
-            if (internalInstance._currentElement && internalInstance._currentElement.type) {
-                var instance = internalInstance;
-                fixInstance(instance);
-            }
-        }
+            if (instance._currentElement && instance._currentElement.type) {
+                var domElement = getTargetNode(instance, ReactMount);
+                updateDomElement(domElement, instance, false);
+            }                
+        },
 
-
-        var oldMountComponent = x.Reconciler.mountComponent.bind(x.Reconciler);
-        x.Reconciler.mountComponent = (instance, tr, host, hostParent, hostContainerInfo, context, ...rest) => {        
-            if (instance._currentElement && instance._currentElement.props && (instance._currentElement.props['data-tid'] || instance._currentElement.type.name)) {
-                
-                var result = oldMountComponent(instance, tr, host,  hostParent, hostContainerInfo, context, ...rest);
-
-                if (result.node && result.node.attributes) {
-                    if (instance._currentElement.props['data-tid']) {
-                        var dataTidAttr = document.createAttribute("data-tid");
-                        dataTidAttr.value = instance._currentElement.props['data-tid'];
-                        result.node.attributes && (result.node.attributes.setNamedItem(dataTidAttr));
-                    }
-                    if (instance._currentElement.type.name) {
-                        var dataComponentNameAttr = document.createAttribute("data-comp-name");
-                        dataComponentNameAttr.value = instance._currentElement.type.name;
-                        result.node.attributes && (result.node.attributes.setNamedItem(dataComponentNameAttr));
-                    }                
-                    if (instance._currentElement.props) {
-                        for (var prop in instance._currentElement.props) {
-                            if (!prop.startsWith('$$') && !prop.startsWith('on') && (prop !== 'children')) {
-                                if (typeof instance._currentElement.props[prop] !== 'function') {
-                                    var attr = document.createAttribute(`data-prop-${prop}`);
-                                    attr.value = stringifySafe(instance._currentElement.props[prop]);
-                                    result.node.attributes && (result.node.attributes.setNamedItem(attr));
-                                }
-                            }
-                        }
-                    }           
-                    if (instance._currentElement._owner) {
-                        var ownerInstance = instance._currentElement._owner;
-                        if (ownerInstance._rootNodeID === instance._rootNodeID) { 
-                            if (getDomHostNode(ownerInstance) === getDomHostNode(instance)) {
-                                if (ownerInstance._currentElement.props['data-tid']) {
-                                    var dataTidAttr = document.createAttribute("data-tid");
-                                    dataTidAttr.value = ownerInstance._currentElement.props['data-tid'];
-                                    result.node.attributes && (result.node.attributes.setNamedItem(dataTidAttr));
-                                }
-                            }
-                        }
-
-                    }
+        mountComponent: base => (instance, tr, host, hostParent, hostContainerInfo, context, ...rest) => {
+            var result = base.mountComponent(instance, tr, host,  hostParent, hostContainerInfo, context, ...rest);            
+            if (typeof result === 'string') { // React 0.14.*
+                var resultDomElement = createDomFromString(result);
+                if (!resultDomElement) {
                     return result;
                 }
-                return result;
+                updateDomElement(resultDomElement, instance, true)
+                return resultDomElement.outerHTML;
+            } 
+            else if (result.node) {  // React 15.*
+                updateDomElement(result.node, instance, true)
             }
-            return oldMountComponent(instance, tr, host,  hostParent, hostContainerInfo, context, ...rest);
+            return result;
         }
-    };
+    });        
+}    
 
-    function getDomHostNode(internalInstance) {
-        if (internalInstance._hostNode) {
-            return internalInstance._hostNode;
+function stringifySafe(value) {
+    if (typeof value === 'string') {
+        return value;
+    }
+    if (value === undefined || value === null) {
+        return '';
+    }
+    try {
+        return JSON.stringify(value);
+    }
+    catch (e) {
+        return '';
+    }
+}
+
+function createDomFromString(s) {
+    var rootDomElement;
+    if (s.startsWith('<tbody') || s.startsWith('<tfoot') || s.startsWith('<thead')) {
+        rootDomElement = document.createElement('table');
+    }
+    else if (s.startsWith('<th') || s.startsWith('<td')) {
+        rootDomElement = document.createElement('tr');
+    }        
+    else if (s.startsWith('<tr')) {
+        rootDomElement = document.createElement('thead');
+    }        
+    else {
+        rootDomElement = document.createElement('div');
+    }
+    rootDomElement.innerHTML = s;
+    return rootDomElement.childNodes[0];
+}
+
+function getTargetNode(instance, ReactMount) {
+    var result = getDomHostNode(instance);
+    if (!result && typeof instance._rootNodeID === 'string') {
+        try {
+            result = ReactMount.getNode(instance._rootNodeID);
         }
-        if (internalInstance._renderedComponent) {
-            return getDomHostNode(internalInstance._renderedComponent);
-        }
+        catch(e) {
+            console.warn(e);
+            return null;
+        }        
+    }
+    return result;
+}
+
+function getComponentName(instance) {
+    if (!instance._currentElement || !instance._currentElement.type) {
         return null;
     }
+    return instance._currentElement.type.name;
+}
+
+function acceptProp(instance, propName, propValue) {
+    return (
+        !propName.startsWith('$$') && 
+        !propName.startsWith('on') && 
+        (propName !== 'children') && 
+        (propName !== 'data-tid') && 
+        typeof propValue !== 'function'
+    );
+}
+
+function updateDomElement(domElement, instance, isMounting) {
+    if (!domElement) {
+        return;
+    }    
+    const attrs = fillPropsForDomElementRecursive({}, instance);
+    for (var attrName in attrs) {
+        domElement.setAttribute(attrName, attrs[attrName]);
+    }    
+}   
+
+function appendToSet(attrContainer, name, value) {
+    if (value === null) 
+        return;
+    var attributeStringValue = attrContainer[name];
+    var set = (attributeStringValue || '').split(' ').filter(x => x !== '');
+    if (!set.includes(value)) {
+        attrContainer[name] = (attributeStringValue ? (attributeStringValue + ' ') : '') + value;
+    }
+}
+
+function fillPropsForDomElementRecursive(attrContainer, instance) {
+    attrContainer = fillPropsForDomElement(attrContainer, instance);
+    var ownerInstance = instance._currentElement && instance._currentElement._owner;
+    if (ownerInstance) {
+        if (sameHostNodes(ownerInstance, instance)) { 
+            attrContainer = fillPropsForDomElementRecursive(attrContainer, ownerInstance);
+        }    
+    }
+    return attrContainer;
+}
+
+function fillPropsForDomElement(attrContainer, instance) {
+    const instanceProps = instance._currentElement && instance._currentElement.props;
+    if (getComponentName(instance)) {
+        appendToSet(attrContainer, 'data-comp-name', getComponentName(instance));
+    }
+    if (instanceProps) {
+        if (instanceProps['data-tid']) {
+            appendToSet(attrContainer, 'data-tid', instanceProps['data-tid']);
+        }
+        for (var prop in instanceProps) {
+            if (acceptProp(instance, prop, instanceProps[prop])) {
+                attrContainer[`data-prop-${prop}`] = stringifySafe(instanceProps[prop]);
+            }
+        }
+    }
+    return attrContainer;
+}
+
+function sameHostNodes(instance1, instance2) {
+    var nodeId1 = instance1._rootNodeID;
+    var nodeId2 = instance2._rootNodeID;
+    if (nodeId1 !== null && nodeId2 !== null) {
+        return nodeId1 === nodeId2;
+    }
+
+    var node1 = getDomHostNode(instance1);
+    var node2 = getDomHostNode(instance2);
+    return node1 !== null && node2 !== null && node1 === node2;
+}
+
+function getDomHostNode(instance) {
+    if (instance._hostNode) {
+        return instance._hostNode;
+    }
+    if (instance._renderedComponent) {
+        return getDomHostNode(instance._renderedComponent);
+    }        
+    return null;
 }

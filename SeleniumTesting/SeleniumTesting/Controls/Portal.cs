@@ -13,7 +13,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         private IWebElement GetPortalElement()
         {
-            return ExecuteOnElement(x =>
+            return GetValueFromElement(x =>
                 {
                     var renderContainerId = x.GetAttribute("data-render-container-id");
                     try
@@ -27,21 +27,24 @@ namespace SKBKontur.SeleniumTesting.Controls
                 });
         }
 
-        public override bool IsDisplayed()
+        public override bool IsDisplayed
         {
-            try
+            get
             {
-                return ExecuteOnElement(x => x != null) && GetPortalElement() != null;
-            }
-            catch
-            {
-                return false;
+                try
+                {
+                    return GetValueFromElement(x => x != null) && GetPortalElement() != null;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
         public override IWebElement Search(ISelector selector)
         {
-            return ExecuteOnElement(x =>
+            return GetValueFromElement(x =>
                 {
                     var renderContainerId = x.GetAttribute("data-render-container-id");
                     var portal = container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));

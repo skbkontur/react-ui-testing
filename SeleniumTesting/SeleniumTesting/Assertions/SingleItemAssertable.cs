@@ -10,38 +10,44 @@ namespace SKBKontur.SeleniumTesting.Assertions
         public SingleItemAssertable(T subject, TimeSpan? waitInterval = null)
         {
             this.subject = subject;
-            this.waitInterval = waitInterval ?? AssertionsContext.GetDefaultWaitInterval();
+            WaitInterval = waitInterval ?? AssertionsContext.GetDefaultWaitInterval();
         }
 
-        public void ExecuteAssert(Func<T, bool> action, Func<T, IErrorMessageBuilder, IErrorMessageBuilder> messageBuilder)
+        public void ExecuteAssert<TCheckResult>(Func<T, TCheckResult> action, Func<T, IErrorMessageBuilder, TCheckResult, IErrorMessageBuilder> messageBuilder) where TCheckResult : ICheckResult
         {
-            Waiter.Wait(() => action(subject), (timeout, exception) =>
+            TCheckResult lastResult = default(TCheckResult);
+            Waiter.Wait(() =>
                 {
-                    IErrorMessageBuilder m = new ErrorMessageBuilder();
-                    m.WithSubject(subject).WithTimeout(timeout);
-                    if(exception != null)
+                    lastResult = action(subject);
+                    return lastResult.Valid;
+                }, (timeout, exception) =>
                     {
-                        var notFoundException = exception as ElementNotFoundException;
-                        if(notFoundException != null)
+                        IErrorMessageBuilder m = new ErrorMessageBuilder();
+                        m.WithSubject(subject).WithTimeout(timeout);
+                        if(exception != null)
                         {
-                            m = messageBuilder(notFoundException.Control as T, m);
-                            m.WithFailedToFindControl(notFoundException);
+                            var notFoundException = exception as ElementNotFoundException;
+                            if(notFoundException != null)
+                            {
+                                m = messageBuilder(notFoundException.Control as T, m, lastResult);
+                                m.WithFailedToFindControl(notFoundException);
+                            }
+                            else
+                            {
+                                throw new Exception(string.Format("Невозможно построить сообщений об ошибке. Произошла непредвиденная ошибка: {0}", exception), exception);
+                            }
                         }
                         else
                         {
-                            throw new Exception(string.Format("Невозможно построить сообщений об ошибке. Произошла непредвиденная ошибка: {0}", exception), exception);
+                            m = messageBuilder(subject, m, lastResult);
                         }
-                    }
-                    else
-                    {
-                        m = messageBuilder(subject, m);
-                    }
 
-                    return m.Build();
-                }, waitInterval);
+                        return m.Build();
+                    }, WaitInterval);
         }
 
+        public TimeSpan WaitInterval { get; set; }
+
         private readonly T subject;
-        private readonly TimeSpan waitInterval;
     }
 }

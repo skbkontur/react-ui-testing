@@ -1,25 +1,30 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using MoreLinq;
 
-using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations;
 using SKBKontur.SeleniumTesting.Controls;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class ControlListAssertions<T> : ControlBaseAssertions<ControlList<T>, ControlListAssertions<T>> where T : ControlBase
+    public class ControlListAssertions<T> : ControlBaseAssertions<ControlListBase<T>, ControlListAssertions<T>> where T : ControlBase
     {
-        public ControlListAssertions(IAssertable<ControlList<T>> subject)
+        public ControlListAssertions(IAssertable<ControlListBase<T>> subject)
             : base(subject)
         {
         }
 
-        public ControlListItemsAssertions<T> HaveItems()
+        public ControlListAnyOfItemAssertions<T> AnyItem()
         {
-            return new ControlListItemsAssertions<T>(Subject);
+            return new ControlListAnyOfItemAssertions<T>(Subject);
+        }
+
+        public ControlListAllItemAssertions<T> AllItems()
+        {
+            return new ControlListAllItemAssertions<T>(Subject);
         }
 
         public void HaveCount(int exepectedCount)
@@ -27,9 +32,9 @@ namespace SKBKontur.SeleniumTesting
             Count.EqualTo(exepectedCount);
         }
 
-        public PropertyControlContext<ControlList<T>, int, ControlListAssertions<T>> Count { get { return HaveProperty(x => x.Count, "количество элементов"); } }
+        public PropertyControlContext<ControlListBase<T>, int> Count { get { return HaveProperty(x => x.Count, "количество элементов"); } }
 
-        public AndContraint<ControlListAssertions<T>> AllItemsEquivalentTo(Func<T, string> propertySelector, string[] expected)
+        public IAndContraint<ControlListAssertions<T>> AllItemsEquivalentTo(Func<T, string> propertySelector, string[] expected)
         {
             Subject.ExecuteAssert(
                 x => ArraysEquivalent(x.GetItems().Select(propertySelector).ToArray(), expected),
@@ -39,7 +44,24 @@ namespace SKBKontur.SeleniumTesting
                         x.GetItems().Select(propertySelector).ForEach(a => m.WithActual(a));
                         return m;
                     });
-            return new AndContraint<ControlListAssertions<T>>(this);
+            return AndThis();
+        }
+
+        public IAndContraint<ControlListAssertions<T>> ItemsAs<TOut>(Func<T, TOut> propertySelector, Action<IEnumerable<TOut>> action)
+        {
+            Subject.ExecuteAssert((x) =>
+                {
+                    try
+                    {
+                        action(x.GetItems().Select(propertySelector));
+                    }
+                    catch(Exception exception)
+                    {
+                        return new ExceptionResult(exception);
+                    }
+                    return new ExceptionResult(null);
+                }, (x, m, y) => m.WithExpectation(new CustomMessageExpectation("\n" + y.Exception.Message)));
+            return AndThis();
         }
 
         private bool ArraysEquivalent(string[] array1, string[] array2)

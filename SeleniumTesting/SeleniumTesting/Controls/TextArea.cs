@@ -1,6 +1,4 @@
-﻿using System;
-
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
@@ -11,22 +9,39 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        public void InputText([NotNull] string text)
+        public void AppendText(string keys)
         {
-            EnsureElementExistsAndExecute(x => { x.SendKeys(text); },
-                                          string.Format("InputText({0})", text));
+            ExecuteAction(x =>
+                {
+                    var element = x;
+                    element.SendKeys(keys);
+                }, string.Format("AppendText({0})", keys));
+        }
+
+        public void ClearAndInputText([NotNull] string text)
+        {
+            ExecuteAction(
+                x =>
+                    {
+                        var inputElement = x;
+                        inputElement.Clear();
+                        inputElement.SendKeys(text);
+                    },
+                string.Format("InputText({0})", text));
         }
 
         public void Clear()
         {
-            EnsureElementExistsAndExecute(element => element.Clear(), "Clear");
+            ExecuteAction(
+                x =>
+                    {
+                        var element = x;
+                        element.Clear();
+                    },
+                "Clear");
         }
 
-        [NotNull]
-        [Obsolete]
-        public override string GetText()
-        {
-            return ExecuteOnElement(element => element.GetAttribute("value"));
-        }
+        public string Value { get { return GetValueFromElement(x => ExecuteScript("return arguments[0].value", x) as string); } }
+        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
     }
 }

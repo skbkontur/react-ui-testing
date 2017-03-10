@@ -1,15 +1,15 @@
 namespace SKBKontur.SeleniumTesting.Controls
 {
-    public class CheckBox : ControlBase
+    public class Checkbox : ControlBase
     {
-        public CheckBox(ISearchContainer container, ISelector selector)
+        public Checkbox(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
+            Label = new Label(this, new UniversalSelector("span:nth-of-type(2)"));
         }
 
-        public bool IsChecked()
-        {
-            return GetReactProp<bool>("checked");
-        }
+        public Label Label { get; private set; }
+
+        public bool IsChecked { get { return GetReactProp<bool>("checked"); } }
     }
 }

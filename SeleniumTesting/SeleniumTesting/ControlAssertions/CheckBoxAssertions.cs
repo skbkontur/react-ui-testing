@@ -1,26 +1,25 @@
-using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class CheckBoxAssertions : ControlBaseAssertions<CheckBox, CheckBoxAssertions>
+    public class CheckBoxAssertions : ControlBaseAssertions<Checkbox, CheckBoxAssertions>
     {
-        public CheckBoxAssertions(IAssertable<CheckBox> subject)
+        public CheckBoxAssertions(IAssertable<Checkbox> subject)
             : base(subject)
         {
         }
 
-        public AndContraint<CheckBoxAssertions> BeChecked()
+        public IAndContraint<IPropertyControlContext<bool>> BeChecked()
         {
             return Checked.BeTrue();
         }
 
-        public AndContraint<CheckBoxAssertions> BeUnchecked()
+        public IAndContraint<IPropertyControlContext<bool>> BeUnchecked()
         {
             return Checked.BeFalse();
         }
 
-        public PropertyControlContext<CheckBox, bool, CheckBoxAssertions> Checked { get { return HaveComplexProperty(x => x.IsChecked(), "checked"); } }
+        public PropertyControlContext<Checkbox, bool> Checked { get { return HaveComplexProperty(x => x.IsChecked, "checked"); } }
     }
 }

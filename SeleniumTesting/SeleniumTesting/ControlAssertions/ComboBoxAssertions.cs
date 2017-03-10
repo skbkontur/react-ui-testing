@@ -10,7 +10,5 @@ namespace SKBKontur.SeleniumTesting
             : base(subject)
         {
         }
-
-        public PropertyControlContext<ComboBox, string, ComboBoxAssertions> Text { get { return HaveComplexProperty(x => x.GetText(), "текст"); } }
     }
 }

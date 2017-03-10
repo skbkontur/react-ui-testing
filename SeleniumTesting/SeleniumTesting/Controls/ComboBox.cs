@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,14 +16,36 @@ namespace SKBKontur.SeleniumTesting.Controls
         public ComboBox(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
+            this.portal = this.Find<Portal>().By("noscript");
+        }
+
+        [Obsolete]
+        public string Text { get { return GetValueFromElement(x => x.Text); } }
+
+        public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> z) where T : ControlBase
+        {
+            return new ControlListBase<T>(portal, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z);
+        }
+
+        public void InputTextAndSelectSingle(string inputText)
+        {
+            Click();
+            InputText(inputText);
+            Waiter.Wait(() => GetResults().Count > 0, "");
+            var result = GetResults().Single();
+            if(result != null)
+            {
+                SelectByIndex(0);
+            }
         }
 
         public void InputText([NotNull] string text)
         {
-            EnsureElementExistsAndExecute(
+            ExecuteAction(
                 x =>
                     {
                         x.Click();
+                        x.FindElement(By.CssSelector("input")).Clear();
                         x.FindElement(By.CssSelector("input")).SendKeys(text);
                     },
                 string.Format("InputText('{0}')", text));
@@ -52,7 +75,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             try
             {
-                var noScriptElement = ExecuteOnElement(x => x.FindElement(By.CssSelector("noscript")));
+                var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
                 var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));
                 return renderContainer;
@@ -71,5 +94,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                            .FirstOrDefault()
                            .Click();
         }
+
+        protected Portal portal;
     }
 }

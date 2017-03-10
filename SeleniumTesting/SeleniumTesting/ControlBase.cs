@@ -10,13 +10,14 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 
 using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Context;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class ControlBase
+    public class ControlBase : ISearchContainer
     {
         protected ControlBase(ISearchContainer container, ISelector selector)
         {
@@ -24,24 +25,68 @@ namespace SKBKontur.SeleniumTesting
             this.selector = selector;
         }
 
-        public virtual bool IsDisplayed()
+        [Obsolete]
+        public void SendKeysToBody(string keys)
         {
-            try
+            container.SearchGlobal(new UniversalSelector("body")).SendKeys(keys);
+        }
+
+        [Obsolete]
+        public bool HasError()
+        {
+            return GetReactProp<bool>("error");
+        }
+
+        public void MouseOver()
+        {
+            ExecuteAction(x =>
+                {
+                    var actions = container.CreateWebDriverActions();
+                    actions.MoveToElement(x).Perform();
+                }, "Mouseover()");
+        }
+
+        public string GetAttributeValue(string attributeName)
+        {
+            return GetValueFromElement(x => x.GetAttribute(attributeName));
+        }
+
+        public virtual bool IsDisplayed
+        {
+            get
             {
-                return ExecuteOnElement(element => element.Displayed);
-            }
-            catch
-            {
-                return false;
+                try
+                {
+                    return GetValueFromElement(element => element.Displayed);
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
-        public void Click()
+        public virtual bool IsPresent
         {
-            EnsureElementExistsAndExecute(x => x.Click(), "Click");
+            get
+            {
+                try
+                {
+                    return GetValueFromElement(element => element != null);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
 
-        protected TResult ExecuteOnElement<TResult>(Func<IWebElement, TResult> action)
+        public virtual void Click()
+        {
+            ExecuteAction(x => x.Click(), "Click");
+        }
+
+        public TResult GetValueFromElement<TResult>(Func<IWebElement, TResult> action)
         {
             try
             {
@@ -54,21 +99,10 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
-        protected void ExecuteOnElement(Action<IWebElement> action)
+        public void ExecuteAction([NotNull] Action<IWebElement> action, [NotNull] string actionDescription)
         {
-            try
-            {
-                action(GetNativeElement());
-            }
-            catch(StaleElementReferenceException)
-            {
-                ClearCachedElement();
-                action(GetNativeElement());
-            }
-        }
-
-        protected void EnsureElementExistsAndExecute(Action<IWebElement> action, string actionDescription)
-        {
+            if(string.IsNullOrEmpty(actionDescription))
+                throw new ArgumentException("Action description should not be null or empty", "actionDescription");
             try
             {
                 Waiter.Wait(() => GetNativeElement().Displayed, (timeout, exception) => GetZ(timeout, actionDescription, exception), AssertionsContext.GetDefaultWaitInterval());
@@ -78,20 +112,6 @@ namespace SKBKontur.SeleniumTesting
             {
                 ClearCachedElement();
                 action(GetNativeElement());
-            }
-        }
-
-        protected T EnsureElementExistsAndExecute<T>(Func<IWebElement, T> action, string actionDescription)
-        {
-            try
-            {
-                Waiter.Wait(() => GetNativeElement().Displayed, (timeout, exception) => GetZ(timeout, actionDescription, exception), AssertionsContext.GetDefaultWaitInterval());
-                return action(GetNativeElement());
-            }
-            catch(StaleElementReferenceException)
-            {
-                ClearCachedElement();
-                return action(GetNativeElement());
             }
         }
 
@@ -120,12 +140,12 @@ namespace SKBKontur.SeleniumTesting
 
         protected T GetReactProp<T>(string propName)
         {
-            var propValue = ExecuteOnElement(x => x.GetAttribute(string.Format("data-prop-{0}", propName)));
+            var propValue = GetValueFromElement(x => x.GetAttribute(string.Format("data-prop-{0}", propName)));
             if(typeof(T) == typeof(string))
             {
                 return (T)(object)propValue;
             }
-            if(propValue == null)
+            if(string.IsNullOrEmpty(propValue))
             {
                 return default(T);
             }
@@ -153,17 +173,24 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
-        [NotNull]
-        [Obsolete]
-        public virtual string GetText()
+        public virtual IWebElement Search(ISelector selector)
         {
-            return ExecuteOnElement(element => element.Text);
+            return GetValueFromElement(x => x.FindElement(selector.SeleniumBy));
         }
 
-        [Obsolete]
-        public virtual bool IsDisabled()
+        public IWebElement SearchGlobal(ISelector selector)
         {
-            return GetNativeElement().GetAttribute("disabled") == "true";
+            return container.SearchGlobal(selector);
+        }
+
+        public object ExecuteScript(string script, params object[] arguments)
+        {
+            return GetValueFromElement(x => container.ExecuteScript(script, arguments));
+        }
+
+        public object ExecuteScript(string script, Func<IWebElement, object[]> argumentsSelector)
+        {
+            return GetValueFromElement(x => container.ExecuteScript(script, argumentsSelector(x)));
         }
 
         [NotNull]
@@ -176,13 +203,22 @@ namespace SKBKontur.SeleniumTesting
                 );
         }
 
+        public ISearchContainer GetRootContainer()
+        {
+            return container.GetRootContainer();
+        }
+
+        public Actions CreateWebDriverActions()
+        {
+            return container.CreateWebDriverActions();
+        }
+
         public string GetControlTypeDesription()
         {
             return GetType().Name;
         }
 
         private IWebElement cachedContext;
-
         private readonly ISelector selector;
         protected readonly ISearchContainer container;
     }

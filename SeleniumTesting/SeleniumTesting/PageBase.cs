@@ -1,40 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 
 using SKBKontur.SeleniumTesting.Internals;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public interface IPageActionAttribute
-    {
-        void OnInit(PageBase pageInstace);
-    }
-
-    internal static class ReflectionExtensions
-    {
-        public static IEnumerable<T> GetCurrentTypeAttributes<T>(this Type type)
-        {
-            if(type == null || type == typeof(object))
-                return new T[0];
-            var baseInterfaces = new List<Type>();
-            if(type.BaseType != null)
-                baseInterfaces = type.BaseType.GetInterfaces().ToList();
-            return new[]
-                {
-                    GetCurrentTypeAttributes<T>(type.BaseType),
-                    type.GetInterfaces().Where(x => !baseInterfaces.Contains(x)).SelectMany(GetCurrentTypeAttributes<T>),
-                    type.GetCustomAttributes(typeof(IPageActionAttribute), false).Cast<T>(),
-                }.SelectMany(x => x);
-        }
-    }
-
     public class PageBase : ISearchContainer
     {
-        protected PageBase(RemoteWebDriver webDriver)
+        public PageBase(RemoteWebDriver webDriver)
         {
             this.webDriver = webDriver;
             ExecuteInitAction();
@@ -84,7 +61,7 @@ namespace SKBKontur.SeleniumTesting
         {
             var propertyInfos = GetType().GetProperties().Where(prop => prop.IsDefined(typeof(LoadingCompleteAttribute), false));
             var properties = propertyInfos.Select(x => x.GetValue(this)).OfType<ControlBase>().ToArray();
-            Waiter.Wait(() => properties.All(x => x.IsDisplayed()), "Загрузка страницы");
+            Waiter.Wait(() => properties.All(x => x.IsDisplayed), "Загрузка страницы");
         }
 
         public string GetAbsolutePathBySelectors()
@@ -92,12 +69,22 @@ namespace SKBKontur.SeleniumTesting
             return null;
         }
 
+        public ISearchContainer GetRootContainer()
+        {
+            return this;
+        }
+
+        public Actions CreateWebDriverActions()
+        {
+            return new Actions(webDriver);
+        }
+
         public RemoteWebDriver DangerousGetWebDriverInstance()
         {
             return webDriver;
         }
 
-        public TPage GoTo<TPage>() where TPage : PageBase
+        public virtual TPage GoTo<TPage>() where TPage : PageBase
         {
             return InitializePage<TPage>(webDriver);
         }

@@ -9,10 +9,8 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        [NotNull]
-        public string GetUrl()
-        {
-            return ExecuteOnElement(element => element.GetAttribute("href"));
-        }
+        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
+        public string Url { get { return GetValueFromElement(element => element.GetAttribute("href")); } }
+        public string Text { get { return GetValueFromElement(element => element.Text); } }
     }
 }

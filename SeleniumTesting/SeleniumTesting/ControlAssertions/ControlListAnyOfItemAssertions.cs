@@ -9,27 +9,39 @@ namespace SKBKontur.SeleniumTesting
 {
     public class ControlListAnyOfItemAssertions<T> : IAssertable<T> where T : ControlBase
     {
-        public ControlListAnyOfItemAssertions(IAssertable<ControlList<T>> subject)
+        public ControlListAnyOfItemAssertions(IAssertable<ControlListBase<T>> subject)
         {
             this.subject = subject;
         }
 
-        public void ExecuteAssert(Func<T, bool> action, Func<T, IErrorMessageBuilder, IErrorMessageBuilder> messageBuilder)
+        public void ExecuteAssert<TCheckResult>(Func<T, TCheckResult> action, Func<T, IErrorMessageBuilder, TCheckResult, IErrorMessageBuilder> messageBuilder) where TCheckResult : ICheckResult
         {
+            TCheckResult lastResult = default(TCheckResult);
             subject.ExecuteAssert(
-                x => x.GetItems().Any(action),
-                (x, me) =>
+                x =>
+                    {
+                        foreach(var item in x.GetItems())
+                        {
+                            lastResult = action(item);
+                            if(lastResult.Valid)
+                            {
+                                return lastResult;
+                            }
+                        }
+                        return lastResult;
+                    },
+                (x, me, z) =>
                     {
                         me.WithListQuantifier(string.Format("для одного из {0}", x.GetRelativePathToItems()));
-                        if(!x.IsDisplayed())
+                        if(!x.IsDisplayed)
                         {
-                            messageBuilder(null, me);
+                            messageBuilder(null, me, z);
                         }
                         else
                         {
                             foreach(var item in x.GetItems())
                             {
-                                messageBuilder(item, me);
+                                messageBuilder(item, me, z);
                             }
                         }
                         return me;
@@ -37,6 +49,12 @@ namespace SKBKontur.SeleniumTesting
                 );
         }
 
-        private readonly IAssertable<ControlList<T>> subject;
+        private readonly IAssertable<ControlListBase<T>> subject;
+
+        public TimeSpan WaitInterval
+        {
+            get { return subject.WaitInterval; }
+            set { subject.WaitInterval = value; }
+        }
     }
 }

@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 
 namespace SKBKontur.SeleniumTesting
 {
@@ -17,5 +18,11 @@ namespace SKBKontur.SeleniumTesting
 
         [NotNull]
         string GetAbsolutePathBySelectors();
+
+        [NotNull]
+        ISearchContainer GetRootContainer();
+
+        [NotNull]
+        Actions CreateWebDriverActions();
     }
 }

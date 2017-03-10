@@ -11,16 +11,18 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<Button, string, ButtonAssertions> Text { get { return HaveComplexProperty(x => x.GetText(), "text"); } }
+        public PropertyControlContext<Button, string> Text { get { return HaveComplexProperty(x => x.Text, "text"); } }
 
-        public AndContraint<ButtonAssertions> BeDisabled()
+        public IAndContraint<ButtonAssertions> BeDisabled()
         {
-            return HaveProperty(x => x.Disabled, "disabled").BeTrue();
+            HaveProperty(x => x.IsDisabled, "disabled").BeTrue();
+            return AndThis();
         }
 
-        public AndContraint<ButtonAssertions> BeEnabled()
+        public IAndContraint<ButtonAssertions> BeEnabled()
         {
-            return HaveProperty(x => x.Disabled, "disabled").BeFalse();
+            HaveProperty(x => x.IsDisabled, "disabled").BeFalse();
+            return AndThis();
         }
     }
 }

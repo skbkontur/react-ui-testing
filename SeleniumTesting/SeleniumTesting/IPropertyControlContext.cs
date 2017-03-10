@@ -4,8 +4,8 @@ using SKBKontur.SeleniumTesting.Assertions.ErrorMessages;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public interface IPropertyControlContext<out T, TAssertions>
+    public interface IPropertyControlContext<T>
     {
-        AndContraint<TAssertions> ExecuteAssert(Func<T, bool> func, Func<IErrorMessageBuilder, IErrorMessageBuilder> messageBuilder);
+        IAndContraint<IPropertyControlContext<T>> ExecuteAssert(Func<T, bool> func, Func<IErrorMessageBuilder, IErrorMessageBuilder> messageBuilder);
     }
 }

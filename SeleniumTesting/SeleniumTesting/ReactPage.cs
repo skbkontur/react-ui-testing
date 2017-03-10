@@ -20,4 +20,5 @@ namespace SKBKontur.SeleniumTesting
             webDriver = newWebDriver;
         }
     }
+
 }

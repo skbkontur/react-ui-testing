@@ -11,18 +11,55 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        public virtual void InputText([NotNull] string text)
+        public void AppendText(string keys)
         {
-            EnsureElementExistsAndExecute(x =>
+            ExecuteAction(x =>
                 {
                     var element = x.FindElement(By.CssSelector("input"));
-                    element.Clear();
-                    element.SendKeys(text);
-                }, string.Format("InputText({0})", text));
+                    element.SendKeys(keys);
+                }, string.Format("AppendText({0})", keys));
         }
 
-        public string Value { get { return ExecuteOnElement(x => x.FindElement(By.CssSelector("input")).GetAttribute("value")); } }
+        public void ClearAndInputText([NotNull] string text)
+        {
+            ExecuteAction(
+                x =>
+                    {
+                        var inputElement = x.FindElement(By.CssSelector("input"));
+                        if(text == "")
+                        {
+                            inputElement.SendKeys(Keys.Control + "a");
+                            inputElement.SendKeys(Keys.Backspace);
+                        }
+                        else
+                        {
+                            inputElement.Clear();
+                            inputElement.SendKeys(text);                            
+                        }
+                    },
+                string.Format("InputText({0})", text));
+        }
 
-        public bool Disabled { get { return GetReactProp<bool>("disabled"); } }
+        public void Clear()
+        {
+            ExecuteAction(
+                x =>
+                    {
+                        var element = x.FindElement(By.CssSelector("input"));
+                        element.SendKeys(Keys.Control + "a");
+                        element.SendKeys(Keys.Backspace);
+                    },
+                "Clear");
+        }
+
+        public string Value
+        {
+            get
+            {
+                return GetValueFromElement(x => ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
+            }
+        }
+
+        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
     }
 }

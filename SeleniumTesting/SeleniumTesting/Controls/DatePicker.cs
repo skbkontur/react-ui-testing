@@ -11,17 +11,46 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        public void InputDate(DateTime date)
+        public void Clear()
         {
-            var element = ExecuteOnElement(x => x.FindElement(By.CssSelector("input")));
-            element.Clear();
-            element.SendKeys(date.ToUniversalTime().ToString("dd.MM.yyyy"));
-            element.SendKeys("\t");
+            ExecuteAction(x =>
+                {
+                    var element = x.FindElement(By.CssSelector("input"));
+                    element.SendKeys(Keys.Control + "a");
+                    element.SendKeys(Keys.Backspace);
+                    element.SendKeys(Keys.Tab);
+                }, "Clear");
         }
 
-        public DateTime GetSelectedDate()
+        public void ClearAndInputText(string text)
         {
-            return GetReactProp<DateTime>("value");
+            ExecuteAction(
+                x =>
+                    {
+                        var element = x.FindElement(By.CssSelector("input"));
+                        element.Clear();
+                        element.SendKeys(text);
+                        element.SendKeys(Keys.Tab);
+                    },
+                string.Format("ClearAndInputText({0})", text)
+                );
         }
-    }
+
+        public void ClearAndInputDate(DateTime date)
+        {
+            ExecuteAction(
+                x =>
+                    {
+                        var element = x.FindElement(By.CssSelector("input"));
+                        element.Clear();
+                        element.SendKeys(date.ToUniversalTime().ToString("dd.MM.yyyy"));
+                        element.SendKeys(Keys.Tab);
+                    },
+                string.Format("ClearAndInputDate({0})", date)
+                );
+        }
+
+        public string Value { get { return GetValueFromElement(x => container.ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string); } }
+         public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
+   }
 }

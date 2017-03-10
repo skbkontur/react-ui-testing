@@ -11,7 +11,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public virtual IWebElement Search(ISelector selector)
         {
-            return ExecuteOnElement(x => x.FindElement(selector.SeleniumBy));
+            return GetValueFromElement(x => x.FindElement(selector.SeleniumBy));
         }
 
         public IWebElement SearchGlobal(ISelector selector)

@@ -9,7 +9,5 @@ namespace SKBKontur.SeleniumTesting
             : base(subject)
         {
         }
-
-        public PropertyControlContext<ControlBase, string, ControlBaseAssertions> Text { get { return HaveComplexProperty(x => x.GetText(), "текст"); } }
     }
 }

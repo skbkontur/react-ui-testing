@@ -1,9 +1,55 @@
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Internal;
 
 namespace SKBKontur.SeleniumTesting
 {
+    public class ViaPortalBy : By
+    {
+        private readonly By portalSelector;
+        private readonly By afterPortalSelector;
+
+        public ViaPortalBy(By portalSelector, By afterPortalSelector)
+        {
+            this.portalSelector = portalSelector;
+            this.afterPortalSelector = afterPortalSelector;
+        }
+
+        public override IWebElement FindElement(ISearchContext context)
+        {
+            var portalContainer = context.FindElement(portalSelector);
+            var renderContainerId = portalContainer.GetAttribute("data-render-container-id");
+            var portal = GetGlobalContext(context).FindElement(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId)));
+            return portal.FindElement(afterPortalSelector);
+        }
+
+        private ISearchContext GetGlobalContext(ISearchContext context)
+        {
+            if(context is IWrapsDriver)
+            {
+                return (context as IWrapsDriver).WrappedDriver;
+            }
+            if(context is IWebDriver)
+            {
+                return context;
+            }
+            throw new InvalidOperationException(string.Format("Cannot extract global context from object of type {0}", context.GetType().FullName));
+        }
+
+        public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
+        {
+            var portalContainer = context.FindElement(portalSelector);
+            var renderContainerId = portalContainer.GetAttribute("data-render-container-id");
+            var portal = GetGlobalContext(context).FindElement(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId)));
+            return portal.FindElements(afterPortalSelector);
+        }
+    }
+
+
     public class UniversalSelector : ISelector
     {
         public UniversalSelector(string selectorString)
@@ -20,22 +66,39 @@ namespace SKBKontur.SeleniumTesting
         {
             get
             {
-                var selectorParts = selectorString.Split(' ');
-                return By.CssSelector(string.Join(" ", selectorParts.Select(ToCssSelector)));
+                if(selectorString.Contains(":portal"))
+                {
+                    var a = selectorString.Split(new[] {":portal "}, StringSplitOptions.None);
+                    return new ViaPortalBy(
+                        By.CssSelector(ConvertUniversalSelectorToCssSelector(a[0])),
+                        By.CssSelector(ConvertUniversalSelectorToCssSelector(a[1])));
+                }
+                return By.CssSelector(ConvertUniversalSelectorToCssSelector(selectorString));
             }
         }
 
-        private static string ToCssSelector(string improvedSelector)
+        public static string ConvertUniversalSelectorToCssSelector(string universalSelector)
         {
-            if(improvedSelector.StartsWith("##"))
-            {
-                return string.Format("[data-tid='{0}']", improvedSelector.Replace("##", ""));
-            }
-            if(IsComponentNameSelector(improvedSelector))
-            {
-                return string.Format("[data-comp-name='{0}']", improvedSelector);
-            }
-            return IsTagNameSelector(improvedSelector) ? improvedSelector : improvedSelector;
+            var selectorParts = universalSelector.Split(' ');
+            return string.Join(" ", selectorParts.Select(ConvertSelectorPartToCssSelector));
+        }
+
+        private static string ConvertSelectorPartToCssSelector(string universalSelector)
+        {
+            var regexp = new Regex(@"(##([^\.\[\]#\']+))|(\.([^\.\[\]#\']+))|(\[.*?\])|([^\.\[\]#\']+)");
+            return regexp.Replace(universalSelector, x =>
+                {
+                    var part = x.Value;
+                    if(part.StartsWith("##"))
+                    {
+                        return string.Format("[data-tid~='{0}']", part.Replace("##", ""));
+                    }
+                    if(IsComponentNameSelector(part))
+                    {
+                        return string.Format("[data-comp-name~='{0}']", part);
+                    }
+                    return part;
+                });
         }
 
         public override string ToString()
@@ -48,13 +111,27 @@ namespace SKBKontur.SeleniumTesting
             return char.IsLetter(improvedSelector[0]) && improvedSelector[0].ToString().ToUpper() == improvedSelector[0].ToString();
         }
 
-        private static bool IsTagNameSelector(string improvedSelector)
+        private string GetSingleTid()
         {
-            return char.IsLetter(improvedSelector[0]) && improvedSelector[0].ToString().ToLower() == improvedSelector[0].ToString();
+            var selectorParts = selectorString.Split(' ');
+            if(selectorParts.Length == 1 && selectorParts[0].StartsWith("##"))
+            {
+                return selectorParts[0].Replace("##", "");
+            }
+            return null;
         }
 
         public bool MatchElement(IWebElement cachedContext)
         {
+            var singleTid = GetSingleTid();
+            if(singleTid != null)
+            {
+                var tidAttributeValue = cachedContext.GetAttribute("data-tid");
+                if(tidAttributeValue != null)
+                {
+                    return tidAttributeValue.Split(' ').Contains(singleTid);
+                }
+            }
             return true;
         }
 

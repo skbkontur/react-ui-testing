@@ -9,13 +9,16 @@
 
         public void Select()
         {
-            EnsureElementExistsAndExecute(element => element.Click(), "Select");
+            ExecuteAction(element => element.Click(), "Select");
         }
 
-        public bool IsSelected()
+        public bool Selected
         {
-            var isSelected = ExecuteOnElement(element => element.GetAttribute("checked"));
-            return isSelected == "true";
+            get
+            {
+                var isSelected = GetValueFromElement(element => element.GetAttribute("checked"));
+                return isSelected == "true";
+            }
         }
     }
 }

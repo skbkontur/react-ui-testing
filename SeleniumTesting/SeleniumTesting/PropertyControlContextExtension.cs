@@ -9,7 +9,7 @@ namespace SKBKontur.SeleniumTesting
 {
     public static class PropertyControlContextExtension
     {
-        public static AndContraint<TAssertions> BeOneOf<TAssertions>(this IPropertyControlContext<string, TAssertions> context, params string[] values)
+        public static IAndContraint<IPropertyControlContext<string>> BeOneOf(this IPropertyControlContext<string> context, params string[] values)
         {
             return context.Satisfy(
                 values.Contains,
@@ -18,7 +18,7 @@ namespace SKBKontur.SeleniumTesting
                 Helpers.FormatStringValues(values, 2));
         }
 
-        public static AndContraint<TAssertions> Match<TAssertions>(this IPropertyControlContext<string, TAssertions> context, string matchString)
+        public static IAndContraint<IPropertyControlContext<string>> Match(this IPropertyControlContext<string> context, string matchString)
         {
             var regex = MatchStringToRegex(matchString);
             return context.Satisfy(
@@ -39,7 +39,7 @@ namespace SKBKontur.SeleniumTesting
                     .Replace("__QUESTION__", "."));
         }
 
-        public static AndContraint<TAssertions> HaveLength<TAssertions>(this IPropertyControlContext<string, TAssertions> context, int expectedLength)
+        public static IAndContraint<IPropertyControlContext<string>> HaveLength(this IPropertyControlContext<string> context, int expectedLength)
         {
             return context.Satisfy(
                 x => x.Length == expectedLength,
@@ -47,7 +47,7 @@ namespace SKBKontur.SeleniumTesting
                 string.Format("ожидалось, что не будет иметь длину {0}", expectedLength));
         }
 
-        public static AndContraint<TAssertions> BeEmpty<TAssertions>(this IPropertyControlContext<string, TAssertions> context)
+        public static IAndContraint<IPropertyControlContext<string>> BeEmpty(this IPropertyControlContext<string> context)
         {
             return context.Satisfy(
                 x => x == "",
@@ -55,13 +55,13 @@ namespace SKBKontur.SeleniumTesting
                 "ожидалось непустым");
         }
 
-        public static AndContraint<TAssertions> EqualTo<TAssertions>(this IPropertyControlContext<string, TAssertions> context, string value)
+        public static IAndContraint<IPropertyControlContext<string>> EqualTo(this IPropertyControlContext<string> context, string value)
         {
             return context.ExecuteAssert(x => x == value, m => m.WithExpectation(new ExactValueExpectation(value.ToString())));
         }
 
-        public static AndContraint<TAssertions> Satisfy<TAssertions>(
-            this IPropertyControlContext<string, TAssertions> context,
+        public static IAndContraint<IPropertyControlContext<string>> Satisfy(
+            this IPropertyControlContext<string> context,
             Func<string, bool> condition,
             string expectsText, string negationExpectText, string expectedValue = null)
         {
@@ -73,29 +73,29 @@ namespace SKBKontur.SeleniumTesting
                 );
         }
 
-        public static AndContraint<TAssertions> Contain<TAssertions>(this IPropertyControlContext<string, TAssertions> context, string value)
+        public static IAndContraint<IPropertyControlContext<string>> Contain(this IPropertyControlContext<string> context, string value)
         {
             return context.ExecuteAssert(x => x.Contains(value), m => m.WithExpectation(new ContainsValueExpectation(value.ToString())));
         }
 
-        public static AndContraint<TAssertions> EqualTo<TAssertions>(this IPropertyControlContext<int, TAssertions> context, int value)
+        public static IAndContraint<IPropertyControlContext<int>> EqualTo(this IPropertyControlContext<int> context, int value)
         {
             return context.ExecuteAssert(x => x == value, m => m.WithExpectation(new ExactValueExpectation(value.ToString())));
         }
 
-        public static AndContraint<TAssertions> BeTrue<TAssertions>(this IPropertyControlContext<bool, TAssertions> context)
+        public static IAndContraint<IPropertyControlContext<bool>> BeTrue(this IPropertyControlContext<bool> context)
         {
             return context.ExecuteAssert(x => x, m => m.WithExpectation(new BooleanValueExpectation(true)));
         }
 
-        public static AndContraint<TAssertions> BeFalse<TAssertions>(this IPropertyControlContext<bool, TAssertions> context)
+        public static IAndContraint<IPropertyControlContext<bool>> BeFalse(this IPropertyControlContext<bool> context)
         {
             return context.ExecuteAssert(
                 x => x,
                 m => m.WithExpectation(new BooleanValueExpectation(false)));
         }
 
-        public static AndContraint<TAssertions> MatchToRegex<TAssertions>(this IPropertyControlContext<string, TAssertions> context, Regex regex)
+        public static IAndContraint<IPropertyControlContext<string>> MatchToRegex(this IPropertyControlContext<string> context, Regex regex)
         {
             return context.ExecuteAssert(regex.IsMatch, m => m.WithExpectation(new MatchValueExpectation(regex.ToString())));
         }

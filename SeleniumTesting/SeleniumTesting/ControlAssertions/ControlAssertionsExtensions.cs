@@ -35,12 +35,12 @@ namespace SKBKontur.SeleniumTesting
             return new ButtonAssertions(input);
         }
 
-        public static CheckBoxAssertions ExpectTo(this CheckBox input)
+        public static CheckBoxAssertions ExpectTo(this Checkbox input)
         {
-            return ExpectTo(new SingleItemAssertable<CheckBox>(input));
+            return ExpectTo(new SingleItemAssertable<Checkbox>(input));
         }
 
-        public static CheckBoxAssertions ExpectTo(this IAssertable<CheckBox> input)
+        public static CheckBoxAssertions ExpectTo(this IAssertable<Checkbox> input)
         {
             return new CheckBoxAssertions(input);
         }
@@ -55,14 +55,14 @@ namespace SKBKontur.SeleniumTesting
             return new LinkAssertions(input);
         }
 
-        public static GenericAssertions<Select> ExpectTo(this Select input)
+        public static SelectAssertions ExpectTo(this Select input)
         {
             return ExpectTo(new SingleItemAssertable<Select>(input));
         }
 
-        public static GenericAssertions<Select> ExpectTo(this IAssertable<Select> input)
+        public static SelectAssertions ExpectTo(this IAssertable<Select> input)
         {
-            return new GenericAssertions<Select>(input);
+            return new SelectAssertions(input);
         }
 
         public static GenericAssertions<ModalBase> ExpectTo(this ModalBase input)
@@ -95,9 +95,9 @@ namespace SKBKontur.SeleniumTesting
             return new ControlBaseAssertions(input);
         }
 
-        public static ControlListAssertions<TItem> ExpectTo<TItem>(this ControlList<TItem> input) where TItem : ControlBase
+        public static ControlListAssertions<TItem> ExpectTo<TItem>(this ControlListBase<TItem> input) where TItem : ControlBase
         {
-            return new ControlListAssertions<TItem>(new SingleItemAssertable<ControlList<TItem>>(input));
+            return new ControlListAssertions<TItem>(new SingleItemAssertable<ControlListBase<TItem>>(input));
         }
 
         public static CompoundControlAssertions<CompoundControl> ExpectTo(this CompoundControl control)

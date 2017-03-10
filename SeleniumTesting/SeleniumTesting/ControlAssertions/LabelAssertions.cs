@@ -11,6 +11,6 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<Label, string, LabelAssertions> Text { get { return HaveProperty(x => x.Text, "текст"); } }
+        public PropertyControlContext<Label, string> Text { get { return HaveProperty(x => x.Text, "текст"); } }
     }
 }

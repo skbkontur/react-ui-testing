@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using JetBrains.Annotations;
+
+using Newtonsoft.Json.Linq;
 
 using OpenQA.Selenium;
 
@@ -15,7 +18,57 @@ namespace SKBKontur.SeleniumTesting.Controls
         public Select(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
+            this.portal = this.Find<Portal>().By("noscript");
         }
+
+        [Obsolete]
+        public void SetValue(object value)
+        {
+            SelectValueByValue(value);
+        }
+
+        public void SelectValueByText(string text)
+        {
+            Click();
+            var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
+            controlList.ExpectTo().BeDisplayed();
+            controlList.First(x => x.Text == text).Click();
+        }
+
+        public void SelectValueByValue(object value)
+        {
+            Click();
+            var items = GetReactProp<JArray>("items");
+            var index = items.ToList().FindIndex(x => ElementMatchToValue(value, x));
+            var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
+            controlList[index].ExpectTo().BeDisplayed();
+            controlList[index].Click();
+        }
+
+        private static bool ElementMatchToValue(object value, JToken x)
+        {
+            if(x is JArray)
+            {
+                if(x[0] is JValue)
+                {
+                    var actualValue = ((JValue)x[0]).Value;
+                    return actualValue.Equals(value) || actualValue.ToString().Equals(value.ToString()) || actualValue.ToString().ToLower().Equals(value.ToString().ToLower());
+                }
+            }
+            else
+            {
+                if(x is JValue)
+                {
+                    var actualValue = ((JValue)x).Value;
+                    return actualValue.Equals(value) || actualValue.ToString().Equals(value.ToString()) || actualValue.ToString().ToLower().Equals(value.ToString().ToLower());
+                }
+            }
+            return false;
+            return false;
+        }
+
+        public string SelectedValueText { get { return GetValueFromElement(x => x.Text); } }
+        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
 
         [NotNull]
         public List<string> GetItems()
@@ -45,7 +98,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             try
             {
-                var noScriptElement = ExecuteOnElement(x => x.FindElement(By.CssSelector("noscript")));
+                var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
                 var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));
                 return renderContainer;
@@ -58,7 +111,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public void SelectItemByIndex(int index)
         {
-            EnsureElementExistsAndExecute(x =>
+            ExecuteAction(x =>
                 {
                     x.Click();
                     var renderContainer = GetRenderContainer();
@@ -69,5 +122,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 },
                                           string.Format("SelectItemByIndex({0})", index));
         }
+
+        private readonly Portal portal;
     }
 }
