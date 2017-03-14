@@ -32,11 +32,11 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         public void TestNestingComponents()
         {
             page.NestingComponentsCase.NestingComponentsContainer
-                .ExpectTo().BeDisplayed().And
+                .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 1");
             page.NestingComponentsCase.SwitchState.Click();
             page.NestingComponentsCase.NestingComponentsContainer
-                .ExpectTo().BeDisplayed().And
+                .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 2");
         }
         
@@ -44,11 +44,11 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         public void TestNestingDomElements()
         {
             page.NestingDomElementsCase.NestingDomContainer
-                .ExpectTo().BeDisplayed().And
+                .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 1");
             page.NestingDomElementsCase.SwitchState.Click();
             page.NestingDomElementsCase.NestingDomContainer
-                .ExpectTo().BeDisplayed().And
+                .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 2");
         }
  
@@ -56,11 +56,11 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         public void TestDoubleNestingComponents()
         {
             page.DoubleNestingComponentsCase.DoubleNestingContainer
-                .ExpectTo().BeDisplayed().And
+                .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 1");
             page.DoubleNestingComponentsCase.SwitchState.Click();
             page.DoubleNestingComponentsCase.DoubleNestingContainer
-                .ExpectTo().BeDisplayed().And
+                .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 2");
         }
         
@@ -92,16 +92,16 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         private static void RunTidSwitchCaseTest(SameDomElementCase changeStateCase)
         {
             changeStateCase.State1
-                           .ExpectTo().BeDisplayed().And
+                           .ExpectTo().BePresent().And
                            .Text.Contain("Состояние 1").And
                                 .Contain("Контент 1");
-            changeStateCase.State2.ExpectTo().BeNotDisplayed();
+            changeStateCase.State2.ExpectTo().BeAbsent();
 
             changeStateCase.SwitchState.Click();
 
-            changeStateCase.State1.ExpectTo().BeNotDisplayed();
+            changeStateCase.State1.ExpectTo().BeAbsent();
             changeStateCase.State2
-                           .ExpectTo().BeDisplayed().And
+                           .ExpectTo().BePresent().And
                            .Text.Contain("Состояние 2").And
                                 .Contain("Контент 2");
         }

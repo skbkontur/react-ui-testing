@@ -23,28 +23,28 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
         [Test]
         public void Test_ModalWithStatelessComponentWithShowPropsCase_OpenAndClose()
         {
-            page.ModalWithStatelessComponentWithShowPropsCase.Modal.ExpectTo().BeNotDisplayed();
+            page.ModalWithStatelessComponentWithShowPropsCase.Modal.ExpectTo().BeAbsent();
             page.ModalWithStatelessComponentWithShowPropsCase.Open.Click();
-            page.ModalWithStatelessComponentWithShowPropsCase.Modal.ExpectTo().BeDisplayed();
+            page.ModalWithStatelessComponentWithShowPropsCase.Modal.ExpectTo().BePresent();
             page.ModalWithStatelessComponentWithShowPropsCase.Modal.CloseButton.Click();
-            page.ModalWithStatelessComponentWithShowPropsCase.Modal.ExpectTo().BeNotDisplayed();
+            page.ModalWithStatelessComponentWithShowPropsCase.Modal.ExpectTo().BeAbsent();
         }
 
         [Test]
         public void Test_ModalWithStatefullComponentWithShowPropsCase_OpenAndClose()
         {
-            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeNotDisplayed();
+            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeAbsent();
             page.ModalWithStatefullComponentWithShowPropsCase.Open.Click();
-            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeDisplayed();
+            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BePresent();
             page.ModalWithStatefullComponentWithShowPropsCase.Modal.CloseButton.Click();
-            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeNotDisplayed();
+            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeAbsent();
         }
 
         [Test]
         public void Test_Present_ErrorMessage()
         {
             Following
-                .Code(() => page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeDisplayed())
+                .Code(() => page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BePresent())
                 .ShouldThrow<AssertionException>().Which.Message
                 .Should().Be(To.Text(
                     @"TestModal(##ModalWithStatefullComponentWithShowPropsCase ##Modal): ожидалось присутствие",
@@ -59,7 +59,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
                 .Code(() =>
                     {
                         page.ModalWithStatefullComponentWithShowPropsCase.Open.Click();
-                        page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeNotDisplayed();
+                        page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeAbsent();
                     })
                 .ShouldThrow<AssertionException>().Which.Message
                 .Should().Be(To.Text(
@@ -79,9 +79,9 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
         public void TestCloseViaCloseButton()
         {
             page.ModalWithStatefullComponentWithShowPropsCase.Open.Click();
-            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeDisplayed();
+            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BePresent();
             page.ModalWithStatefullComponentWithShowPropsCase.Modal.Close();
-            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeNotDisplayed();
+            page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeAbsent();
         }
 
         private ModalsTestPage page;

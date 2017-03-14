@@ -16,7 +16,7 @@ export default class CheckboxTestPage extends React.Component {
                     <Case.Body>
                         <Checkbox
                             data-tid='SimpleCheckbox'
-                            checked={this.state.value} 
+                            checked={this.state.value}
                             onChange={(e, value) => this.setState({ value: value })}
                         />
                     </Case.Body>
@@ -25,7 +25,7 @@ export default class CheckboxTestPage extends React.Component {
                     <Case.Body>
                         <Checkbox
                             data-tid='CheckboxWithLabel'
-                            checked={this.state.value2} 
+                            checked={this.state.value2}
                             onChange={(e, value) => this.setState({ value2: value })}
                         >
                             Checkbox label

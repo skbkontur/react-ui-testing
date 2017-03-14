@@ -27,6 +27,15 @@ namespace SKBKontur.SeleniumTesting
                 "ожидалось не подходящим под шаблон",
                 Helpers.FormatStringValue(matchString));
         }
+        
+        public static IAndContraint<IPropertyControlContext<string>> StartWith(this IPropertyControlContext<string> context, string startString)
+        {
+            return context.Satisfy(
+                x => x.StartsWith(startString),
+                "ожидалось начинающимся с",
+                "ожидалось не начинающимся с",
+                Helpers.FormatStringValue(startString));
+        }
 
         private static Regex MatchStringToRegex(string matchString)
         {
@@ -91,7 +100,7 @@ namespace SKBKontur.SeleniumTesting
         public static IAndContraint<IPropertyControlContext<bool>> BeFalse(this IPropertyControlContext<bool> context)
         {
             return context.ExecuteAssert(
-                x => x,
+                x => !x,
                 m => m.WithExpectation(new BooleanValueExpectation(false)));
         }
 

@@ -27,16 +27,16 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         [Test]
         public void TestPresense()
         {
-            page.InputWithoutTidList.ExpectTo().BeDisplayed();
+            page.InputWithoutTidList.ExpectTo().BePresent();
         }
 
         [Test]
         public void TestAccessToListItems()
         {
-            page.InputWithoutTidList[0].ExpectTo().BeDisplayed();
-            page.InputWithoutTidList[1].ExpectTo().BeDisplayed();
-            page.InputWithoutTidList[2].ExpectTo().BeDisplayed();
-            page.InputWithoutTidList[3].ExpectTo().BeNotDisplayed();
+            page.InputWithoutTidList[0].ExpectTo().BePresent();
+            page.InputWithoutTidList[1].ExpectTo().BePresent();
+            page.InputWithoutTidList[2].ExpectTo().BePresent();
+            page.InputWithoutTidList[3].ExpectTo().BeAbsent();
         }
 
         [Test]

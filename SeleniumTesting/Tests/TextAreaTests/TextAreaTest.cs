@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TextAreaTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleTextarea.ExpectTo().BeDisplayed();
+            page.SimpleTextarea.ExpectTo().BePresent();
         }
 
         private TextAreaTestPage page;

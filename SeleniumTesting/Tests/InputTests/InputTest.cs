@@ -25,14 +25,14 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleInput.ExpectTo().BeDisplayed();
+            page.SimpleInput.ExpectTo().BePresent();
             page.SimpleInput.MouseOver();
         }
 
         [Test]
         public void TestInputEmptyValue()
         {
-            page.SimpleInput.ExpectTo().BeDisplayed();
+            page.SimpleInput.ExpectTo().BePresent();
             page.SimpleInput.ClearAndInputText("Test");
             page.SimpleInput.ExpectTo().Value.EqualTo("Test");
             page.DisabledInput.ExpectTo().Value.EqualTo("Test");
@@ -44,7 +44,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         [Test]
         public void TestClearValue()
         {
-            page.SimpleInput.ExpectTo().BeDisplayed();
+            page.SimpleInput.ExpectTo().BePresent();
             page.SimpleInput.ClearAndInputText("Test");
             page.SimpleInput.ExpectTo().Value.EqualTo("Test");
             page.DisabledInput.ExpectTo().Value.EqualTo("Test");
@@ -56,7 +56,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         [Test]
         public void TestAbsense()
         {
-            page.NotExistentInput.ExpectTo().BeNotDisplayed();
+            page.NotExistentInput.ExpectTo().BeAbsent();
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         public void Test_Presence_ErrorMessage()
         {
             Following
-                .Code(() => page.SimpleInput.ExpectTo().BeNotDisplayed())
+                .Code(() => page.SimpleInput.ExpectTo().BeAbsent())
                 .ShouldThrow<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): ожидалось отсутствие",
@@ -193,7 +193,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         public void Test_Absense_ErrorMessage()
         {
             Following
-                .Code(() => page.NotExistentInput.ExpectTo().BeDisplayed())
+                .Code(() => page.NotExistentInput.ExpectTo().BePresent())
                 .ShouldThrow<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##NotExistentInput): ожидалось присутствие",

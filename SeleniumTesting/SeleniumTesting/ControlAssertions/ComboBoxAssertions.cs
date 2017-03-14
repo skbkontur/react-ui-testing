@@ -10,5 +10,7 @@ namespace SKBKontur.SeleniumTesting
             : base(subject)
         {
         }
+
+        public PropertyControlContext<ComboBox, string> Text { get { return HaveProperty(x => x.Text, "текст"); } }
     }
 }

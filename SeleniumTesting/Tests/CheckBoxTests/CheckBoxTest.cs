@@ -19,14 +19,14 @@ namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
         [Test]
         public void TestPresenceAndNoLabelVisible()
         {
-            page.SimpleCheckbox.ExpectTo().BeDisplayed();
-            page.SimpleCheckbox.Label.ExpectTo().BeNotDisplayed();
+            page.SimpleCheckbox.ExpectTo().BePresent();
+            page.SimpleCheckbox.Label.ExpectTo().BeAbsent();
         }
 
         [Test]
         public void TestLabelPresenceOnCheckboxWithLabel()
         {
-            page.CheckboxWithLabel.Label.ExpectTo().BeDisplayed().And.Text.EqualTo("Checkbox label");
+            page.CheckboxWithLabel.Label.ExpectTo().BePresent().And.Text.EqualTo("Checkbox label");
 
         }
 

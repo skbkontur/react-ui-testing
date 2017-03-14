@@ -85,15 +85,15 @@ namespace SKBKontur.SeleniumTesting.Assertions.Bases
             return new PropertyControlContext<TControl, TProperty>(Subject, propertyPicker, a);
         }
 
-        public IAndContraint<TAssertions> BeDisplayed()
+        public IAndContraint<TAssertions> BePresent()
         {
-            Subject.ExecuteAssert(x => x.IsDisplayed, (x, u) => u.WithExpectation(new PresenseExpectation()));
+            Subject.ExecuteAssert(x => x.IsPresent, (x, u) => u.WithExpectation(new PresenseExpectation()));
             return AndThis();
         }
 
-        public IAndContraint<TAssertions> BeNotDisplayed()
+        public IAndContraint<TAssertions> BeAbsent()
         {
-            Subject.ExecuteAssert(x => !x.IsDisplayed, (x, u) => u.WithExpectation(new AbsentExpectation()));
+            Subject.ExecuteAssert(x => !x.IsPresent, (x, u) => u.WithExpectation(new AbsentExpectation()));
             return AndThis();
         }
     }

@@ -8,7 +8,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteInitAction();
         }
 
-        public string Text
+        public virtual string Text
         {
             get { return GetValueFromElement(x => x.Text); }
         }

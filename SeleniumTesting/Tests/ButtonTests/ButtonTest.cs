@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ButtonTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleButton.ExpectTo().BeDisplayed();
+            page.SimpleButton.ExpectTo().BePresent();
         }
 
         private ButtonTestPage page;

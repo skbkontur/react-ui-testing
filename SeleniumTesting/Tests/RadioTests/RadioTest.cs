@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Tests.RadioTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleRadio.ExpectTo().BeDisplayed();
+            page.SimpleRadio.ExpectTo().BePresent();
         }
 
         private RadioTestPage page;

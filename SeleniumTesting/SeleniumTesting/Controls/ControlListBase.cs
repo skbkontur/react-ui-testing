@@ -66,7 +66,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public virtual IEnumerator<TItem> GetEnumerator()
         {
-            if (!IsDisplayed)
+            if (!IsPresent)
                 return (new List<TItem>()).GetEnumerator();
             return GetItems().GetEnumerator();
         }

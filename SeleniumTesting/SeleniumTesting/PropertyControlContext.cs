@@ -34,7 +34,7 @@ namespace SKBKontur.SeleniumTesting
                     (x, m) =>
                         {
                             var result = messageBuilder(m).WithNegation().WithPropertyDescription(target);
-                            if(x != null && x.IsDisplayed)
+                            if(x != null && x.IsPresent)
                                 result.WithActual(compiledPropertyPicker(x).ToString());
                             return result;
                         }
@@ -46,7 +46,7 @@ namespace SKBKontur.SeleniumTesting
                 (x, m) =>
                     {
                         var result = messageBuilder(m).WithPropertyDescription(target);
-                        if(x != null && x.IsDisplayed)
+                        if(x != null && x.IsPresent)
                             result.WithActual(compiledPropertyPicker(x).ToString());
                         return result;
                     }

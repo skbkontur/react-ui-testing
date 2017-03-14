@@ -131,6 +131,7 @@ namespace SKBKontur.SeleniumTesting
                 {
                     return tidAttributeValue.Split(' ').Contains(singleTid);
                 }
+                return false;
             }
             return true;
         }

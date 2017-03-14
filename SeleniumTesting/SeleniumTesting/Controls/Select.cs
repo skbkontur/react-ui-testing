@@ -31,7 +31,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             Click();
             var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
-            controlList.ExpectTo().BeDisplayed();
+            controlList.ExpectTo().BePresent();
             controlList.First(x => x.Text == text).Click();
         }
 
@@ -41,7 +41,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             var items = GetReactProp<JArray>("items");
             var index = items.ToList().FindIndex(x => ElementMatchToValue(value, x));
             var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
-            controlList[index].ExpectTo().BeDisplayed();
+            controlList[index].ExpectTo().BePresent();
             controlList[index].Click();
         }
 

@@ -8,7 +8,7 @@ function extendStaticObject(base, overrides) {
 function injectReactDevToolsHook(injectModule) {
     if (!global.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
         global.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { inject: () => {} };
-    }    
+    }
     var oldInject = global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject;
     global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = x => {
         var ReactMount = x.Mount;
@@ -41,11 +41,11 @@ function exposeReactInternalsIntoDomHook({ Mount, Reconciler }) {
             if (instance._currentElement && instance._currentElement.type) {
                 var domElement = getTargetNode(instance, ReactMount);
                 updateDomElement(domElement, instance, false);
-            }                
+            }
         },
 
         mountComponent: base => (instance, tr, host, hostParent, hostContainerInfo, context, ...rest) => {
-            var result = base.mountComponent(instance, tr, host,  hostParent, hostContainerInfo, context, ...rest);            
+            var result = base.mountComponent(instance, tr, host,  hostParent, hostContainerInfo, context, ...rest);
             if (typeof result === 'string') { // React 0.14.*
                 var resultDomElement = createDomFromString(result);
                 if (!resultDomElement) {
@@ -53,14 +53,14 @@ function exposeReactInternalsIntoDomHook({ Mount, Reconciler }) {
                 }
                 updateDomElement(resultDomElement, instance, true)
                 return resultDomElement.outerHTML;
-            } 
+            }
             else if (result.node) {  // React 15.*
                 updateDomElement(result.node, instance, true)
             }
             return result;
         }
-    });        
-}    
+    });
+}
 
 function stringifySafe(value) {
     if (typeof value === 'string') {
@@ -84,10 +84,10 @@ function createDomFromString(s) {
     }
     else if (s.startsWith('<th') || s.startsWith('<td')) {
         rootDomElement = document.createElement('tr');
-    }        
+    }
     else if (s.startsWith('<tr')) {
         rootDomElement = document.createElement('thead');
-    }        
+    }
     else {
         rootDomElement = document.createElement('div');
     }
@@ -104,7 +104,7 @@ function getTargetNode(instance, ReactMount) {
         catch(e) {
             console.warn(e);
             return null;
-        }        
+        }
     }
     return result;
 }
@@ -118,26 +118,26 @@ function getComponentName(instance) {
 
 function acceptProp(instance, propName, propValue) {
     return (
-        !propName.startsWith('$$') && 
-        !propName.startsWith('on') && 
-        (propName !== 'children') && 
-        (propName !== 'data-tid') && 
+        !propName.startsWith('$$') &&
+        !propName.startsWith('on') &&
+        (propName !== 'children') &&
+        (propName !== 'data-tid') &&
         typeof propValue !== 'function'
     );
 }
 
 function updateDomElement(domElement, instance, isMounting) {
-    if (!domElement) {
+    if (!domElement || typeof domElement.setAttribute !== 'function') {
         return;
-    }    
+    }
     const attrs = fillPropsForDomElementRecursive({}, instance);
     for (var attrName in attrs) {
         domElement.setAttribute(attrName, attrs[attrName]);
-    }    
-}   
+    }
+}
 
 function appendToSet(attrContainer, name, value) {
-    if (value === null) 
+    if (value === null)
         return;
     var attributeStringValue = attrContainer[name];
     var set = (attributeStringValue || '').split(' ').filter(x => x !== '');
@@ -150,9 +150,9 @@ function fillPropsForDomElementRecursive(attrContainer, instance) {
     attrContainer = fillPropsForDomElement(attrContainer, instance);
     var ownerInstance = instance._currentElement && instance._currentElement._owner;
     if (ownerInstance) {
-        if (sameHostNodes(ownerInstance, instance)) { 
+        if (sameHostNodes(ownerInstance, instance)) {
             attrContainer = fillPropsForDomElementRecursive(attrContainer, ownerInstance);
-        }    
+        }
     }
     return attrContainer;
 }
@@ -176,10 +176,12 @@ function fillPropsForDomElement(attrContainer, instance) {
 }
 
 function sameHostNodes(instance1, instance2) {
-    var nodeId1 = instance1._rootNodeID;
-    var nodeId2 = instance2._rootNodeID;
-    if (nodeId1 !== null && nodeId2 !== null) {
-        return nodeId1 === nodeId2;
+    if (typeof instance1._rootNodeID === 'string' || typeof instance2._rootNodeID === 'string') { // React 0.14.*
+        var nodeId1 = instance1._rootNodeID;
+        var nodeId2 = instance2._rootNodeID;
+        if (nodeId1 !== null && nodeId2 !== null) {
+            return nodeId1 === nodeId2;
+        }
     }
 
     var node1 = getDomHostNode(instance1);
@@ -193,6 +195,6 @@ function getDomHostNode(instance) {
     }
     if (instance._renderedComponent) {
         return getDomHostNode(instance._renderedComponent);
-    }        
+    }
     return null;
 }

@@ -22,7 +22,7 @@ namespace SKBKontur.SeleniumTesting.Tests.SelectTests
         [Test]
         public void TestPresense()
         {
-            page.SimpleSelect.ExpectTo().BeDisplayed();
+            page.SimpleSelect.ExpectTo().BePresent();
         }
 
         [Test]

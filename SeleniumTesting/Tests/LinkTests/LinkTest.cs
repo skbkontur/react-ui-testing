@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Tests.LinkTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleLink.ExpectTo().BeDisplayed();
+            page.SimpleLink.ExpectTo().BePresent();
         }
 
         private LinkTestPage page;

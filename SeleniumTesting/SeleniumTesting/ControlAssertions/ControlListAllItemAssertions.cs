@@ -31,7 +31,7 @@ namespace SKBKontur.SeleniumTesting
                 (x, me, z) =>
                     {
                         me.WithListQuantifier(string.Format("для всех {0}", x.GetRelativePathToItems()));
-                        if(!x.IsDisplayed)
+                        if(!x.IsPresent)
                         {
                             messageBuilder(null, me, z);
                         }

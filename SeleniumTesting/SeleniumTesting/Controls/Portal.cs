@@ -27,7 +27,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 });
         }
 
-        public override bool IsDisplayed
+        public override bool IsPresent
         {
             get
             {

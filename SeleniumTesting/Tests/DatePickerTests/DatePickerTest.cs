@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Tests.DatePickerTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleDatePicker.ExpectTo().BeDisplayed();
+            page.SimpleDatePicker.ExpectTo().BePresent();
         }
 
         private DatePickerTestPage page;

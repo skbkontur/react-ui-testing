@@ -20,7 +20,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TooltipTests
         public void TestPresence()
         {
             page.OpenTooltip.Click();
-            page.SimpleTooltip.ExpectTo().BeDisplayed();
+            page.SimpleTooltip.ExpectTo().BePresent();
         }
 
         private TooltipTestPage page;

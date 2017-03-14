@@ -51,7 +51,7 @@ namespace SKBKontur.SeleniumTesting
             return GetValueFromElement(x => x.GetAttribute(attributeName));
         }
 
-        public virtual bool IsDisplayed
+        public virtual bool IsPresent
         {
             get
             {
@@ -66,7 +66,7 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
-        public virtual bool IsPresent
+        public virtual bool IsFoundBySelector
         {
             get
             {
