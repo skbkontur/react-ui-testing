@@ -73,6 +73,14 @@ function stringifySafe(value) {
         return JSON.stringify(value);
     }
     catch (e) {
+        try {
+            if (Array.isArray(value) && value.length > 0 && Array.isArray(value[0])) {
+                return JSON.stringify(value.map(x => x[0]));
+            }
+        }
+        catch (e) {
+            return '';
+        }
         return '';
     }
 }
