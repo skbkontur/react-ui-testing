@@ -31,8 +31,8 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             Click();
             InputText(inputText);
-            Waiter.Wait(() => GetResults().Count > 0, "");
-            var result = GetResults().Single();
+            GetItemsAs((x, y) => new Label(x, y)).ExpectTo().Count.GreaterThan(0);
+            var result = GetItemsAs((x, y) => new Label(x, y)).First();
             if(result != null)
             {
                 SelectByIndex(0);
