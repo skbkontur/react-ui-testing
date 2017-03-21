@@ -110,7 +110,6 @@ function getTargetNode(instance, ReactMount) {
             result = ReactMount.getNode(instance._rootNodeID);
         }
         catch(e) {
-            console.warn(e);
             return null;
         }
     }
