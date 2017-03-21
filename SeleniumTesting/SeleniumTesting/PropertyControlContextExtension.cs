@@ -69,6 +69,11 @@ namespace SKBKontur.SeleniumTesting
             return context.ExecuteAssert(x => x == value, m => m.WithExpectation(new ExactValueExpectation(value.ToString())));
         }
 
+        public static IAndContraint<IPropertyControlContext<int>> GreaterThan(this IPropertyControlContext<int> context, int value)
+        {
+            return context.ExecuteAssert(x => x > value, m => m.WithExpectation(new CustomMessageExpectation(string.Format("ожидалось больше чем {0}", value))));
+        }
+
         public static IAndContraint<IPropertyControlContext<string>> Satisfy(
             this IPropertyControlContext<string> context,
             Func<string, bool> condition,
