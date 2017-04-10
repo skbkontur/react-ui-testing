@@ -96,6 +96,20 @@ namespace SKBKontur.SeleniumTesting.Assertions.Bases
             Subject.ExecuteAssert(x => !x.IsPresent, (x, u) => u.WithExpectation(new AbsentExpectation()));
             return AndThis();
         }
+        
+        public IAndContraint<TAssertions> BeInErrorState()
+        {
+            HasError().BeTrue();
+            return AndThis();
+        }
+        
+        public IAndContraint<TAssertions> BeInNormalState()
+        {
+            HasError().BeFalse();
+            return AndThis();
+        }
+        
+        public PropertyControlContext<TControl, bool> HasError() { return HaveComplexProperty(x => x.HasError(), "error"); }
     }
 
     public class ExceptionResult : ICheckResult

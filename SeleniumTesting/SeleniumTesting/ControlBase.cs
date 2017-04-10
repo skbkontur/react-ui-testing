@@ -31,7 +31,6 @@ namespace SKBKontur.SeleniumTesting
             container.SearchGlobal(new UniversalSelector("body")).SendKeys(keys);
         }
 
-        [Obsolete]
         public bool HasError()
         {
             return GetReactProp<bool>("error");
