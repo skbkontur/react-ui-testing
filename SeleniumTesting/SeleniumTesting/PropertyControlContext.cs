@@ -47,7 +47,12 @@ namespace SKBKontur.SeleniumTesting
                     {
                         var result = messageBuilder(m).WithPropertyDescription(target);
                         if(x != null && x.IsPresent)
-                            result.WithActual(compiledPropertyPicker(x).ToString());
+                        {
+                            var value = compiledPropertyPicker(x);
+                            var valueAsString = value != null ? value.ToString() : "<null>";
+                            result.WithActual(valueAsString);
+                        }
+                            
                         return result;
                     }
                 );

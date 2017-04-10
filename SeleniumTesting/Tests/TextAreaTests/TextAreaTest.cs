@@ -22,6 +22,23 @@ namespace SKBKontur.SeleniumTesting.Tests.TextAreaTests
             page.SimpleTextarea.ExpectTo().BePresent();
         }
 
+        [Test]
+        public void TestInputAndCheckText()
+        {
+            page.SimpleTextarea.ClearAndInputText("test");
+            page.SimpleTextarea.ExpectTo().Value.EqualTo("test");
+            page.SimpleTextarea.ClearAndInputText("another-test");
+            page.SimpleTextarea.ExpectTo().Value.EqualTo("another-test");
+        }
+        
+        [Test]
+        public void TestClear()
+        {
+            page.SimpleTextarea.ClearAndInputText("test");
+            page.SimpleTextarea.Clear();
+            page.SimpleTextarea.ExpectTo().Value.EqualTo("");
+        }
+
         private TextAreaTestPage page;
     }
 }

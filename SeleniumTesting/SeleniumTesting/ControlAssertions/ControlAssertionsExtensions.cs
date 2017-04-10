@@ -85,6 +85,16 @@ namespace SKBKontur.SeleniumTesting
             return new LabelAssertions(input);
         }
 
+        public static TextAreaAssertions ExpectTo(this TextArea input)
+        {
+            return ExpectTo(new SingleItemAssertable<TextArea>(input));
+        }
+
+        public static TextAreaAssertions ExpectTo(this IAssertable<TextArea> input)
+        {
+            return new TextAreaAssertions(input);
+        }
+
         public static ControlBaseAssertions ExpectTo(this ControlBase input)
         {
             return ExpectTo(new SingleItemAssertable<ControlBase>(input));

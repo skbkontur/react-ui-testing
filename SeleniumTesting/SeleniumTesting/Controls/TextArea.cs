@@ -1,5 +1,7 @@
 ﻿using JetBrains.Annotations;
 
+using OpenQA.Selenium;
+
 namespace SKBKontur.SeleniumTesting.Controls
 {
     public class TextArea : ControlBase
@@ -13,8 +15,8 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             ExecuteAction(x =>
                 {
-                    var element = x;
-                    element.SendKeys(keys);
+                    var inputElement = GetInputElement(x);
+                    inputElement.SendKeys(keys);
                 }, string.Format("AppendText({0})", keys));
         }
 
@@ -23,11 +25,21 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteAction(
                 x =>
                     {
-                        var inputElement = x;
+                        var inputElement = GetInputElement(x);
                         inputElement.Clear();
                         inputElement.SendKeys(text);
                     },
                 string.Format("InputText({0})", text));
+        }
+
+        private static IWebElement GetInputElement(IWebElement x)
+        {
+            var inputElement = x;
+            if(inputElement.TagName != "textarea")
+            {
+                inputElement = x.FindElement(By.TagName("textarea"));
+            }
+            return inputElement;
         }
 
         public void Clear()
@@ -35,13 +47,24 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteAction(
                 x =>
                     {
-                        var element = x;
-                        element.Clear();
+                        var inputElement = GetInputElement(x);
+                        inputElement.Clear();
                     },
                 "Clear");
         }
 
-        public string Value { get { return GetValueFromElement(x => ExecuteScript("return arguments[0].value", x) as string); } }
+        public string Value
+        {
+            get
+            {
+                return GetValueFromElement(x =>
+                    {
+                        var inputElement = GetInputElement(x);
+                        return ExecuteScript("return arguments[0].value", inputElement) as string;
+                    });
+            }
+        }
+
         public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
     }
 }

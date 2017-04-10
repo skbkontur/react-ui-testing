@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlAssertions\ControlListAllItemAssertions.cs" />
+    <Compile Include="ControlAssertions\TextAreaAssertions.cs" />
     <Compile Include="IAndContraint.cs" />
     <Compile Include="Assertions\Bases\ControlBaseAssertions.cs" />
     <Compile Include="Assertions\Context\AssertionsContext.cs" />

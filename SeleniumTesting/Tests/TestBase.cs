@@ -3,7 +3,8 @@ using NUnit.Framework;
 namespace SKBKontur.SeleniumTesting.Tests
 {
     [TestFixture("0.14.3", "0.6.10")]
-    //[TestFixture("15.3.0", "0.6.10")]
+    [TestFixture("15.3.0", "0.6.10")]
+    [TestFixture("0.14.3", "0.7.4")]
     public abstract class TestBase
     {
         protected TestBase(string reactVersion, string retailUiVersion)
