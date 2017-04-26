@@ -85,13 +85,13 @@ namespace SKBKontur.SeleniumTesting
 
         private static string ConvertSelectorPartToCssSelector(string universalSelector)
         {
-            var regexp = new Regex(@"(##([^\.\[\]#\']+))|(\.([^\.\[\]#\']+))|(\[.*?\])|([^\.\[\]#\']+)");
+            var regexp = new Regex(@"((##\(.*?\))|##([^\.\[\]#\']+))|(\.([^\.\[\]#\']+))|(\[.*?\])|([^\.\[\]#\']+)");
             return regexp.Replace(universalSelector, x =>
                 {
                     var part = x.Value;
                     if(part.StartsWith("##"))
                     {
-                        return string.Format("[data-tid~='{0}']", part.Replace("##", ""));
+                        return string.Format("[data-tid~='{0}']", part.Replace("##", "").Replace("(", "").Replace(")", ""));
                     }
                     if(IsComponentNameSelector(part))
                     {

@@ -23,6 +23,8 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
                              .Should().Be("[data-comp-name~='Input'].someClass[data-tid~='SomeTid'][data-value='Yyy']");
             UniversalSelector.ConvertUniversalSelectorToCssSelector("input##SomeTid Input##SomeTid")
                              .Should().Be("input[data-tid~='SomeTid'] [data-comp-name~='Input'][data-tid~='SomeTid']");
+            UniversalSelector.ConvertUniversalSelectorToCssSelector("input##(SomeTid[0])")
+                             .Should().Be("input[data-tid~='SomeTid[0]']");
         }
     }
 }
