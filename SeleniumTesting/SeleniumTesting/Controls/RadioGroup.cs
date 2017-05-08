@@ -41,23 +41,29 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         private static bool ElementMatchToValue(object value, JToken x)
         {
+            object actualValue = null;
             if(x is JArray)
             {
                 if(x[0] is JValue)
                 {
-                    var actualValue = ((JValue)x[0]).Value;
-                    return actualValue.Equals(value) || actualValue.ToString().Equals(value.ToString());
+                    actualValue = ((JValue)x[0]).Value;
                 }
             }
             else
             {
                 if(x is JValue)
                 {
-                    var actualValue = ((JValue)x).Value;
-                    return actualValue.Equals(value) || actualValue.ToString().Equals(value.ToString());;
+                    actualValue = ((JValue)x).Value;
                 }
             }
-            return false;
+            if(actualValue == null)
+            {
+                return value == null;
+            }
+            return 
+                actualValue.Equals(value) || 
+                actualValue.ToString().Equals(value.ToString()) || 
+                actualValue.ToString().ToLower().Equals(value.ToString().ToLower());
         }
 
         [CanBeNull]
