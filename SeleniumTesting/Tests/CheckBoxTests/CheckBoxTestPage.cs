@@ -8,5 +8,7 @@ namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
     {
         public Checkbox SimpleCheckbox { get; set; }
         public Checkbox CheckboxWithLabel { get; set; }
+        public Checkbox CheckboxToDisable { get; set; }
+        public Checkbox CheckboxWithDisabledState { get; set; }
     }
 }

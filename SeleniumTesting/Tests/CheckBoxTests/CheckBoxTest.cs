@@ -1,5 +1,7 @@
 using NUnit.Framework;
 
+using SKBKontur.SeleniumTesting.Tests.Helpers;
+
 namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
 {
     [DefaultWaitInterval(2000)]
@@ -28,6 +30,44 @@ namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
         {
             page.CheckboxWithLabel.Label.ExpectTo().BePresent().And.Text.EqualTo("Checkbox label");
 
+        }
+
+        [Test]
+        public void TestCheckboxDisabled()
+        {
+            page.CheckboxWithDisabledState.ExpectTo().BeEnabled();
+            page.CheckboxToDisable.Label.Click();
+            page.CheckboxWithDisabledState.ExpectTo().BeDisabled();
+        }
+        
+        [Test]
+        public void TestCheckboxDisabledAndCheckedStates()
+        {
+            page.CheckboxWithDisabledState.Click();
+            page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeChecked();
+
+            page.CheckboxToDisable.Label.Click();
+            page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeChecked();
+
+            page.CheckboxWithDisabledState.Click();
+            page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeChecked();
+            
+            page.CheckboxToDisable.Label.Click();
+            page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeChecked();
+            
+            page.CheckboxWithDisabledState.Click();
+            page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeUnchecked();
+            
+            page.CheckboxToDisable.Label.Click();
+            page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeUnchecked();
+        }
+        
+        [Test]
+        public void TestCheckboxDisabledNegative()
+        {
+            Following.CodeFails(() => page.CheckboxWithDisabledState.ExpectTo().BeDisabled());
+            page.CheckboxToDisable.Click();
+            Following.CodeFails(() => page.CheckboxWithDisabledState.ExpectTo().BeEnabled());
         }
 
         private CheckBoxTestPage page;
