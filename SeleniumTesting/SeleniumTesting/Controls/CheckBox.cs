@@ -11,5 +11,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public Label Label { get; private set; }
 
         public bool IsChecked { get { return GetReactProp<bool>("checked"); } }
+
+        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
     }
 }

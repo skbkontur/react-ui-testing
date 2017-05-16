@@ -20,6 +20,20 @@ namespace SKBKontur.SeleniumTesting
             return Checked.BeFalse();
         }
 
+        public IAndContraint<CheckBoxAssertions> BeDisabled()
+        {
+            HaveProperty(x => x.IsDisabled, "disabled").BeTrue();
+            return AndThis();
+        }
+
+        public IAndContraint<CheckBoxAssertions> BeEnabled()
+        {
+            HaveProperty(x => x.IsDisabled, "disabled").BeFalse();
+            return AndThis();
+        }
+
         public PropertyControlContext<Checkbox, bool> Checked { get { return HaveComplexProperty(x => x.IsChecked, "checked"); } }
+
+        public PropertyControlContext<Checkbox, bool> Disabled { get { return HaveComplexProperty(x => x.IsDisabled, "disabled"); } }
     }
 }
