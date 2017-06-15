@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 using OpenQA.Selenium;
 
@@ -25,16 +25,11 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteAction(
                 x =>
                     {
-                        var inputElement = x.FindElement(By.CssSelector("input"));
-                        if(text == "")
+                        Clear();
+                        if(text != "")
                         {
-                            inputElement.SendKeys(Keys.Control + "a");
-                            inputElement.SendKeys(Keys.Backspace);
-                        }
-                        else
-                        {
-                            inputElement.Clear();
-                            inputElement.SendKeys(text);                            
+                            var inputElement = x.FindElement(By.CssSelector("input"));
+                            inputElement.SendKeys(text);
                         }
                     },
                 string.Format("InputText({0})", text));
@@ -45,9 +40,14 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteAction(
                 x =>
                     {
-                        var element = x.FindElement(By.CssSelector("input"));
-                        element.SendKeys(Keys.Control + "a");
-                        element.SendKeys(Keys.Backspace);
+                        var inputElement = x.FindElement(By.CssSelector("input"));
+                        inputElement.SendKeys(Keys.End);
+                        var length = inputElement.GetAttribute("value").Length;
+                        while(length > 0)
+                        {
+                            inputElement.SendKeys(Keys.Backspace);
+                            length--;
+                        }
                     },
                 "Clear");
         }
