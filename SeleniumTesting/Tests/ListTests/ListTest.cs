@@ -86,7 +86,6 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         [Test]
         public void TestItemsWithFluentAssertions()
         {
-
             page.InputWithoutTidList[1].ClearAndInputText("value 1");
             page.InputWithoutTidList.ExpectTo().ExecFluentAssertings(x =>
                 {

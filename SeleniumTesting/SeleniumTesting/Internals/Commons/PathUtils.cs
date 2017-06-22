@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Internals.Commons
 
         public static string FindCatalogueProjectRootFolder()
         {
-            return FindContainingDirectory("Deployment.sln");
+            return FindContainingDirectory("SeleniumTesting.sln");
         }
     }
 }

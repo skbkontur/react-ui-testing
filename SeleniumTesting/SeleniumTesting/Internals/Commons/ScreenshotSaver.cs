@@ -44,7 +44,7 @@ namespace SKBKontur.SeleniumTesting.Internals.Commons
 
         private static string GetShortTestName(string testName)
         {
-            return string.Join(".", testName.Split('.').Reverse().Take(2).Reverse());
+            return string.Join(".", testName.Split('.').Select(x => x.Replace(@"""", "")).Reverse().Take(2).Reverse());
         }
 
         private static readonly string screenshotsDirectory = ".screenshots";
