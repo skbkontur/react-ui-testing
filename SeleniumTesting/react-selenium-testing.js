@@ -1,3 +1,36 @@
+const whiteList = (function fillWhiteList() {
+    const attrWhiteList = {
+        special: [
+            'comp-name',
+            'tid'
+        ],
+        props: {
+            'error': [],
+            'disabled': [],
+            'checked': [],
+            'items': ['RadioGroup'],
+            'value': []
+        }
+    };
+    let map = {};
+    attrWhiteList.special.reduce((obj, name) => {obj['data-' + name] = null; return obj;}, map);
+    Object.keys(attrWhiteList.props).reduce((attrsMap, name) => {
+        const componentsForAttr = attrWhiteList.props[name];
+        attrsMap['data-prop-' + name] = componentsForAttr.length === 0 ?
+            null :
+            componentsForAttr.reduce((componentsMap, name) => {
+                componentsMap[name] = name;
+                return componentsMap;
+            }, {});
+        return attrsMap;
+    }, map);
+    return {
+        match: (attrName, instance) => {
+            return map[attrName] !== undefined && (map[attrName] === null || map[attrName][getComponentName(instance)] !== undefined)
+        }
+    };
+})();
+
 function extendStaticObject(base, overrides) {
     var oldBase = Object.assign({}, base);
     for (var overrideKey of Object.keys(overrides)) {
@@ -139,7 +172,9 @@ function updateDomElement(domElement, instance, isMounting) {
     }
     const attrs = fillPropsForDomElementRecursive({}, instance);
     for (var attrName in attrs) {
-        domElement.setAttribute(attrName, attrs[attrName]);
+        if (whiteList.match(attrName, instance)) {
+            domElement.setAttribute(attrName, attrs[attrName]);
+        }
     }
 }
 
