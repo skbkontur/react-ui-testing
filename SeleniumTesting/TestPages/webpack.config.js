@@ -9,6 +9,7 @@ function createConfig(reactVersion, retailUIVersion, pairs) {
         entry: {
           ["index_" + reactVersion + '_' + retailUIVersion]: [
               "babel-polyfill",
+              './react-selenium-testing-custom-props.js',
               '../react-selenium-testing.js',
               "./" + targetDir + "/index.js"
             ]
@@ -29,7 +30,7 @@ function createConfig(reactVersion, retailUIVersion, pairs) {
               loader: 'style!css!less',
             },
             {
-              test: /\.(woff|eot|png|gif|ttf|woff2)$/, 
+              test: /\.(woff|eot|png|gif|ttf|woff2)$/,
               loader: "file-loader"
             },
             {
@@ -65,7 +66,7 @@ function createConfig(reactVersion, retailUIVersion, pairs) {
                 ".js",
                 ".jsx",
             ],
-            alias: { 
+            alias: {
               'react': path.resolve(targetDir + '/' + 'node_modules/' + 'react'),
               'react-addons-css-transition-group': path.resolve(targetDir + '/' + 'node_modules/' + 'react-addons-css-transition-group'),
               'react-addons-test-utils': path.resolve(targetDir + '/' + 'node_modules/' + 'react-addons-test-utils'),
@@ -86,9 +87,9 @@ function createConfig(reactVersion, retailUIVersion, pairs) {
         devServer: {
           "port": 8083,
           historyApiFallback: {
-            rewrites: pairs.map(x => 
+            rewrites: pairs.map(x =>
               ({
-                from: new RegExp('^\/' + x[0] + '\/' + x[1] + '\/.*'), 
+                from: new RegExp('^\/' + x[0] + '\/' + x[1] + '\/.*'),
                 to: '/' + x[0] + '/' + x[1] + '/index.html',
               })),
           }

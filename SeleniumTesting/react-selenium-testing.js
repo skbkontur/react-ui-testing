@@ -1,3 +1,16 @@
+let customAcceptAttribute = () => true;
+let attributeWhiteList = null;
+
+if (ReactSeleniumTesting != null && typeof ReactSeleniumTesting.acceptAttribute == 'function') {
+    customAcceptAttribute = ReactSeleniumTesting.acceptAttribute;
+}
+
+if (ReactSeleniumTesting != null &&
+    ReactSeleniumTesting.attributeWhiteList != null &&
+    typeof ReactSeleniumTesting.attributeWhiteList === 'object') {
+    attributeWhiteList = ReactSeleniumTesting.attributeWhiteList;
+}
+
 function extendStaticObject(base, overrides) {
     var oldBase = Object.assign({}, base);
     for (var overrideKey of Object.keys(overrides)) {
@@ -124,13 +137,44 @@ function getComponentName(instance) {
 }
 
 function acceptProp(instance, propName, propValue) {
-    return (
+    let result = (
         !propName.startsWith('$$') &&
         !propName.startsWith('on') &&
         (propName !== 'children') &&
         (propName !== 'data-tid') &&
         typeof propValue !== 'function'
     );
+    if (!result) {
+        return false;
+    }
+    const componentName = getComponentName(instance);
+    if (attributeWhiteList != null) {
+        if (attributeWhiteList[propName] == null) {
+            result = false;
+        }
+        else {
+            if (!attributeWhiteList[propName].every(componentNamePattern => acceptPattern(componentNamePattern, componentName))) {
+                result = false;
+            }
+        }
+    }
+    if (customAcceptAttribute != null) {
+        result = customAcceptAttribute(result, componentName, propName);
+    }
+    return result;
+}
+
+function acceptPattern(pattern, value) {
+    if (pattern == null) {
+        return false;
+    }
+    if (typeof pattern === 'string') {
+        return value === pattern;
+    }
+    if (typeof pattern.test === 'function') {
+        return pattern.test(value);
+    }
+    return false;
 }
 
 function updateDomElement(domElement, instance, isMounting) {

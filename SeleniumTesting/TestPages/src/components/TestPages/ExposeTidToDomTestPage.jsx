@@ -157,6 +157,13 @@ export default class InputTextPage extends React.Component {
                     </Case.Body>
                 </Case>
 
+                <Case title='Фильтрация пропсов' data-tid='PropsFilteringCase'>
+                    <Case.Body>
+                        <SomeComponent data-tid='Component1' customProp1={'value-1'} customProp2={'value-0'} />
+                        <PrefixSomeComponentSuffix data-tid='Component2' customProp2={'value-2'} />
+                    </Case.Body>
+                </Case>
+
            </CaseSuite>
         );
     }
@@ -186,6 +193,14 @@ function NestingContainerOfDomElement({ state }) {
         return <div>Вложение 1</div>
     }
     return <span>Вложение 2</span>
+}
+
+function SomeComponent() {
+    return <div>Text</div>;
+}
+
+function PrefixSomeComponentSuffix() {
+    return <div>Text</div>;
 }
 
 function Container({ children, title }) {

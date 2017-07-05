@@ -14,6 +14,19 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         public DoubleNestingComponentsCase DoubleNestingComponentsCase { get; private set; }
         public SimpleTable SimpleTable { get; set; }
         public Label DivInsideParagraph { get; set; }
+        public PropsFilteringCase PropsFilteringCase { get; set; }
+    }
+
+    [AutoFillControls]
+    public class PropsFilteringCase : CompoundControl
+    {
+        public PropsFilteringCase(ISearchContainer container, ISelector selector)
+            : base(container, selector)
+        {
+        }
+
+        public Label Component1 { get; private set; }
+        public Label Component2 { get; private set; }
     }
 
     [AutoFillControls]

@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+
+using NUnit.Framework;
 
 namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
 {
@@ -75,6 +77,15 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
             page.SimpleTable.Rows[1].Cell2.ExpectTo().Text.EqualTo("Cell 22");
             page.SimpleTable.Footer1.ExpectTo().Text.EqualTo("Footer 1");
             page.SimpleTable.Footer2.ExpectTo().Text.EqualTo("Footer 2");
+        }
+        
+        [Test]
+        public void TestFilterProps()
+        {
+            page.PropsFilteringCase.Component1.ExpectTo().BePresent();
+            page.PropsFilteringCase.Component1.GetAttributeValue("data-prop-customProp1").Should().Be("value-1");
+            page.PropsFilteringCase.Component1.GetAttributeValue("data-prop-customProp2").Should().BeNull();
+            page.PropsFilteringCase.Component2.GetAttributeValue("data-prop-customProp2").Should().Be("value-2");
         }
 
         [Test]
