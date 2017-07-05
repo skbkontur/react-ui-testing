@@ -1,4 +1,4 @@
-let customAcceptAttribute = () => true;
+let customAcceptAttribute = prevResult => prevResult;
 let attributeWhiteList = null;
 
 if (ReactSeleniumTesting != null && typeof ReactSeleniumTesting.acceptAttribute == 'function') {
