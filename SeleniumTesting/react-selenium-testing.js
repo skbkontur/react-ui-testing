@@ -1,14 +1,18 @@
 let customAcceptAttribute = prevResult => prevResult;
 let attributeWhiteList = null;
 
-if (ReactSeleniumTesting != null && typeof ReactSeleniumTesting.acceptAttribute == 'function') {
-    customAcceptAttribute = ReactSeleniumTesting.acceptAttribute;
-}
+if (typeof ReactSeleniumTesting !== 'undefined') {
+    if (ReactSeleniumTesting &&
+        ReactSeleniumTesting.acceptAttribute &&
+        typeof ReactSeleniumTesting.acceptAttribute === 'function') {
+        customAcceptAttribute = ReactSeleniumTesting.acceptAttribute;
+    }
 
-if (ReactSeleniumTesting != null &&
-    ReactSeleniumTesting.attributeWhiteList != null &&
-    typeof ReactSeleniumTesting.attributeWhiteList === 'object') {
-    attributeWhiteList = ReactSeleniumTesting.attributeWhiteList;
+    if (ReactSeleniumTesting &&
+        ReactSeleniumTesting.attributeWhiteList &&
+        typeof ReactSeleniumTesting.attributeWhiteList === 'object') {
+        attributeWhiteList = ReactSeleniumTesting.attributeWhiteList;
+    }
 }
 
 function extendStaticObject(base, overrides) {
