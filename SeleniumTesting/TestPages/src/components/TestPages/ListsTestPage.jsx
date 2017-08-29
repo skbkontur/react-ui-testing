@@ -58,6 +58,22 @@ export default class InputTextPage extends React.Component {
                         </div>
                     </Case.Body>
                 </Case>
+                <Case title='Список без корневого tid-а'>
+                    <Case.Body data-tid="NoRootTidList">
+                        <div data-tid='Item'>
+                            <div data-tid='Value1'>NoRoot Value 11</div>
+                            <div data-tid='Value2'>NoRoot Value 12</div>
+                        </div>
+                        <div data-tid='Item'>
+                            <div data-tid='Value1'>NoRoot Value 21</div>
+                            <div data-tid='Value2'>NoRoot Value 22</div>
+                        </div>
+                        <div data-tid='Item'>
+                            <div data-tid='Value1'>NoRoot Value 31</div>
+                            <div data-tid='Value2'>NoRoot Value 32</div>
+                        </div>
+                    </Case.Body>
+                </Case>
            </CaseSuite>
         );
     }

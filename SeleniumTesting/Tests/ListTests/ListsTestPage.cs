@@ -14,6 +14,20 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
 
         [Selector("Case ##CompositeReadonlyElementList"), ChildSelector("##Item")]
         public ControlList<Item> CompositeReadonlyElementListCase { get; set; }
+
+        public ControlsWithoutRootTid NoRootTidList { get; set; }
+    }
+
+    [AutoFillControls]
+    public class ControlsWithoutRootTid : CompoundControl
+    {
+        public ControlsWithoutRootTid(ISearchContainer container, ISelector selector)
+            : base(container, selector)
+        {
+        }
+
+        [Selector("::local"), ChildSelector("##Item")]
+        public ControlList<Item> RootWithoutTid { get; set; }
     }
 
     [AutoFillControls]

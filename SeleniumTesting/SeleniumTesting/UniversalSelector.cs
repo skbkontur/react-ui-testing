@@ -73,6 +73,8 @@ namespace SKBKontur.SeleniumTesting
                         By.CssSelector(ConvertUniversalSelectorToCssSelector(a[0])),
                         By.CssSelector(ConvertUniversalSelectorToCssSelector(a[1])));
                 }
+                if (selectorString == "::local")
+                    return By.XPath(".");
                 return By.CssSelector(ConvertUniversalSelectorToCssSelector(selectorString));
             }
         }
