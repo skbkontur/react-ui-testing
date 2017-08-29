@@ -53,9 +53,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Assemblies\json.net\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\Assemblies\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="WebDriver">
@@ -81,7 +78,6 @@
     <Compile Include="Controls\PlacedInPortalCompoundControl.cs" />
     <Compile Include="ControlAssertions\CompoundControlAssertions.cs" />
     <Compile Include="ControlAssertions\ControlBaseAssertions.cs" />
-    <Compile Include="DefaultWaitIntervalAttribute.cs" />
     <Compile Include="ControlAssertions\ControlListAnyOfItemAssertions.cs" />
     <Compile Include="ControlAssertions\ControlListAssertions.cs" />
     <Compile Include="Assertions\ErrorMessages\ErrorMessageBuilder.cs" />
@@ -146,7 +142,14 @@
     <Compile Include="Internals\Commons\ChainedNullCheckExtensions.cs" />
     <Compile Include="Internals\Commons\TeamCityEnvironment.cs" />
     <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="TestFrameworks\FallbackTestFramework.cs" />
+    <Compile Include="TestFrameworks\MSTestFrameworkV2.cs" />
+    <Compile Include="TestFrameworks\XUnitTestFramework.cs" />
     <Compile Include="UniversalSelector.cs" />
+    <Compile Include="TestFrameworks\TestFrameworkProvider.cs" />
+    <Compile Include="TestFrameworks\ITestFramework.cs" />
+    <Compile Include="TestFrameworks\LateBoundTestFramework.cs" />
+    <Compile Include="TestFrameworks\NUnitTestFramework.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

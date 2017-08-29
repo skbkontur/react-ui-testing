@@ -4,9 +4,8 @@ using System.Threading;
 
 using JetBrains.Annotations;
 
-using NUnit.Framework;
-
 using SKBKontur.SeleniumTesting.Internals.Commons;
+using SKBKontur.SeleniumTesting.TestFrameworks;
 
 namespace SKBKontur.SeleniumTesting.Internals
 {
@@ -15,18 +14,16 @@ namespace SKBKontur.SeleniumTesting.Internals
         [ContractAnnotation("tryFunc:false => halt")]
         public static void Wait(Func<bool> tryFunc, string actionDescription, string actualText = "", int? timeout = null)
         {
-            if(TeamCityEnvironment.IsExecutionViaTeamCity)
-            {
-                if(TestContext.CurrentContext != null && TestContext.CurrentContext.Test != null && TestContext.CurrentContext.Test.FullName != null)
-                {
-                    if(firstTestName == null || firstTestName == TestContext.CurrentContext.Test.FullName)
-                    {
-                        timeout = GetActualTimeout(timeout) * firstTestTimeoutFactor;
-                        firstTestName = TestContext.CurrentContext.Test.FullName;
-                    }
-                }
-            }
-            DoWait(tryFunc, () => Assert.Fail("Действие {0} не выполнилось за {1} мс. {2}", actionDescription, GetActualTimeout(timeout), actualText), timeout);
+            timeout = (int)IncreseFirstTimeoutIfNeedForTeamcity(TimeSpan.FromMilliseconds(timeout ?? defaultTimeout)).TotalMilliseconds;
+            DoWait(tryFunc, () => TestFrameworkProvider.Throw(string.Format("Действие {0} не выполнилось за {1} мс. {2}", actionDescription, GetActualTimeout(timeout), actualText)), timeout);
+        }
+
+        private static TimeSpan IncreseFirstTimeoutIfNeedForTeamcity(TimeSpan timeout)
+        {
+            if(!TeamCityEnvironment.IsExecutionViaTeamCity) return timeout;
+            if(firstWaitWasIncreased) return timeout;
+            firstWaitWasIncreased = true;
+            return TimeSpan.FromMilliseconds(timeout.TotalMilliseconds * firstTestTimeoutFactor);
         }
 
         public static void DoWait(Func<bool> tryFunc, Action doIfWaitFails, int? timeout = null)
@@ -49,7 +46,6 @@ namespace SKBKontur.SeleniumTesting.Internals
         private const int waitTimeout = 100;
         private const int defaultTimeout = 20000;
         private const int firstTestTimeoutFactor = 3;
-
-        private static string firstTestName;
+        private static bool firstWaitWasIncreased;
     }
 }

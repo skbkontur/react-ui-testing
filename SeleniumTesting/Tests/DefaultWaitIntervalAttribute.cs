@@ -4,15 +4,10 @@ using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Assertions.Context;
 
-namespace SKBKontur.SeleniumTesting
+namespace SKBKontur.SeleniumTesting.Tests
 {
     public class DefaultWaitIntervalAttribute : TestActionAttribute
     {
-        public DefaultWaitIntervalAttribute(TimeSpan defaultWaitInterval)
-        {
-            this.defaultWaitInterval = defaultWaitInterval;
-        }
-
         public DefaultWaitIntervalAttribute(double milliseconds)
         {
             defaultWaitInterval = TimeSpan.FromMilliseconds(milliseconds);
@@ -23,9 +18,17 @@ namespace SKBKontur.SeleniumTesting
         public override void BeforeTest(TestDetails testDetails)
         {
             base.BeforeTest(testDetails);
+            previousWaitInterval = AssertionsContext.GetDefaultWaitInterval();
             AssertionsContext.SetDefaultWaitInterval(defaultWaitInterval);
         }
 
+        public override void AfterTest(TestDetails testDetails)
+        {
+            AssertionsContext.SetDefaultWaitInterval(previousWaitInterval);
+            base.AfterTest(testDetails);
+        }
+
         private readonly TimeSpan defaultWaitInterval;
+        private TimeSpan previousWaitInterval;
     }
 }

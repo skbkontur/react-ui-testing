@@ -2,11 +2,10 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-using NUnit.Framework;
-
 using OpenQA.Selenium;
 
 using SKBKontur.SeleniumTesting.Internals.Commons;
+using SKBKontur.SeleniumTesting.TestFrameworks;
 
 namespace SKBKontur.SeleniumTesting.Assertions
 {
@@ -15,23 +14,15 @@ namespace SKBKontur.SeleniumTesting.Assertions
         public static void Wait(Func<bool> tryFunc, Func<TimeSpan, Exception, string> actionDescription, TimeSpan timeout)
         {
             timeout = IncreseFirstTimeoutIfNeedForTeamcity(timeout);
-            DoWait(tryFunc, exception => Assert.Fail(actionDescription(timeout, exception)), timeout);
+            DoWait(tryFunc, exception => TestFrameworkProvider.Throw(actionDescription(timeout, exception)), timeout);
         }
 
         private static TimeSpan IncreseFirstTimeoutIfNeedForTeamcity(TimeSpan timeout)
         {
-            if(TeamCityEnvironment.IsExecutionViaTeamCity)
-            {
-                if(TestContext.CurrentContext != null && TestContext.CurrentContext.Test != null && TestContext.CurrentContext.Test.FullName != null)
-                {
-                    if(firstTestName == null || firstTestName == TestContext.CurrentContext.Test.FullName)
-                    {
-                        timeout = TimeSpan.FromMilliseconds(timeout.TotalMilliseconds * firstTestTimeoutFactor);
-                        firstTestName = TestContext.CurrentContext.Test.FullName;
-                    }
-                }
-            }
-            return timeout;
+            if(!TeamCityEnvironment.IsExecutionViaTeamCity) return timeout;
+            if(firstWaitWasIncreased) return timeout;
+            firstWaitWasIncreased = true;
+            return TimeSpan.FromMilliseconds(timeout.TotalMilliseconds * firstTestTimeoutFactor);
         }
 
         private static void DoWait(Func<bool> tryFunc, Action<Exception> doIfWaitFails, TimeSpan timeout)
@@ -60,6 +51,6 @@ namespace SKBKontur.SeleniumTesting.Assertions
 
         private const int waitTimeout = 100;
         private const int firstTestTimeoutFactor = 3;
-        private static string firstTestName;
+        private static bool firstWaitWasIncreased;
     }
 }
