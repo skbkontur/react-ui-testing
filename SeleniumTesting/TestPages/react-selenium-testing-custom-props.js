@@ -2,6 +2,7 @@ global.ReactSeleniumTesting = {
     attributeWhiteList: {
         'error': [/.*/],
         'disabled': [/.*/],
+        'disablePortal': ['ComboBoxRenderer'],
         'checked': [/.*/],
         'items': ['RadioGroup'],
         'value': [/.*/],
