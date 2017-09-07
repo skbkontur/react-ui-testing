@@ -47,6 +47,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         {
             page.ComboBoxNoPortal.Click();
             page.ComboBoxNoPortal.GetResults().Count.Should().Be(17);
+            page.ComboBoxNoPortal.InputTextAndSelectSingle("Item 1");
         }
 
         private ComboBoxesTestPage page;
