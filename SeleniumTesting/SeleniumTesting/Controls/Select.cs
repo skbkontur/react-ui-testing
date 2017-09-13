@@ -32,7 +32,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             Click();
             var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
             controlList.ExpectTo().BePresent();
-            controlList.First(x => x.Text == text).Click();
+            controlList.First(x => x.TextObsolete == text).Click();
         }
 
         public void SelectValueByValue(object value)
@@ -79,7 +79,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public List<string> GetItems()
         {
             return GetReactProp<string[]>("items").ToList();
-            //return ExecuteOnElement(x => x.FindElements(By.CssSelector("[data-comp-name='MenuItem']"))).Select(x => x.Text).ToList();
+            //return ExecuteOnElement(x => x.FindElements(By.CssSelector("[data-comp-name='MenuItem']"))).Select(x => x.TextObsolete).ToList();
         }
 
         [CanBeNull]

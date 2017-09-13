@@ -1,4 +1,5 @@
 var path = require('path');
+var semver = require('semver');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var versions = require('./versions');
@@ -77,6 +78,9 @@ function createConfig(reactVersion, retailUIVersion, pairs) {
         plugins: [
             new webpack.DefinePlugin({
                 'process.env.enableReactTesting': JSON.stringify(true),
+                'process.env.hasKebab': JSON.stringify(semver.satisfies(retailUIVersion, '>=0.9.0')),
+                'process.env.hasPaging': JSON.stringify(semver.satisfies(retailUIVersion, '>=0.9.0')),
+                'process.env.retailUIVersion': JSON.stringify(retailUIVersion),
                 'process.env.baseUrl': JSON.stringify('/' + reactVersion + '/' + retailUIVersion),
                 'process.env.retailUIVersion': JSON.stringify(retailUIVersion),
             }),

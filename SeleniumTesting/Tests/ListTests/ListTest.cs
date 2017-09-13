@@ -42,19 +42,19 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         [Test]
         public void Test_ControlsListWithoutRootTid()
         {
-            page.NoRootTidList.RootWithoutTid.Count.Should().Be(3);
-            page.NoRootTidList.RootWithoutTid[0].Value1.ExpectTo().Satisfy(x => x.Text.Should().Be("NoRoot Value 11"), "ожидалось значение 'NoRoot Value 11'");
-            page.NoRootTidList.RootWithoutTid[0].Value2.ExpectTo().Satisfy(x => x.Text.Should().Be("NoRoot Value 12"), "ожидалось значение 'NoRoot Value 12'");
-            page.NoRootTidList.RootWithoutTid[1].Value1.ExpectTo().Satisfy(x => x.Text.Should().Be("NoRoot Value 21"), "ожидалось значение 'NoRoot Value 21'");
-            page.NoRootTidList.RootWithoutTid[1].Value2.ExpectTo().Satisfy(x => x.Text.Should().Be("NoRoot Value 22"), "ожидалось значение 'NoRoot Value 22'");
-            page.NoRootTidList.RootWithoutTid[2].Value1.ExpectTo().Satisfy(x => x.Text.Should().Be("NoRoot Value 31"), "ожидалось значение 'NoRoot Value 31'");
-            page.NoRootTidList.RootWithoutTid[2].Value2.ExpectTo().Satisfy(x => x.Text.Should().Be("NoRoot Value 32"), "ожидалось значение 'NoRoot Value 32'");
+            page.NoRootTidList.RootWithoutTid.Count.Wait().That(Is.EqualTo(3));
+            page.NoRootTidList.RootWithoutTid[0].Value1.ExpectTo().Satisfy(x => x.TextObsolete.Should().Be("NoRoot Value 11"), "ожидалось значение 'NoRoot Value 11'");
+            page.NoRootTidList.RootWithoutTid[0].Value2.ExpectTo().Satisfy(x => x.TextObsolete.Should().Be("NoRoot Value 12"), "ожидалось значение 'NoRoot Value 12'");
+            page.NoRootTidList.RootWithoutTid[1].Value1.ExpectTo().Satisfy(x => x.TextObsolete.Should().Be("NoRoot Value 21"), "ожидалось значение 'NoRoot Value 21'");
+            page.NoRootTidList.RootWithoutTid[1].Value2.ExpectTo().Satisfy(x => x.TextObsolete.Should().Be("NoRoot Value 22"), "ожидалось значение 'NoRoot Value 22'");
+            page.NoRootTidList.RootWithoutTid[2].Value1.ExpectTo().Satisfy(x => x.TextObsolete.Should().Be("NoRoot Value 31"), "ожидалось значение 'NoRoot Value 31'");
+            page.NoRootTidList.RootWithoutTid[2].Value2.ExpectTo().Satisfy(x => x.TextObsolete.Should().Be("NoRoot Value 32"), "ожидалось значение 'NoRoot Value 32'");
         }
 
         [Test]
         public void TestCheckCount()
         {
-            page.InputWithoutTidList.ExpectTo().HaveProperty(x => x.Count, "zzz").EqualTo(3);
+            page.InputWithoutTidList.ExpectTo().HaveProperty(x => x.Count.Get(), "zzz").EqualTo(3);
         }
 
         [Test]

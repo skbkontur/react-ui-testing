@@ -1,5 +1,4 @@
-using SKBKontur.SeleniumTesting.Assertions;
-using SKBKontur.SeleniumTesting.Assertions.Bases;
+Ôªøusing SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
 namespace SKBKontur.SeleniumTesting
@@ -11,6 +10,6 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<Label, string> Text { get { return HaveProperty(x => x.Text, "ÚÂÍÒÚ"); } }
+        public PropertyControlContext<Label, string> Text { get { return HaveProperty(x => x.TextObsolete, "—Ç–µ–∫—Å—Ç"); } }
     }
 }

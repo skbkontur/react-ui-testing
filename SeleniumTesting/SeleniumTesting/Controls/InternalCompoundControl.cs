@@ -1,27 +1,10 @@
-using OpenQA.Selenium;
-
-namespace SKBKontur.SeleniumTesting.Controls
+﻿namespace SKBKontur.SeleniumTesting.Controls
 {
-    public class InternalCompoundControl : ControlBase, ISearchContainer
+    public class InternalCompoundControl : ControlBase
     {
         protected InternalCompoundControl(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-        }
-
-        public virtual IWebElement Search(ISelector selector)
-        {
-            return GetValueFromElement(x => x.FindElement(selector.SeleniumBy));
-        }
-
-        public IWebElement SearchGlobal(ISelector selector)
-        {
-            return container.SearchGlobal(selector);
-        }
-
-        public object ExecuteScript(string script, params object[] arguments)
-        {
-            return container.ExecuteScript(script, arguments);
         }
     }
 }

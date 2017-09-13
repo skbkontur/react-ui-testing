@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Linq;
 
 using SKBKontur.SeleniumTesting.Assertions;
@@ -32,8 +32,8 @@ namespace SKBKontur.SeleniumTesting
                     },
                 (x, me, z) =>
                     {
-                        me.WithListQuantifier(string.Format("для одного из {0}", x.GetRelativePathToItems()));
-                        if(!x.IsPresent)
+                        me.WithListQuantifier(string.Format("РґР»СЏ РѕРґРЅРѕРіРѕ РёР· {0}", x.GetRelativePathToItems()));
+                        if(!x.IsPresentObsolete)
                         {
                             messageBuilder(null, me, z);
                         }

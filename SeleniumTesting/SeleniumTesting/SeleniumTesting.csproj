@@ -47,6 +47,9 @@
     <Reference Include="JetBrains.Annotations">
       <HintPath>..\Assemblies\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="Kontur.RetryableAssertions">
+      <HintPath>..\Assemblies\RetryableAssertions\Kontur.RetryableAssertions.dll</HintPath>
+    </Reference>
     <Reference Include="MoreLinq">
       <HintPath>..\Assemblies\MoreLinq\MoreLinq.dll</HintPath>
     </Reference>
@@ -62,6 +65,12 @@
   <ItemGroup>
     <Compile Include="ControlAssertions\ControlListAllItemAssertions.cs" />
     <Compile Include="ControlAssertions\TextAreaAssertions.cs" />
+    <Compile Include="ControlProperty.cs" />
+    <Compile Include="Controls\Kebab.cs" />
+    <Compile Include="Controls\Menu.cs" />
+    <Compile Include="Controls\MenuItem.cs" />
+    <Compile Include="Controls\Paging.cs" />
+    <Compile Include="Controls\PopupBase.cs" />
     <Compile Include="IAndContraint.cs" />
     <Compile Include="Assertions\Bases\ControlBaseAssertions.cs" />
     <Compile Include="Assertions\Context\AssertionsContext.cs" />
@@ -96,9 +105,13 @@
     <Compile Include="ControlAssertions\GenericAssertions.cs" />
     <Compile Include="ControlAssertions\InputAssertions.cs" />
     <Compile Include="ControlAssertions\ControlAssertionsExtensions.cs" />
-    <Compile Include="Internals\SemVer\Comparator.cs" />
+    <Compile Include="IControlProperty.cs" />
+    <Compile Include="Internals\Assertion.cs" />
+    <Compile Include="Internals\AssertionExtensions.cs" />
     <Compile Include="Internals\Commons\PathUtils.cs" />
     <Compile Include="Internals\Commons\ScreenshotSaver.cs" />
+    <Compile Include="Internals\Timings.cs" />
+    <Compile Include="Internals\SemVer\Comparator.cs" />
     <Compile Include="Internals\SemverStringExtensions.cs" />
     <Compile Include="Internals\SemVer\ComparatorSet.cs" />
     <Compile Include="Internals\SemVer\Desugarer.cs" />

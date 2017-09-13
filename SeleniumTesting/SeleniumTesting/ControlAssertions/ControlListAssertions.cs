@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +32,7 @@ namespace SKBKontur.SeleniumTesting
             Count.EqualTo(exepectedCount);
         }
 
-        public PropertyControlContext<ControlListBase<T>, int> Count { get { return HaveProperty(x => x.Count, "количество элементов"); } }
+        public PropertyControlContext<ControlListBase<T>, int> Count { get { return HaveProperty(x => x.Count.Get(), "РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ"); } }
 
         public IAndContraint<ControlListAssertions<T>> AllItemsEquivalentTo(Func<T, string> propertySelector, string[] expected)
         {

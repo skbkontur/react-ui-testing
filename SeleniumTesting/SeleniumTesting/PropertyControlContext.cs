@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq.Expressions;
 
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages;
@@ -34,7 +34,7 @@ namespace SKBKontur.SeleniumTesting
                     (x, m) =>
                         {
                             var result = messageBuilder(m).WithNegation().WithPropertyDescription(target);
-                            if(x != null && x.IsPresent)
+                            if(x != null && x.IsPresentObsolete)
                                 result.WithActual(compiledPropertyPicker(x).ToString());
                             return result;
                         }
@@ -46,7 +46,7 @@ namespace SKBKontur.SeleniumTesting
                 (x, m) =>
                     {
                         var result = messageBuilder(m).WithPropertyDescription(target);
-                        if(x != null && x.IsPresent)
+                        if(x != null && x.IsPresentObsolete)
                         {
                             var value = compiledPropertyPicker(x);
                             var valueAsString = value != null ? value.ToString() : "<null>";

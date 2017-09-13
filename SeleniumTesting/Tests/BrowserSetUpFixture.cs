@@ -8,13 +8,13 @@ namespace SKBKontur.SeleniumTesting.Tests
     [SaveScreenshotOfFailure]
     public class BrowserSetUpFixture
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             browser = new Browser("localhost", "8083");
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             browser.Close();

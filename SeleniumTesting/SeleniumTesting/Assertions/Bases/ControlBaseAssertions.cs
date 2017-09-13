@@ -87,13 +87,13 @@ namespace SKBKontur.SeleniumTesting.Assertions.Bases
 
         public IAndContraint<TAssertions> BePresent()
         {
-            Subject.ExecuteAssert(x => x.IsPresent, (x, u) => u.WithExpectation(new PresenseExpectation()));
+            Subject.ExecuteAssert(x => x.IsPresentObsolete, (x, u) => u.WithExpectation(new PresenseExpectation()));
             return AndThis();
         }
 
         public IAndContraint<TAssertions> BeAbsent()
         {
-            Subject.ExecuteAssert(x => !x.IsPresent, (x, u) => u.WithExpectation(new AbsentExpectation()));
+            Subject.ExecuteAssert(x => !x.IsPresentObsolete, (x, u) => u.WithExpectation(new AbsentExpectation()));
             return AndThis();
         }
         

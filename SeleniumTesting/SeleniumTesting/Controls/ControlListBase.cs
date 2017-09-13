@@ -5,6 +5,9 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
+using Kontur.RetryableAssertions.Extensions;
+
+using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Internals.Selectors;
 
 namespace SKBKontur.SeleniumTesting.Controls
@@ -18,24 +21,16 @@ namespace SKBKontur.SeleniumTesting.Controls
             this.createItem = createItem;
         }
 
-        [NotNull]
-        public TItem this[int index] { get { return GetItemInstance(CreateItemSelector(index)); } }
-
-        private ISelector CreateItemSelector(int index)
-        {
-            return new SelectorWithIndexWrapper(itemSelector, index);
-        }
-
-        public int Count { get { return GetItems().Count; } }
+        public IControlProperty<int> Count => Property(() => GetValueFromElement(x => x.FindElements(itemSelector.SeleniumBy)).Count, "items count");
 
         [NotNull]
+        public TItem this[int index] => GetItemAt(index);
+
+        [NotNull]
+        [Obsolete]
         public List<TItem> GetItems()
         {
-            var elements = GetValueFromElement(x => x.FindElements(itemSelector.SeleniumBy));
-            return Enumerable
-                .Range(0, elements.Count)
-                .Select(i => GetItemInstance(CreateItemSelector(i)))
-                .ToList();
+            return this.ToList();
         }
 
         [NotNull]
@@ -44,16 +39,22 @@ namespace SKBKontur.SeleniumTesting.Controls
             return itemSelector.ToString();
         }
 
-//        [CanBeNull]
-//        public TItem GetItemByName(string name)
-//        {
-//            return GetItems().FirstOrDefault(x => x.GetText() == name);
-//        }
-
         [CanBeNull]
         public TItem GetItemByUniqueTid(UniversalSelector tid)
         {
             return GetItemInstance(tid);
+        }
+
+        [NotNull]
+        public TItem GetItemAt(int index, Timings timings = null)
+        {
+            return this.AsEnumerable().Wait().ElementAt(index, timings.GetConfiguration());
+        }
+
+        [NotNull]
+        public TItem GetItemThat(Action<TItem> assertion, Timings timings = null)
+        {
+            return this.AsEnumerable().Wait().Single(assertion, timings.GetConfiguration());
         }
 
         protected virtual TItem GetItemInstance(ISelector selector)
@@ -61,19 +62,22 @@ namespace SKBKontur.SeleniumTesting.Controls
             return createItem(this, selector);
         }
 
-        private readonly ISelector itemSelector;
-        private readonly Func<ISearchContainer, ISelector, TItem> createItem;
-
         public virtual IEnumerator<TItem> GetEnumerator()
         {
-            if (!IsPresent)
-                return (new List<TItem>()).GetEnumerator();
-            return GetItems().GetEnumerator();
+            return Enumerable.Range(0, Count.Get()).Select(i => GetItemInstance(CreateItemSelector(i))).GetEnumerator();
+        }
+
+        private ISelector CreateItemSelector(int index)
+        {
+            return new SelectorWithIndexWrapper(itemSelector, index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
+
+        private readonly ISelector itemSelector;
+        private readonly Func<ISearchContainer, ISelector, TItem> createItem;
     }
 }
