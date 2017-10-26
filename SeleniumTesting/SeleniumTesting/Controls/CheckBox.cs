@@ -1,3 +1,5 @@
+﻿using SKBKontur.SeleniumTesting.Internals;
+
 namespace SKBKontur.SeleniumTesting.Controls
 {
     public class Checkbox : ControlBase
@@ -5,7 +7,10 @@ namespace SKBKontur.SeleniumTesting.Controls
         public Checkbox(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-            Label = new Label(this, new UniversalSelector("span:nth-of-type(2)"));
+            if (GetRetailUiVersion().IsVersionSatisfyOrUndefined("<=0.7.6"))
+                Label = new Label(this, new UniversalSelector("span:nth-of-type(2)"));
+            else
+                Label = new Label(this, new UniversalSelector("input + span + div"));
         }
 
         public Label Label { get; private set; }
