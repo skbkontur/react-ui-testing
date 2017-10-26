@@ -1,11 +1,18 @@
-﻿using SKBKontur.SeleniumTesting.Controls;
+﻿using OpenQA.Selenium.Remote;
+
+using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
 namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
 {
     [AutoFillControls]
-    public class ComboBoxesTestPage : ReactPage
+    public class ComboBoxesTestPage : PageBase
     {
+        public ComboBoxesTestPage(RemoteWebDriver webDriver)
+            : base(webDriver)
+        {
+        }
+
         public ComboBox SimpleComboBox { get; private set; }
 
         [Selector("##SimpleComboBox"), ChildSelector("noscript:portal MenuItem")]

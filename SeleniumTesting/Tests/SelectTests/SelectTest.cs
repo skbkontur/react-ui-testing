@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 
+using OpenQA.Selenium.Remote;
+
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -38,7 +40,7 @@ namespace SKBKontur.SeleniumTesting.Tests.SelectTests
             page.SelectWithIdInValues.SelectValueByValue("item 2");
             page.SelectWithIdInValues.ExpectTo().SelectedValueText.EqualTo("item caption 2");
         }
-        
+
         [Test]
         public void TestSelectValueByValueInSimpleSelect()
         {
@@ -50,8 +52,13 @@ namespace SKBKontur.SeleniumTesting.Tests.SelectTests
     }
 
     [AutoFillControls]
-    public class SelectTestPage : ReactPage
+    public class SelectTestPage : PageBase
     {
+        public SelectTestPage(RemoteWebDriver webDriver)
+            : base(webDriver)
+        {
+        }
+
         public Select SimpleSelect { get; private set; }
         public Select SelectWithIdInValues { get; private set; }
     }

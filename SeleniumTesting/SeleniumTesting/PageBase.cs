@@ -9,7 +9,7 @@ using SKBKontur.SeleniumTesting.Internals;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class PageBase : ISearchContainer
+    public class PageBase : ISearchContainer, IRetailUiVersionProvider
     {
         public PageBase(RemoteWebDriver webDriver)
         {
@@ -91,23 +91,14 @@ namespace SKBKontur.SeleniumTesting
 
         public static TPage InitializePage<TPage>(RemoteWebDriver webDriver) where TPage : PageBase
         {
-            TPage page;
-            if(typeof(ReactPage).IsAssignableFrom(typeof(TPage)))
-            {
-                page = (TPage)Activator.CreateInstance(typeof(TPage));
-                if(page == null)
-                    throw new InvalidOperationException("Page cannot be null");
-                // ReSharper disable once PossibleNullReferenceException
-                (page as ReactPage).SetRemoteWebDriver(webDriver);
-            }
-            else
-            {
-                page = (TPage)Activator.CreateInstance(typeof(TPage), webDriver);
-                if(page == null)
-                    throw new InvalidOperationException("Page cannot be null");
-            }
+            TPage page = (TPage)Activator.CreateInstance(typeof(TPage), webDriver);
             page.WaitLoaded();
             return page;
+        }
+
+        public string GetRetailUiVersion()
+        {
+            return ExecuteScript("return window.__RETAIL_UI_VERSION__ || ''") as string;
         }
 
         protected internal RemoteWebDriver webDriver;

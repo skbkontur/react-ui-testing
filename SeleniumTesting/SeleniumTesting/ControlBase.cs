@@ -12,8 +12,10 @@ using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
-using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Context;
+using SKBKontur.SeleniumTesting.Internals;
+
+using Waiter = SKBKontur.SeleniumTesting.Assertions.Waiter;
 
 namespace SKBKontur.SeleniumTesting
 {
@@ -215,6 +217,17 @@ namespace SKBKontur.SeleniumTesting
         public string GetControlTypeDesription()
         {
             return GetType().Name;
+        }
+
+        [CanBeNull]
+        protected string GetRetailUiVersion()
+        {
+            return (GetRootContainer() as IRetailUiVersionProvider)?.GetRetailUiVersion();
+        }
+
+        protected bool IsRetailUiVersionSatisfy(string expectedRange)
+        {
+            return GetRetailUiVersion().IsVersionSatisfy(expectedRange);
         }
 
         private IWebElement cachedContext;

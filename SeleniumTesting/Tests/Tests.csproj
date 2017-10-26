@@ -75,6 +75,7 @@
     <Compile Include="RadioGroupTests\RadioGroupTestPage.cs" />
     <Compile Include="RadioTests\RadioTest.cs" />
     <Compile Include="RadioTests\RadioTestPage.cs" />
+    <Compile Include="SatisfyTest.cs" />
     <Compile Include="SelectTests\SelectTest.cs" />
     <Compile Include="ComboBoxTests\ComboBoxesTestPage.cs" />
     <Compile Include="InputTests\InputTestPage.cs" />

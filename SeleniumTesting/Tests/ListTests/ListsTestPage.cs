@@ -1,11 +1,18 @@
-﻿using SKBKontur.SeleniumTesting.Controls;
+﻿using OpenQA.Selenium.Remote;
+
+using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
 namespace SKBKontur.SeleniumTesting.Tests.ListTests
 {
     [AutoFillControls]
-    public class ListsTestPage : ReactPage
+    public class ListsTestPage : PageBase
     {
+        public ListsTestPage(RemoteWebDriver webDriver)
+            : base(webDriver)
+        {
+        }
+
         [ChildSelector("Input")]
         public ControlList<Input> InputWithoutTidList { get; set; }
 

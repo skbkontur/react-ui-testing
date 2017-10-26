@@ -1,11 +1,18 @@
+﻿using OpenQA.Selenium.Remote;
+
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
 namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
 {
     [AutoFillControls]
-    public class ExposeTidToDomTestPage : ReactPage
+    public class ExposeTidToDomTestPage : PageBase
     {
+        public ExposeTidToDomTestPage(RemoteWebDriver webDriver)
+            : base(webDriver)
+        {
+        }
+
         public SameDomElementCase SameDomElementCase { get; private set; }
         public SameDomElementCase SameDomElementWithKeyCase { get; private set; }
         public SameDomElementCase ChangeDataTidCase { get; private set; }
@@ -32,6 +39,11 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
     [AutoFillControls]
     public class SimpleTable : CompoundControl
     {
+        public SimpleTable(ISearchContainer container, ISelector selector)
+            : base(container, selector)
+        {
+        }
+
         public Label Header1 { get; private set; }
         public Label Header2 { get; private set; }
         public Label Footer1 { get; private set; }
@@ -39,11 +51,6 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
 
         [ChildSelector("##Row")]
         public ControlList<Row> Rows { get; private set; }
-
-        public SimpleTable(ISearchContainer container, ISelector selector)
-            : base(container, selector)
-        {
-        }
     }
 
     [AutoFillControls]
@@ -69,7 +76,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         public Label NestingComponentsContainer { get; private set; }
         public Button SwitchState { get; private set; }
     }
-    
+
     [AutoFillControls]
     public class DoubleNestingComponentsCase : CompoundControl
     {
@@ -91,7 +98,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
 
         public Button SwitchState { get; private set; }
     }
-    
+
     [AutoFillControls]
     public class NestingDomElementsCase : CompoundControl
     {

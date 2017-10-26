@@ -78,6 +78,7 @@ function createConfig(reactVersion, retailUIVersion, pairs) {
             new webpack.DefinePlugin({
                 'process.env.enableReactTesting': JSON.stringify(true),
                 'process.env.baseUrl': JSON.stringify('/' + reactVersion + '/' + retailUIVersion),
+                'process.env.retailUIVersion': JSON.stringify(retailUIVersion),
             }),
             new HtmlWebpackPlugin({
               filename: reactVersion + '/' + retailUIVersion + '/index.html',
