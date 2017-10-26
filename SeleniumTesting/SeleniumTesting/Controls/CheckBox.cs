@@ -5,7 +5,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public Checkbox(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-            Label = new Label(this, new UniversalSelector("span:nth-of-type(2)"));
+            Label = new Label(this, new UniversalSelector("*:nth-child(3)"));
         }
 
         public Label Label { get; private set; }
