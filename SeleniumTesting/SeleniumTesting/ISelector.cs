@@ -1,4 +1,4 @@
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting
 {

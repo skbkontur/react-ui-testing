@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;

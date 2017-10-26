@@ -1,4 +1,4 @@
-namespace SKBKontur.SeleniumTesting
+﻿namespace SKBKontur.SeleniumTesting
 {
     public interface IAndContraint<out T>
     {

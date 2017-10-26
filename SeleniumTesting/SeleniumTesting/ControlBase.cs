@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -117,16 +117,16 @@ namespace SKBKontur.SeleniumTesting
         private string GetZ(TimeSpan timeout, string actionDescription, Exception exception)
         {
             var result = new StringBuilder();
-            result.AppendLine(string.Format("{0}({1}): требовалось действие {2}, но", GetControlTypeDesription(), GetAbsolutePathBySelectors(), actionDescription));
+            result.AppendLine(string.Format("{0}({1}): С‚СЂРµР±РѕРІР°Р»РѕСЃСЊ РґРµР№СЃС‚РІРёРµ {2}, РЅРѕ", GetControlTypeDesription(), GetAbsolutePathBySelectors(), actionDescription));
             if(exception is ElementNotFoundException)
             {
                 var notFountException = exception as ElementNotFoundException;
-                result.AppendLine(string.Format("  не смогли долждаться присутсвия элемента: {0}({1})", notFountException.Control.GetControlTypeDesription(), notFountException.Control.GetAbsolutePathBySelectors()));
-                result.AppendLine(string.Format("Время ожидания: {0}.", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
+                result.AppendLine(string.Format("  РЅРµ СЃРјРѕРіР»Рё РґРѕР»Р¶РґР°С‚СЊСЃСЏ РїСЂРёСЃСѓС‚СЃРІРёСЏ СЌР»РµРјРµРЅС‚Р°: {0}({1})", notFountException.Control.GetControlTypeDesription(), notFountException.Control.GetAbsolutePathBySelectors()));
+                result.AppendLine(string.Format("Р’СЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ: {0}.", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
             }
             else
             {
-                result.AppendLine(string.Format("  не смогли долждаться присутсвия элемента (время ожидания: {0}), т.к. было получено исключение:", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
+                result.AppendLine(string.Format("  РЅРµ СЃРјРѕРіР»Рё РґРѕР¶РґР°С‚СЊСЃСЏ РїСЂРёСЃСѓС‚СЃРІРёСЏ СЌР»РµРјРµРЅС‚Р° (РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ: {0}), С‚.Рє. Р±С‹Р»Рѕ РїРѕР»СѓС‡РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ:", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
                 result.AppendLine(exception.ToString());
             }
             return result.ToString();
