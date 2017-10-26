@@ -67,6 +67,19 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         }
         
         [Test]
+        public void TestDoubleNestingComponentsSelectByComponentName()
+        {
+            page.DoubleNestingComponentsCase.DoubleNestingContainer
+                .ExpectTo().BePresent().And
+                .Text.EqualTo("Вложение 1");
+            page.DoubleNestingComponentsCase.SwitchState.Click();
+            page.DoubleNestingComponentsCase.SwitchState.Click();
+            page.DoubleNestingComponentsCase.NestingContainer.ExpectTo().BePresent();
+            page.DoubleNestingComponentsCase.NestedComp1.ExpectTo().BePresent();
+            page.DoubleNestingComponentsCase.NestedComp2.ExpectTo().BeAbsent();
+        }
+        
+        [Test]
         public void TestTable()
         {
             page.SimpleTable.Header1.ExpectTo().Text.EqualTo("Header 1");

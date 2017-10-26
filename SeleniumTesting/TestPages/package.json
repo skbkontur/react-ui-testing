@@ -8,6 +8,8 @@
     "start": "webpack-dev-server -w -d"
   },
   "dependencies": {
+    "prop-types": "latest",
+    "@types/react": "latest",
     "babel-core": "^6.6.5",
     "babel-loader": "^6.2.4",
     "babel-polyfill": "^6.6.1",
@@ -22,10 +24,10 @@
     "less": "^2.6.1",
     "less-loader": "^2.2.2",
     "modify-babel-preset": "^1.2.0",
-    "react-router": "^3.0.2",
+    "react-router": "^3.2.0",
     "script-loader": "^0.6.1",
     "style-loader": "^0.13.0",
-    "styled-components": "^1.4.3",
+    "styled-components": "^2.2.2",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
   }

@@ -79,6 +79,16 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         }
 
         public Label DoubleNestingContainer { get; private set; }
+
+        [Selector("NestingContainer")]
+        public Label NestingContainer { get; private set; }
+
+        [Selector("NestedComp1")]
+        public Label NestedComp1 { get; private set; }
+
+        [Selector("NestedComp2")]
+        public Label NestedComp2 { get; private set; }
+
         public Button SwitchState { get; private set; }
     }
     

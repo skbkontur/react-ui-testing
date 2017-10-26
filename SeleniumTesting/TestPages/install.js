@@ -22,10 +22,10 @@ for (var i = 0; i < reactVersions.length; i++) {
 
         var libs = [
             "react@" + reactVersion,
-            "react-addons-css-transition-group@" + reactVersion,
-            "react-addons-test-utils@" + reactVersion,
+            "react-addons-css-transition-group@" + (reactVersion === "16.0.0" ? "15.6.2" : reactVersion),
+            "react-addons-test-utils@" + (reactVersion === "16.0.0" ? "15.6.2" : reactVersion),
             "react-dom@" + reactVersion,
-            "retail-ui@" + retailUiVersion,
+            "retail-ui@" + retailUiVersion
         ];
         
         var child = exec('npm install ' + libs.join(' '), { cwd: path.join(__dirname, targetDir) },
