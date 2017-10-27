@@ -1,7 +1,7 @@
 SET OutputDir=%~dp0Output
 SET Configuration=Release
 SET ILMergeExe=%~dp0Assemblies\ILMerge\ILMerge.exe
-SET MSBuildExe=%windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
+SET MSBuildExe="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
 SET NpmExe=npm
 
 pushd %~dp0
