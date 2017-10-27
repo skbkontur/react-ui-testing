@@ -17,5 +17,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
 
         [Selector("##SimpleComboBox"), ChildSelector("noscript:portal MenuItem")]
         public ControlList<Label> SimpleComboBoxItems { get; private set; }
+
+        public ComboBox ComboBoxNoPortal { get; private set; }
     }
 }

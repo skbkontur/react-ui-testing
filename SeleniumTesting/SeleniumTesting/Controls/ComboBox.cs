@@ -24,7 +24,9 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> z) where T : ControlBase
         {
-            return new ControlListBase<T>(portal, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z);
+            return GetReactProp<bool>("disablePortal") ?
+                       new ControlListBase<T>(container, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z) :
+                       new ControlListBase<T>(portal, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z);
         }
 
         public void InputTextAndSelectSingle(string inputText)
@@ -75,6 +77,10 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             try
             {
+                if (GetReactProp<bool>("disablePortal"))
+                {
+                    return container.Search(new BySelector(By.CssSelector("[data-comp-name=\'DropdownContainer\']")));
+                }
                 var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
                 var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));

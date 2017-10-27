@@ -60,6 +60,27 @@ export default class ComboBoxTestPage extends React.Component {
                         />
                     </Case.Body>
                 </Case>
+                <Case title='Комбобокс без портала'>
+                    <Case.Body>
+                        <ComboBox
+                            data-tid='ComboBoxNoPortal'
+                            disablePortal
+                            info={withDelay(1000, id => testItems.find(x => x.id === id))}
+                            value={this.state.simpleComboBoxValue}
+                            onChange={(e, value) => this.setState({ simpleComboBoxValue: value })}
+                            source={withDelay(1000, q => ({
+                                values: testItems.filter(x => x.value1.includes(q)).map(x => x.id),
+                                infos: testItems.filter(x => x.value1.includes(q)),
+                            }))}
+                            renderItem={(id, x) => x.value1}
+                            valueToString={id => {
+                                var item = testItems.find(x => x.id === id);
+                                return item ? item.value1 : '';
+                            }}
+                            renderValue={(id, x) => x && x.value1}
+                        />
+                    </Case.Body>
+                </Case>
            </CaseSuite>
         );
     }

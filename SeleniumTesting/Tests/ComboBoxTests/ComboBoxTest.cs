@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+
+using NUnit.Framework;
 
 namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
 {
@@ -38,6 +40,14 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         {
             page.SimpleComboBox.Click();
             page.SimpleComboBoxItems.ExpectTo().HaveCount(17);
+        }
+
+        [Test]
+        public void Test_ComboBox_DisablePortal()
+        {
+            page.ComboBoxNoPortal.Click();
+            page.ComboBoxNoPortal.GetResults().Count.Should().Be(17);
+            page.ComboBoxNoPortal.InputTextAndSelectSingle("Item 1");
         }
 
         private ComboBoxesTestPage page;
