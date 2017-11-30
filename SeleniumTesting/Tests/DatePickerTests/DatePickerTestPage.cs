@@ -14,5 +14,7 @@ namespace SKBKontur.SeleniumTesting.Tests.DatePickerTests
         }
 
         public DatePicker SimpleDatePicker { get; private set; }
+        public DatePicker FilledDatePicker { get; private set; }
+        public DatePicker DisabledDatePicker { get; private set; }
     }
 }
