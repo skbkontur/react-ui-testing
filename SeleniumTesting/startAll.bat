@@ -1,7 +1,10 @@
+cd /d %~dp0
 
 pushd .\Assemblies\WebDriver
 start "Selenium" cycle.bat
 popd
+
+call npm install
 
 pushd TestPages
 call npm install
