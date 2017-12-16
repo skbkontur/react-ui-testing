@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -13,8 +13,8 @@ namespace SKBKontur.SeleniumTesting
         {
             return context.Satisfy(
                 values.Contains,
-                "ожидалось одним из",
-                "ожидалось не одним из",
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РѕРґРЅРёРј РёР·",
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РЅРµ РѕРґРЅРёРј РёР·",
                 Helpers.FormatStringValues(values, 2));
         }
 
@@ -23,8 +23,8 @@ namespace SKBKontur.SeleniumTesting
             var regex = MatchStringToRegex(matchString);
             return context.Satisfy(
                 x => regex.IsMatch(x),
-                "ожидалось подходящим под шаблон",
-                "ожидалось не подходящим под шаблон",
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РїРѕРґС…РѕРґСЏС‰РёРј РїРѕРґ С€Р°Р±Р»РѕРЅ",
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РЅРµ РїРѕРґС…РѕРґСЏС‰РёРј РїРѕРґ С€Р°Р±Р»РѕРЅ",
                 Helpers.FormatStringValue(matchString));
         }
         
@@ -32,8 +32,8 @@ namespace SKBKontur.SeleniumTesting
         {
             return context.Satisfy(
                 x => x.StartsWith(startString),
-                "ожидалось начинающимся с",
-                "ожидалось не начинающимся с",
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РЅР°С‡РёРЅР°СЋС‰РёРјСЃСЏ СЃ",
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РЅРµ РЅР°С‡РёРЅР°СЋС‰РёРјСЃСЏ СЃ",
                 Helpers.FormatStringValue(startString));
         }
 
@@ -52,16 +52,16 @@ namespace SKBKontur.SeleniumTesting
         {
             return context.Satisfy(
                 x => x.Length == expectedLength,
-                string.Format("ожидалось, что будет иметь длину {0}", expectedLength),
-                string.Format("ожидалось, что не будет иметь длину {0}", expectedLength));
+                $"РѕР¶РёРґР°Р»РѕСЃСЊ, С‡С‚Рѕ Р±СѓРґРµС‚ РёРјРµС‚СЊ РґР»РёРЅСѓ {expectedLength}",
+                $"РѕР¶РёРґР°Р»РѕСЃСЊ, С‡С‚Рѕ РЅРµ Р±СѓРґРµС‚ РёРјРµС‚СЊ РґР»РёРЅСѓ {expectedLength}");
         }
 
         public static IAndContraint<IPropertyControlContext<string>> BeEmpty(this IPropertyControlContext<string> context)
         {
             return context.Satisfy(
                 x => x == "",
-                "ожидалось пустым",
-                "ожидалось непустым");
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РїСѓСЃС‚С‹Рј",
+                "РѕР¶РёРґР°Р»РѕСЃСЊ РЅРµРїСѓСЃС‚С‹Рј");
         }
 
         public static IAndContraint<IPropertyControlContext<string>> EqualTo(this IPropertyControlContext<string> context, string value)
@@ -71,7 +71,7 @@ namespace SKBKontur.SeleniumTesting
 
         public static IAndContraint<IPropertyControlContext<int>> GreaterThan(this IPropertyControlContext<int> context, int value)
         {
-            return context.ExecuteAssert(x => x > value, m => m.WithExpectation(new CustomMessageExpectation(string.Format("ожидалось больше чем {0}", value))));
+            return context.ExecuteAssert(x => x > value, m => m.WithExpectation(new CustomMessageExpectation($"РѕР¶РёРґР°Р»РѕСЃСЊ Р±РѕР»СЊС€Рµ С‡РµРј {value}")));
         }
 
         public static IAndContraint<IPropertyControlContext<string>> Satisfy(

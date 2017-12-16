@@ -17,7 +17,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 {
                     var inputElement = GetInputElement(x);
                     inputElement.SendKeys(keys);
-                }, string.Format("AppendText({0})", keys));
+                }, $"AppendText({keys})");
         }
 
         public void ClearAndInputText([NotNull] string text)
@@ -29,7 +29,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                         inputElement.Clear();
                         inputElement.SendKeys(text);
                     },
-                string.Format("InputText({0})", text));
+                $"InputText({text})");
         }
 
         private static IWebElement GetInputElement(IWebElement x)
@@ -53,18 +53,13 @@ namespace SKBKontur.SeleniumTesting.Controls
                 "Clear");
         }
 
-        public string Value
-        {
-            get
-            {
-                return GetValueFromElement(x =>
-                    {
-                        var inputElement = GetInputElement(x);
-                        return ExecuteScript("return arguments[0].value", inputElement) as string;
-                    });
-            }
-        }
+        public IControlProperty<string> Value =>
+            ValueFromElement(x =>
+                {
+                    var inputElement = GetInputElement(x);
+                    return ExecuteScript("return arguments[0].value", inputElement) as string;
+                });
 
-        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
+        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled", null);
     }
 }

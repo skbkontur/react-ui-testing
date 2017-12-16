@@ -1,4 +1,4 @@
-using System.Text;
+п»їusing System.Text;
 
 namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
 {
@@ -12,10 +12,10 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
         public void Format(StringBuilder result, ActualContainer actualValues, bool negation)
         {
             if(value)
-                result.Append(negation ? "ожидалось ложным" : "ожидалось истиным");
+                result.Append(negation ? "РѕР¶РёРґР°Р»РѕСЃСЊ Р»РѕР¶РЅС‹Рј" : "РѕР¶РёРґР°Р»РѕСЃСЊ РёСЃС‚РёРЅС‹Рј");
             else
-                result.Append(negation ? "ожидалось истиным" : "ожидалось ложным");
-            result.Append(string.Format(@", но {0}", Helpers.FormatActualValues(actualValues)));
+                result.Append(negation ? "РѕР¶РёРґР°Р»РѕСЃСЊ РёСЃС‚РёРЅС‹Рј" : "РѕР¶РёРґР°Р»РѕСЃСЊ Р»РѕР¶РЅС‹Рј");
+            result.Append($@", РЅРѕ {Helpers.FormatActualValues(actualValues)}");
         }
 
         private readonly bool value;

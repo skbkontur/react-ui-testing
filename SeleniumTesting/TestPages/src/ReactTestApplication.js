@@ -18,6 +18,18 @@ import TextAreaTestPage from './components/TestPages/TextAreaTestPage';
 import TooltipTestPage from './components/TestPages/TooltipTestPage';
 import ExposeTidToDomTestPage from './components/TestPages/ExposeTidToDomTestPage';
 
+let KebabTestPage;
+if (process.env.hasKebab)
+    KebabTestPage = require('./components/TestPages/KebabTestPage').default;
+else
+    KebabTestPage = () => <div>Does not work</div>;
+
+let PagingTestPage;
+if (process.env.hasPaging)
+    PagingTestPage = require('./components/TestPages/PagingTestPage').default;
+else
+    PagingTestPage = () => <div>Does not work</div>;
+
 import './styles/reset.less';
 import './styles/typography.less';
 
@@ -40,6 +52,8 @@ export default function ReactTestApplication() {
                 <Route path='Textarea' component={TextAreaTestPage} />
                 <Route path='Tooltip' component={TooltipTestPage} />
                 <Route path='ExposeTidToDom' component={ExposeTidToDomTestPage} />
+                <Route path='Kebab' component={KebabTestPage} />
+                <Route path='Paging' component={PagingTestPage} />
             </Route>
         </Router>
     )

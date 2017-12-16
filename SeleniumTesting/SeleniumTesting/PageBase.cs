@@ -48,7 +48,7 @@ namespace SKBKontur.SeleniumTesting
             }
             catch(Exception ex)
             {
-                throw new Exception(string.Format("Can't execute script \"{0}\"", script), ex);
+                throw new Exception($"Can't execute script \"{script}\"", ex);
             }
         }
 
@@ -61,7 +61,7 @@ namespace SKBKontur.SeleniumTesting
         {
             var propertyInfos = GetType().GetProperties().Where(prop => prop.IsDefined(typeof(LoadingCompleteAttribute), false));
             var properties = propertyInfos.Select(x => x.GetValue(this)).OfType<ControlBase>().ToArray();
-            Waiter.Wait(() => properties.All(x => x.IsPresent), "Загрузка страницы");
+            Waiter.Wait(() => properties.All(x => x.IsPresentObsolete), "Загрузка страницы");
         }
 
         public string GetAbsolutePathBySelectors()

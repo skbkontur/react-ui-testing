@@ -74,26 +74,36 @@ namespace SKBKontur.SeleniumTesting.Assertions.Bases
             Subject.ExecuteAssert(condition, (x, m) => m.WithExpectation(expectationFormatterFactory(x)));
             return AndThis();
         }
+        
+        public PropertyControlContext<TControl, TProperty> HaveProperty<TProperty>(Func<TControl, IControlProperty<TProperty>> propertyPicker, string a)
+        {
+            return new PropertyControlContext<TControl, TProperty>(Subject, (x) => propertyPicker(x).Get(), a);
+        }
 
-        public PropertyControlContext<TControl, TProperty> HaveProperty<TProperty>(Expression<Func<TControl, TProperty>> propertyPicker, string a)
+        public PropertyControlContext<TControl, TProperty> HaveProperty<TProperty>(Func<TControl, TProperty> propertyPicker, string a)
         {
             return new PropertyControlContext<TControl, TProperty>(Subject, propertyPicker, a);
         }
 
-        public PropertyControlContext<TControl, TProperty> HaveComplexProperty<TProperty>(Expression<Func<TControl, TProperty>> propertyPicker, string a)
+        public PropertyControlContext<TControl, TProperty> HaveComplexProperty<TProperty>(Func<TControl, TProperty> propertyPicker, string a)
         {
             return new PropertyControlContext<TControl, TProperty>(Subject, propertyPicker, a);
+        }
+
+        public PropertyControlContext<TControl, TProperty> HaveComplexProperty<TProperty>(Func<TControl, IControlProperty<TProperty>> propertyPicker, string a)
+        {
+            return new PropertyControlContext<TControl, TProperty>(Subject, (x) => propertyPicker(x).Get(), a);
         }
 
         public IAndContraint<TAssertions> BePresent()
         {
-            Subject.ExecuteAssert(x => x.IsPresent, (x, u) => u.WithExpectation(new PresenseExpectation()));
+            Subject.ExecuteAssert(x => x.IsPresentObsolete, (x, u) => u.WithExpectation(new PresenseExpectation()));
             return AndThis();
         }
 
         public IAndContraint<TAssertions> BeAbsent()
         {
-            Subject.ExecuteAssert(x => !x.IsPresent, (x, u) => u.WithExpectation(new AbsentExpectation()));
+            Subject.ExecuteAssert(x => !x.IsPresentObsolete, (x, u) => u.WithExpectation(new AbsentExpectation()));
             return AndThis();
         }
         

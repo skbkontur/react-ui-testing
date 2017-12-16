@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -23,7 +23,7 @@ namespace SKBKontur.SeleniumTesting
         {
             var portalContainer = context.FindElement(portalSelector);
             var renderContainerId = portalContainer.GetAttribute("data-render-container-id");
-            var portal = GetGlobalContext(context).FindElement(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId)));
+            var portal = GetGlobalContext(context).FindElement(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']"));
             return portal.FindElement(afterPortalSelector);
         }
 
@@ -37,14 +37,14 @@ namespace SKBKontur.SeleniumTesting
             {
                 return context;
             }
-            throw new InvalidOperationException(string.Format("Cannot extract global context from object of type {0}", context.GetType().FullName));
+            throw new InvalidOperationException($"Cannot extract global context from object of type {context.GetType().FullName}");
         }
 
         public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
         {
             var portalContainer = context.FindElement(portalSelector);
             var renderContainerId = portalContainer.GetAttribute("data-render-container-id");
-            var portal = GetGlobalContext(context).FindElement(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId)));
+            var portal = GetGlobalContext(context).FindElement(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']"));
             return portal.FindElements(afterPortalSelector);
         }
     }
@@ -93,11 +93,11 @@ namespace SKBKontur.SeleniumTesting
                     var part = x.Value;
                     if(part.StartsWith("##"))
                     {
-                        return string.Format("[data-tid~='{0}']", part.Replace("##", "").Replace("(", "").Replace(")", ""));
+                        return $"[data-tid~='{part.Replace("##", "").Replace("(", "").Replace(")", "")}']";
                     }
                     if(IsComponentNameSelector(part))
                     {
-                        return string.Format("[data-comp-name~='{0}']", part);
+                        return $"[data-comp-name~='{part}']";
                     }
                     return part;
                 });

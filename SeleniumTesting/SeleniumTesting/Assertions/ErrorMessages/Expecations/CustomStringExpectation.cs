@@ -1,4 +1,4 @@
-using System.Text;
+ï»¿using System.Text;
 
 namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
 {
@@ -20,7 +20,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
                 result.Append(expectedValue);
             }
 
-            result.Append(string.Format(@", íî {0}", Helpers.FormatActualValues(actualValues)));
+            result.Append($@", Ð½Ð¾ {Helpers.FormatActualValues(actualValues)}");
         }
 
         private readonly string expectsText;

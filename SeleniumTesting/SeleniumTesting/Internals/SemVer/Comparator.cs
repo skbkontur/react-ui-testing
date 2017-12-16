@@ -19,12 +19,12 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public Comparator(string input)
         {
-            var regex = new Regex(String.Format("^{0}$", pattern),
+            var regex = new Regex($"^{pattern}$",
                     RegexOptions.IgnorePatternWhitespace);
             var match = regex.Match(input);
             if (!match.Success)
             {
-                throw new ArgumentException(String.Format("Invalid comparator string: {0}", input));
+                throw new ArgumentException($"Invalid comparator string: {input}");
             }
 
             ComparatorType = ParseComparatorType(match.Groups[1].Value);
@@ -100,7 +100,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public static Tuple<int, Comparator> TryParse(string input)
         {
-            var regex = new Regex(String.Format("^{0}", pattern),
+            var regex = new Regex($"^{pattern}",
                     RegexOptions.IgnorePatternWhitespace);
 
             var match = regex.Match(input);
@@ -128,7 +128,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 case (">="):
                     return Operator.GreaterThanOrEqual;
                 default:
-                    throw new ArgumentException(String.Format("Invalid comparator type: {0}", input));
+                    throw new ArgumentException($"Invalid comparator type: {input}");
             }
         }
 
@@ -183,7 +183,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 default:
                     throw new InvalidOperationException("Comparator type not recognised.");
             }
-            return String.Format("{0}{1}", operatorString, Version);
+            return $"{operatorString}{Version}";
         }
 
         public bool Equals(Comparator other)

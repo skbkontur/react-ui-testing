@@ -35,8 +35,8 @@ namespace SKBKontur.SeleniumTesting.Controls
                 {
                     var items = GetReactProp<JArray>("items");
                     var index = items.ToList().FindIndex(x => ElementMatchToValue(id, x));
-                    element.FindElements(By.CssSelector(string.Format("[data-comp-name='{0}']", "Radio"))).ElementAt(index).Click();
-                }, string.Format("SelectItemById({0})", id));
+                    element.FindElements(By.CssSelector($"[data-comp-name='{"Radio"}']")).ElementAt(index).Click();
+                }, $"SelectItemById({id})");
         }
 
         private static bool ElementMatchToValue(object value, JToken x)
@@ -60,9 +60,9 @@ namespace SKBKontur.SeleniumTesting.Controls
             {
                 return value == null;
             }
-            return 
-                actualValue.Equals(value) || 
-                actualValue.ToString().Equals(value.ToString()) || 
+            return
+                actualValue.Equals(value) ||
+                actualValue.ToString().Equals(value.ToString()) ||
                 actualValue.ToString().ToLower().Equals(value.ToString().ToLower());
         }
 

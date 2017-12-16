@@ -1,6 +1,7 @@
 ﻿using System;
 
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 using SKBKontur.SeleniumTesting.Assertions.Context;
 
@@ -15,17 +16,17 @@ namespace SKBKontur.SeleniumTesting.Tests
 
         public override ActionTargets Targets { get { return ActionTargets.Test; } }
 
-        public override void BeforeTest(TestDetails testDetails)
+        public override void BeforeTest(ITest test)
         {
-            base.BeforeTest(testDetails);
+            base.BeforeTest(test);
             previousWaitInterval = AssertionsContext.GetDefaultWaitInterval();
             AssertionsContext.SetDefaultWaitInterval(defaultWaitInterval);
         }
 
-        public override void AfterTest(TestDetails testDetails)
+        public override void AfterTest(ITest test)
         {
             AssertionsContext.SetDefaultWaitInterval(previousWaitInterval);
-            base.AfterTest(testDetails);
+            base.AfterTest(test);
         }
 
         private readonly TimeSpan defaultWaitInterval;

@@ -1,4 +1,4 @@
-using SKBKontur.SeleniumTesting.Assertions.Bases;
+﻿using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
 namespace SKBKontur.SeleniumTesting
@@ -22,18 +22,18 @@ namespace SKBKontur.SeleniumTesting
 
         public IAndContraint<CheckBoxAssertions> BeDisabled()
         {
-            HaveProperty(x => x.IsDisabled, "disabled").BeTrue();
+            HaveProperty(x => x.IsDisabled.Get(), "disabled").BeTrue();
             return AndThis();
         }
 
         public IAndContraint<CheckBoxAssertions> BeEnabled()
         {
-            HaveProperty(x => x.IsDisabled, "disabled").BeFalse();
+            HaveProperty(x => x.IsDisabled.Get(), "disabled").BeFalse();
             return AndThis();
         }
 
-        public PropertyControlContext<Checkbox, bool> Checked { get { return HaveComplexProperty(x => x.IsChecked, "checked"); } }
+        public PropertyControlContext<Checkbox, bool> Checked { get { return HaveComplexProperty(x => x.IsChecked.Get(), "checked"); } }
 
-        public PropertyControlContext<Checkbox, bool> Disabled { get { return HaveComplexProperty(x => x.IsDisabled, "disabled"); } }
+        public PropertyControlContext<Checkbox, bool> Disabled { get { return HaveComplexProperty(x => x.IsDisabled.Get(), "disabled"); } }
     }
 }

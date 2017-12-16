@@ -1,6 +1,4 @@
-using JetBrains.Annotations;
-
-namespace SKBKontur.SeleniumTesting.Controls
+﻿namespace SKBKontur.SeleniumTesting.Controls
 {
     public class Link : ControlBase
     {
@@ -9,8 +7,8 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
-        public string Url { get { return GetValueFromElement(element => element.GetAttribute("href")); } }
-        public string Text { get { return GetValueFromElement(element => element.Text); } }
+        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled", null);
+        public IControlProperty<string> Url => ValueFromElement(element => element.GetAttribute("href"));
+        public IControlProperty<string> Text => ValueFromElement(element => element.Text);
     }
 }

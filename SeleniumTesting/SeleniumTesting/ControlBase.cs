@@ -52,7 +52,10 @@ namespace SKBKontur.SeleniumTesting
             return GetValueFromElement(x => x.GetAttribute(attributeName));
         }
 
-        public virtual bool IsPresent
+        public IControlProperty<bool> IsPresent => Property(() => IsPresentObsolete, "IsPresent");
+
+        [Obsolete]
+        public virtual bool IsPresentObsolete
         {
             get
             {
@@ -116,19 +119,32 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
+        public void Dangerously_WihtoutWaitForDisplayed_ExecuteAction([NotNull] Action<IWebElement> action)
+        {
+            try
+            {
+                action(GetNativeElement());
+            }
+            catch(StaleElementReferenceException)
+            {
+                ClearCachedElement();
+                action(GetNativeElement());
+            }
+        }
+
         private string GetZ(TimeSpan timeout, string actionDescription, Exception exception)
         {
             var result = new StringBuilder();
-            result.AppendLine(string.Format("{0}({1}): требовалось действие {2}, но", GetControlTypeDesription(), GetAbsolutePathBySelectors(), actionDescription));
+            result.AppendLine($"{GetControlTypeDesription()}({GetAbsolutePathBySelectors()}): требовалось действие {actionDescription}, но");
             if(exception is ElementNotFoundException)
             {
                 var notFountException = exception as ElementNotFoundException;
-                result.AppendLine(string.Format("  не смогли долждаться присутсвия элемента: {0}({1})", notFountException.Control.GetControlTypeDesription(), notFountException.Control.GetAbsolutePathBySelectors()));
-                result.AppendLine(string.Format("Время ожидания: {0}.", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
+                result.AppendLine($"  не смогли долждаться присутсвия элемента: {notFountException.Control.GetControlTypeDesription()}({notFountException.Control.GetAbsolutePathBySelectors()})");
+                result.AppendLine($"Время ожидания: {timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))}.");
             }
             else
             {
-                result.AppendLine(string.Format("  не смогли дождаться присутсвия элемента (время ожидания: {0}), т.к. было получено исключение:", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
+                result.AppendLine($"  не смогли дождаться присутсвия элемента (время ожидания: {timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))}), т.к. было получено исключение:");
                 result.AppendLine(exception.ToString());
             }
             return result.ToString();
@@ -141,7 +157,7 @@ namespace SKBKontur.SeleniumTesting
 
         protected T GetReactProp<T>(string propName)
         {
-            var propValue = GetValueFromElement(x => x.GetAttribute(string.Format("data-prop-{0}", propName)));
+            var propValue = GetValueFromElement(x => x.GetAttribute($"data-prop-{propName}"));
             if(typeof(T) == typeof(string))
             {
                 return (T)(object)propValue;
@@ -228,6 +244,36 @@ namespace SKBKontur.SeleniumTesting
         protected bool IsRetailUiVersionSatisfy(string expectedRange)
         {
             return GetRetailUiVersion().IsVersionSatisfy(expectedRange);
+        }
+
+        public string GetNameWithSelector()
+        {
+            return $"{GetControlTypeDesription()}({GetAbsolutePathBySelectors()})";
+        }
+
+        protected IControlProperty<string> TextProperty(string description = null)
+        {
+            return Property(() => GetValueFromElement(element => element.Text), description ?? "text");
+        }
+
+        protected IControlProperty<T> ValueFromElement<T>(Func<IWebElement, T> action, string description = null)
+        {
+            return Property(() => GetValueFromElement(action), description ?? "text");
+        }
+
+        protected IControlProperty<T> ReactProperty<T>(string property, string description = null)
+        {
+            return Property(() => GetReactProp<T>(property), description ?? $"ReactProperty: '{property}'");
+        }
+
+        protected IControlProperty<T> Property<T>(Func<T> property, string description)
+        {
+            return ControlProperty.Create(property, FormatDescription(description));
+        }
+
+        protected string FormatDescription(string description)
+        {
+            return $"{GetNameWithSelector()} {description}";
         }
 
         private IWebElement cachedContext;

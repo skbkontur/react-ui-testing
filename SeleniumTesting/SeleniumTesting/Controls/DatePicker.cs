@@ -16,7 +16,9 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteAction(x =>
                 {
                     var element = x.FindElement(By.CssSelector("input"));
-                    element.SendKeys(Keys.Control + "a");
+                    element.SendKeys(Keys.End);
+                    // Очень странная хрень. Очень редко код `element.SendKeys(Keys.Control + "a");` не срабатывает
+                    CreateWebDriverActions().SendKeys(Keys.Control + "a").Perform();
                     element.SendKeys(Keys.Backspace);
                     element.SendKeys(Keys.Tab);
                 }, "Clear");
@@ -32,7 +34,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                         element.SendKeys(text);
                         element.SendKeys(Keys.Tab);
                     },
-                string.Format("ClearAndInputText({0})", text)
+                $"ClearAndInputText({text})"
                 );
         }
 
@@ -46,11 +48,11 @@ namespace SKBKontur.SeleniumTesting.Controls
                         element.SendKeys(date.ToUniversalTime().ToString("dd.MM.yyyy"));
                         element.SendKeys(Keys.Tab);
                     },
-                string.Format("ClearAndInputDate({0})", date)
+                $"ClearAndInputDate({date})"
                 );
         }
 
-        public string Value { get { return GetValueFromElement(x => container.ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string); } }
-         public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
-   }
+        public IControlProperty<string> Value => ValueFromElement(x => container.ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
+        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
+    }
 }

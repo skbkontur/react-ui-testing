@@ -18,7 +18,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                     var renderContainerId = x.GetAttribute("data-render-container-id");
                     try
                     {
-                        return container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));
+                        return container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
                     }
                     catch(NoSuchElementException)
                     {
@@ -27,7 +27,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 });
         }
 
-        public override bool IsPresent
+        public override bool IsPresentObsolete
         {
             get
             {
@@ -47,7 +47,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             return GetValueFromElement(x =>
                 {
                     var renderContainerId = x.GetAttribute("data-render-container-id");
-                    var portal = container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));
+                    var portal = container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
                     return portal.FindElement(selector.SeleniumBy);
                 });
         }

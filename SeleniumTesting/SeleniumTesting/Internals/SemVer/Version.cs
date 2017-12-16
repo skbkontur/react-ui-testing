@@ -82,7 +82,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             var match = regex.Match(input);
             if (!match.Success)
             {
-                throw new ArgumentException(String.Format("Invalid version string: {0}", input));
+                throw new ArgumentException($"Invalid version string: {input}");
             }
 
             _major = Int32.Parse(match.Groups[1].Value);
@@ -97,8 +97,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 var cleanedPreRelease = PreReleaseVersion.Clean(inputPreRelease);
                 if (!loose && inputPreRelease != cleanedPreRelease)
                 {
-                    throw new ArgumentException(String.Format(
-                        "Invalid pre-release version: {0}", inputPreRelease));
+                    throw new ArgumentException($"Invalid pre-release version: {inputPreRelease}");
                 }
                 _preRelease = cleanedPreRelease;
             }
@@ -153,12 +152,11 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         public string Clean()
         {
             var preReleaseString = PreRelease == null ? ""
-                                       : String.Format("-{0}", PreReleaseVersion.Clean(PreRelease));
+                                       : $"-{PreReleaseVersion.Clean(PreRelease)}";
             var buildString = Build == null ? ""
-                                  : String.Format("+{0}", Build);
+                                  : $"+{Build}";
 
-            return String.Format("{0}.{1}.{2}{3}{4}",
-                                 Major, Minor, Patch, preReleaseString, buildString);
+            return $"{Major}.{Minor}.{Patch}{preReleaseString}{buildString}";
         }
 
         /// <summary>

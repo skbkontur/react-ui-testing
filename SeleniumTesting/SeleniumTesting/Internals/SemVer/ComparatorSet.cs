@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -54,7 +54,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 if (position == iterStartPosition)
                 {
                     // Didn't manage to read any valid comparators
-                    throw new ArgumentException(String.Format("Invalid range specification: \"{0}\"", spec));
+                    throw new ArgumentException($"Invalid range specification: \"{spec}\"");
                 }
             }
         }

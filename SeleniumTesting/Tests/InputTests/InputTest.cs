@@ -169,7 +169,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         public void Test_CustomExpression_ErrorMessage()
         {
             Following
-                .Code(() => page.SimpleInput.ExpectTo().Satisfy(x => x.Value == "Blah", "ожидалось волшебство"))
+                .Code(() => page.SimpleInput.ExpectTo().Satisfy(x => x.Value.Get() == "Blah", "ожидалось волшебство"))
                 .ShouldThrow<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): ожидалось волшебство",

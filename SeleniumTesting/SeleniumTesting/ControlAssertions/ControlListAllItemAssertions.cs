@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages;
 using SKBKontur.SeleniumTesting.Controls;
@@ -30,8 +30,8 @@ namespace SKBKontur.SeleniumTesting
                     },
                 (x, me, z) =>
                     {
-                        me.WithListQuantifier(string.Format("‰Îˇ ‚ÒÂı {0}", x.GetRelativePathToItems()));
-                        if(!x.IsPresent)
+                        me.WithListQuantifier($"–¥–ª—è –≤—Å–µ—Ö {x.GetRelativePathToItems()}");
+                        if(!x.IsPresentObsolete)
                         {
                             messageBuilder(null, me, z);
                         }

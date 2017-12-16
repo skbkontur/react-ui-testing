@@ -1,6 +1,4 @@
-using SKBKontur.SeleniumTesting.Internals;
-
-namespace SKBKontur.SeleniumTesting.Controls
+﻿namespace SKBKontur.SeleniumTesting.Controls
 {
     public class Checkbox : ControlBase
     {
@@ -12,8 +10,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public Label Label { get; private set; }
 
-        public bool IsChecked { get { return GetReactProp<bool>("checked"); } }
-
-        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
+        public IControlProperty<bool> IsChecked => ReactProperty<bool>("checked");
+        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
     }
 }

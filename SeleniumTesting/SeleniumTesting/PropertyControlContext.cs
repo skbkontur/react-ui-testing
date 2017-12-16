@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq.Expressions;
 
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages;
@@ -9,14 +9,13 @@ namespace SKBKontur.SeleniumTesting
     {
         public PropertyControlContext(
             IAssertable<TControl> subject,
-            Expression<Func<TControl, T>> propertyPicker,
+            Func<TControl, T> propertyPicker,
             string target
             )
         {
             this.subject = subject;
-            this.propertyPicker = propertyPicker;
             this.target = target;
-            this.compiledPropertyPicker = propertyPicker.Compile();
+            this.compiledPropertyPicker = propertyPicker;
         }
 
         public PropertyControlContext<TControl, T> Not()
@@ -34,7 +33,7 @@ namespace SKBKontur.SeleniumTesting
                     (x, m) =>
                         {
                             var result = messageBuilder(m).WithNegation().WithPropertyDescription(target);
-                            if(x != null && x.IsPresent)
+                            if(x != null && x.IsPresentObsolete)
                                 result.WithActual(compiledPropertyPicker(x).ToString());
                             return result;
                         }
@@ -46,7 +45,7 @@ namespace SKBKontur.SeleniumTesting
                 (x, m) =>
                     {
                         var result = messageBuilder(m).WithPropertyDescription(target);
-                        if(x != null && x.IsPresent)
+                        if(x != null && x.IsPresentObsolete)
                         {
                             var value = compiledPropertyPicker(x);
                             var valueAsString = value != null ? value.ToString() : "<null>";

@@ -9,3 +9,16 @@ npm-debug.log
 [Oo]bj/
 SeleniumTesting/Output/
 .screenshots
+
+_ReSharper*
+
+.vs/
+*.suo
+*.csproj.user
+*.orig
+
+desktop.ini
+
+packages
+!packages/repositories.config
+

@@ -27,7 +27,7 @@ namespace SKBKontur.SeleniumTesting
             }
             catch(Exception ex)
             {
-                throw new Exception(string.Format("Can't open page with url={0}\r\n", url) + ex.Message);
+                throw new Exception($"Can't open page with url={url}\r\n" + ex.Message);
             }
         }
 
@@ -133,7 +133,7 @@ namespace SKBKontur.SeleniumTesting
         {
             if(relativeUrl.StartsWith("http://") || relativeUrl.StartsWith("https://"))
                 return relativeUrl;
-            return string.Format("http://{0}:{1}/{2}/", defaultDomain, defaultPort, relativeUrl);
+            return $"http://{defaultDomain}:{defaultPort}/{relativeUrl}/";
         }
 
         private RemoteWebDriverForAccessToProtected webDriver;

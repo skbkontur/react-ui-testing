@@ -32,7 +32,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             Click();
             var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
             controlList.ExpectTo().BePresent();
-            controlList.First(x => x.Text == text).Click();
+            controlList.First(x => x.TextObsolete == text).Click();
         }
 
         public void SelectValueByValue(object value)
@@ -66,20 +66,20 @@ namespace SKBKontur.SeleniumTesting.Controls
             {
                 return value == null;
             }
-            return 
-                actualValue.Equals(value) || 
-                actualValue.ToString().Equals(value.ToString()) || 
+            return
+                actualValue.Equals(value) ||
+                actualValue.ToString().Equals(value.ToString()) ||
                 actualValue.ToString().ToLower().Equals(value.ToString().ToLower());
         }
 
-        public string SelectedValueText { get { return GetValueFromElement(x => x.Text); } }
-        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
+        public IControlProperty<string> SelectedValueText => ValueFromElement(x => x.Text);
+        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled", null);
 
         [NotNull]
         public List<string> GetItems()
         {
             return GetReactProp<string[]>("items").ToList();
-            //return ExecuteOnElement(x => x.FindElements(By.CssSelector("[data-comp-name='MenuItem']"))).Select(x => x.Text).ToList();
+            //return ExecuteOnElement(x => x.FindElements(By.CssSelector("[data-comp-name='MenuItem']"))).Select(x => x.TextObsolete).ToList();
         }
 
         [CanBeNull]
@@ -105,7 +105,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             {
                 var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
-                var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));
+                var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
                 return renderContainer;
             }
             catch
@@ -120,12 +120,12 @@ namespace SKBKontur.SeleniumTesting.Controls
                 {
                     x.Click();
                     var renderContainer = GetRenderContainer();
-                    renderContainer.FindElements(By.CssSelector(string.Format("[data-comp-name='{0}']", "MenuItem")))
+                    renderContainer.FindElements(By.CssSelector($"[data-comp-name='{"MenuItem"}']"))
                                    .Skip(index)
                                    .FirstOrDefault()
                                    .Click();
                 },
-                                          string.Format("SelectItemByIndex({0})", index));
+                          $"SelectItemByIndex({index})");
         }
 
         private readonly Portal portal;

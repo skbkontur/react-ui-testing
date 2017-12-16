@@ -1,3 +1,5 @@
+﻿using System;
+
 using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Controls;
 
@@ -105,6 +107,7 @@ namespace SKBKontur.SeleniumTesting
             return new ControlBaseAssertions(input);
         }
 
+        [Obsolete]
         public static ControlListAssertions<TItem> ExpectTo<TItem>(this ControlListBase<TItem> input) where TItem : ControlBase
         {
             return new ControlListAssertions<TItem>(new SingleItemAssertable<ControlListBase<TItem>>(input));

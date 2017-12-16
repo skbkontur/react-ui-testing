@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 using OpenQA.Selenium;
 
@@ -16,7 +16,7 @@ namespace SKBKontur.SeleniumTesting.Internals.Selectors
         {
             var elements = by.FindElements(context);
             if(index < 0 || index >= elements.Count)
-                throw new NoSuchElementException(string.Format("Element with by '{0}' and index '{1}' not found (actual count='{2}')", by, index, elements.Count));
+                throw new NoSuchElementException($"Element with by '{@by}' and index '{index}' not found (actual count='{elements.Count}')");
             return elements[index];
         }
 
@@ -30,7 +30,7 @@ namespace SKBKontur.SeleniumTesting.Internals.Selectors
 
         public override string ToString()
         {
-            return string.Format("ByNthOfBy: <{0}>[{1}]", by, index);
+            return $"ByNthOfBy: <{@by}>[{index}]";
         }
 
         private readonly By by;

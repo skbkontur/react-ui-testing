@@ -22,8 +22,10 @@ pushd SeleniumTesting\bin\%Configuration%
  Humanizer.resources.dll^
  ru\Humanizer.resources.dll^
  MoreLinq.dll^
- Newtonsoft.Json.dll
+ Newtonsoft.Json.dll^
+ Kontur.RetryableAssertions.dll
 
 popd
 
 popd
+
