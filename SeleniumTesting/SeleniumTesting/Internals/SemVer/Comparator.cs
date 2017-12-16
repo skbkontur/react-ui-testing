@@ -5,24 +5,12 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 {
     internal class Comparator : IEquatable<Comparator>
     {
-        public readonly Operator ComparatorType;
-
-        public readonly Version Version;
-
-        private const string pattern = @"
-            \s*
-            ([=<>]*)                # Comparator type (can be empty)
-            \s*
-            ([0-9a-zA-Z\-\+\.\*]+)  # Version (potentially partial version)
-            \s*
-            ";
-
         public Comparator(string input)
         {
             var regex = new Regex($"^{pattern}$",
-                    RegexOptions.IgnorePatternWhitespace);
+                                  RegexOptions.IgnorePatternWhitespace);
             var match = regex.Match(input);
-            if (!match.Success)
+            if(!match.Success)
             {
                 throw new ArgumentException($"Invalid comparator string: {input}");
             }
@@ -30,56 +18,56 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             ComparatorType = ParseComparatorType(match.Groups[1].Value);
             var partialVersion = new PartialVersion(match.Groups[2].Value);
 
-            if (!partialVersion.IsFull())
+            if(!partialVersion.IsFull())
             {
                 // For Operator.Equal, partial versions are handled by the StarRange
                 // desugarer, and desugar to multiple comparators.
 
-                switch (ComparatorType)
+                switch(ComparatorType)
                 {
-                    // For <= with a partial version, eg. <=1.2.x, this
-                    // means the same as < 1.3.0, and <=1.x means <2.0
-                    case Operator.LessThanOrEqual:
-                        ComparatorType = Operator.LessThan;
-                        if (!partialVersion.Major.HasValue)
-                        {
-                            // <=* means >=0.0.0
-                            ComparatorType = Operator.GreaterThanOrEqual;
-                            Version = new Version(0, 0, 0);
-                        }
-                        else if (!partialVersion.Minor.HasValue)
-                        {
-                            Version = new Version(partialVersion.Major.Value + 1, 0, 0);
-                        }
-                        else
-                        {
-                            Version = new Version(partialVersion.Major.Value, partialVersion.Minor.Value + 1, 0);
-                        }
-                        break;
-                    case Operator.GreaterThan:
+                // For <= with a partial version, eg. <=1.2.x, this
+                // means the same as < 1.3.0, and <=1.x means <2.0
+                case Operator.LessThanOrEqual:
+                    ComparatorType = Operator.LessThan;
+                    if(!partialVersion.Major.HasValue)
+                    {
+                        // <=* means >=0.0.0
                         ComparatorType = Operator.GreaterThanOrEqual;
-                        if (!partialVersion.Major.HasValue)
-                        {
-                            // >* is unsatisfiable, so use <0.0.0
-                            ComparatorType = Operator.LessThan;
-                            Version = new Version(0, 0, 0);
-                        }
-                        else if (!partialVersion.Minor.HasValue)
-                        {
-                            // eg. >1.x -> >=2.0
-                            Version = new Version(partialVersion.Major.Value + 1, 0, 0);
-                        }
-                        else
-                        {
-                            // eg. >1.2.x -> >=1.3
-                            Version = new Version(partialVersion.Major.Value, partialVersion.Minor.Value + 1, 0);
-                        }
-                        break;
-                    default:
-                        // <1.2.x means <1.2.0
-                        // >=1.2.x means >=1.2.0
-                        Version = partialVersion.ToZeroVersion();
-                        break;
+                        Version = new Version(0, 0, 0);
+                    }
+                    else if(!partialVersion.Minor.HasValue)
+                    {
+                        Version = new Version(partialVersion.Major.Value + 1, 0, 0);
+                    }
+                    else
+                    {
+                        Version = new Version(partialVersion.Major.Value, partialVersion.Minor.Value + 1, 0);
+                    }
+                    break;
+                case Operator.GreaterThan:
+                    ComparatorType = Operator.GreaterThanOrEqual;
+                    if(!partialVersion.Major.HasValue)
+                    {
+                        // >* is unsatisfiable, so use <0.0.0
+                        ComparatorType = Operator.LessThan;
+                        Version = new Version(0, 0, 0);
+                    }
+                    else if(!partialVersion.Minor.HasValue)
+                    {
+                        // eg. >1.x -> >=2.0
+                        Version = new Version(partialVersion.Major.Value + 1, 0, 0);
+                    }
+                    else
+                    {
+                        // eg. >1.2.x -> >=1.3
+                        Version = new Version(partialVersion.Major.Value, partialVersion.Minor.Value + 1, 0);
+                    }
+                    break;
+                default:
+                    // <1.2.x means <1.2.0
+                    // >=1.2.x means >=1.2.0
+                    Version = partialVersion.ToZeroVersion();
+                    break;
                 }
             }
             else
@@ -90,7 +78,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public Comparator(Operator comparatorType, Version comparatorVersion)
         {
-            if (comparatorVersion == null)
+            if(comparatorVersion == null)
             {
                 throw new NullReferenceException("Null comparator version");
             }
@@ -98,56 +86,64 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             Version = comparatorVersion;
         }
 
+        private const string pattern = @"
+            \s*
+            ([=<>]*)                # Comparator type (can be empty)
+            \s*
+            ([0-9a-zA-Z\-\+\.\*]+)  # Version (potentially partial version)
+            \s*
+            ";
+
         public static Tuple<int, Comparator> TryParse(string input)
         {
             var regex = new Regex($"^{pattern}",
-                    RegexOptions.IgnorePatternWhitespace);
+                                  RegexOptions.IgnorePatternWhitespace);
 
             var match = regex.Match(input);
 
             return match.Success ?
-                Tuple.Create(
-                    match.Length,
-                    new Comparator(match.Value))
-                : null;
+                       Tuple.Create(
+                           match.Length,
+                           new Comparator(match.Value))
+                       : null;
         }
 
         private static Operator ParseComparatorType(string input)
         {
-            switch (input)
+            switch(input)
             {
-                case (""):
-                case ("="):
-                    return Operator.Equal;
-                case ("<"):
-                    return Operator.LessThan;
-                case ("<="):
-                    return Operator.LessThanOrEqual;
-                case (">"):
-                    return Operator.GreaterThan;
-                case (">="):
-                    return Operator.GreaterThanOrEqual;
-                default:
-                    throw new ArgumentException($"Invalid comparator type: {input}");
+            case (""):
+            case ("="):
+                return Operator.Equal;
+            case ("<"):
+                return Operator.LessThan;
+            case ("<="):
+                return Operator.LessThanOrEqual;
+            case (">"):
+                return Operator.GreaterThan;
+            case (">="):
+                return Operator.GreaterThanOrEqual;
+            default:
+                throw new ArgumentException($"Invalid comparator type: {input}");
             }
         }
 
         public bool IsSatisfied(Version version)
         {
-            switch (ComparatorType)
+            switch(ComparatorType)
             {
-                case (Operator.Equal):
-                    return version == Version;
-                case (Operator.LessThan):
-                    return version < Version;
-                case (Operator.LessThanOrEqual):
-                    return version <= Version;
-                case (Operator.GreaterThan):
-                    return version > Version;
-                case (Operator.GreaterThanOrEqual):
-                    return version >= Version;
-                default:
-                    throw new InvalidOperationException("Comparator type not recognised.");
+            case (Operator.Equal):
+                return version == Version;
+            case (Operator.LessThan):
+                return version < Version;
+            case (Operator.LessThanOrEqual):
+                return version <= Version;
+            case (Operator.GreaterThan):
+                return version > Version;
+            case (Operator.GreaterThanOrEqual):
+                return version >= Version;
+            default:
+                throw new InvalidOperationException("Comparator type not recognised.");
             }
         }
 
@@ -163,32 +159,32 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         public override string ToString()
         {
             string operatorString = null;
-            switch (ComparatorType)
+            switch(ComparatorType)
             {
-                case (Operator.Equal):
-                    operatorString = "=";
-                    break;
-                case (Operator.LessThan):
-                    operatorString = "<";
-                    break;
-                case (Operator.LessThanOrEqual):
-                    operatorString = "<=";
-                    break;
-                case (Operator.GreaterThan):
-                    operatorString = ">";
-                    break;
-                case (Operator.GreaterThanOrEqual):
-                    operatorString = ">=";
-                    break;
-                default:
-                    throw new InvalidOperationException("Comparator type not recognised.");
+            case (Operator.Equal):
+                operatorString = "=";
+                break;
+            case (Operator.LessThan):
+                operatorString = "<";
+                break;
+            case (Operator.LessThanOrEqual):
+                operatorString = "<=";
+                break;
+            case (Operator.GreaterThan):
+                operatorString = ">";
+                break;
+            case (Operator.GreaterThanOrEqual):
+                operatorString = ">=";
+                break;
+            default:
+                throw new InvalidOperationException("Comparator type not recognised.");
             }
             return $"{operatorString}{Version}";
         }
 
         public bool Equals(Comparator other)
         {
-            if (ReferenceEquals(other, null))
+            if(ReferenceEquals(other, null))
             {
                 return false;
             }
@@ -204,5 +200,9 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         {
             return ToString().GetHashCode();
         }
+
+        public readonly Operator ComparatorType;
+
+        public readonly Version Version;
     }
 }

@@ -5,70 +5,12 @@ using System.Text.RegularExpressions;
 namespace SKBKontur.SeleniumTesting.Internals.SemVer
 {
     /// <summary>
-    /// A semantic version.
+    ///     A semantic version.
     /// </summary>
     internal class Version : IComparable<Version>, IEquatable<Version>
     {
-        private readonly string _inputString;
-        private readonly int _major;
-        private readonly int _minor;
-        private readonly int _patch;
-        private readonly string _preRelease;
-        private readonly string _build;
-
         /// <summary>
-        /// The major component of the version.
-        /// </summary>
-        public int Major { get { return _major; } }
-
-        /// <summary>
-        /// The minor component of the version.
-        /// </summary>
-        public int Minor { get { return _minor; } }
-
-        /// <summary>
-        /// The patch component of the version.
-        /// </summary>
-        public int Patch { get { return _patch; } }
-
-        /// <summary>
-        /// The pre-release string, or null for no pre-release version.
-        /// </summary>
-        public string PreRelease { get { return _preRelease; } }
-
-        /// <summary>
-        /// The build string, or null for no build version.
-        /// </summary>
-        public string Build { get { return _build; } }
-
-        private static Regex strictRegex = new Regex(@"^
-            \s*v?
-            (\d+)                     # major version
-            \.
-            (\d+)                     # minor version
-            \.
-            (\d+)                     # patch version
-            (\-([0-9A-Za-z\-\.]+))?   # pre-release version
-            (\+([0-9A-Za-z\-\.]+))?   # build metadata
-            \s*
-            $",
-                                                     RegexOptions.IgnorePatternWhitespace);
-
-        private static Regex looseRegex = new Regex(@"^
-            [v=\s]*
-            (\d+)                     # major version
-            \.
-            (\d+)                     # minor version
-            \.
-            (\d+)                     # patch version
-            (\-?([0-9A-Za-z\-\.]+))?  # pre-release version
-            (\+([0-9A-Za-z\-\.]+))?   # build metadata
-            \s*
-            $",
-                                                    RegexOptions.IgnorePatternWhitespace);
-
-        /// <summary>
-        /// Construct a new semantic version from a version string.
+        ///     Construct a new semantic version from a version string.
         /// </summary>
         /// <param name="input">The version string.</param>
         /// <param name="loose">When true, be more forgiving of some invalid version specifications.</param>
@@ -80,36 +22,36 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             var regex = loose ? looseRegex : strictRegex;
 
             var match = regex.Match(input);
-            if (!match.Success)
+            if(!match.Success)
             {
                 throw new ArgumentException($"Invalid version string: {input}");
             }
 
-            _major = Int32.Parse(match.Groups[1].Value);
+            Major = Int32.Parse(match.Groups[1].Value);
 
-            _minor = Int32.Parse(match.Groups[2].Value);
+            Minor = Int32.Parse(match.Groups[2].Value);
 
-            _patch = Int32.Parse(match.Groups[3].Value);
+            Patch = Int32.Parse(match.Groups[3].Value);
 
-            if (match.Groups[4].Success)
+            if(match.Groups[4].Success)
             {
                 var inputPreRelease = match.Groups[5].Value;
                 var cleanedPreRelease = PreReleaseVersion.Clean(inputPreRelease);
-                if (!loose && inputPreRelease != cleanedPreRelease)
+                if(!loose && inputPreRelease != cleanedPreRelease)
                 {
                     throw new ArgumentException($"Invalid pre-release version: {inputPreRelease}");
                 }
-                _preRelease = cleanedPreRelease;
+                PreRelease = cleanedPreRelease;
             }
 
-            if (match.Groups[6].Success)
+            if(match.Groups[6].Success)
             {
-                _build = match.Groups[7].Value;
+                Build = match.Groups[7].Value;
             }
         }
 
         /// <summary>
-        /// Construct a new semantic version from version components.
+        ///     Construct a new semantic version from version components.
         /// </summary>
         /// <param name="major">The major component of the version.</param>
         /// <param name="minor">The minor component of the version.</param>
@@ -119,15 +61,40 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         public Version(int major, int minor, int patch,
                        string preRelease = null, string build = null)
         {
-            _major = major;
-            _minor = minor;
-            _patch = patch;
-            _preRelease = preRelease;
-            _build = build;
+            Major = major;
+            Minor = minor;
+            Patch = patch;
+            PreRelease = preRelease;
+            Build = build;
         }
 
         /// <summary>
-        /// Returns this version without any pre-release or build version.
+        ///     The major component of the version.
+        /// </summary>
+        public int Major { get; }
+
+        /// <summary>
+        ///     The minor component of the version.
+        /// </summary>
+        public int Minor { get; }
+
+        /// <summary>
+        ///     The patch component of the version.
+        /// </summary>
+        public int Patch { get; }
+
+        /// <summary>
+        ///     The pre-release string, or null for no pre-release version.
+        /// </summary>
+        public string PreRelease { get; }
+
+        /// <summary>
+        ///     The build string, or null for no build version.
+        /// </summary>
+        public string Build { get; }
+
+        /// <summary>
+        ///     Returns this version without any pre-release or build version.
         /// </summary>
         /// <returns>The base version</returns>
         public Version BaseVersion()
@@ -136,8 +103,8 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         }
 
         /// <summary>
-        /// Returns the original input string the version was constructed from or
-        /// the cleaned version if the version was constructed from version components.
+        ///     Returns the original input string the version was constructed from or
+        ///     the cleaned version if the version was constructed from version components.
         /// </summary>
         /// <returns>The version string</returns>
         public override string ToString()
@@ -146,7 +113,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         }
 
         /// <summary>
-        /// Return a cleaned, normalised version string.
+        ///     Return a cleaned, normalised version string.
         /// </summary>
         /// <returns>The cleaned version string.</returns>
         public string Clean()
@@ -160,7 +127,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         }
 
         /// <summary>
-        /// Calculate a hash code for the version.
+        ///     Calculate a hash code for the version.
         /// </summary>
         public override int GetHashCode()
         {
@@ -168,13 +135,13 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             // as two versions with equal properties except for the build
             // are considered equal.
 
-            unchecked  // Allow integer overflow with wrapping
+            unchecked // Allow integer overflow with wrapping
             {
                 int hash = 17;
                 hash = hash * 23 + Major.GetHashCode();
                 hash = hash * 23 + Minor.GetHashCode();
                 hash = hash * 23 + Patch.GetHashCode();
-                if (PreRelease != null)
+                if(PreRelease != null)
                 {
                     hash = hash * 23 + PreRelease.GetHashCode();
                 }
@@ -184,13 +151,13 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         // Implement IEquatable<Version>
         /// <summary>
-        /// Test whether two versions are semantically equivalent.
+        ///     Test whether two versions are semantically equivalent.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
         public bool Equals(Version other)
         {
-            if (ReferenceEquals(other, null))
+            if(ReferenceEquals(other, null))
             {
                 return false;
             }
@@ -200,14 +167,14 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         // Implement IComparable<Version>
         public int CompareTo(Version other)
         {
-            if (ReferenceEquals(other, null))
+            if(ReferenceEquals(other, null))
             {
                 return 1;
             }
 
-            foreach (var c in PartComparisons(other))
+            foreach(var c in PartComparisons(other))
             {
-                if (c != 0)
+                if(c != 0)
                 {
                     return c;
                 }
@@ -230,7 +197,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public static bool operator ==(Version a, Version b)
         {
-            if (ReferenceEquals(a, null))
+            if(ReferenceEquals(a, null))
             {
                 return ReferenceEquals(b, null);
             }
@@ -244,7 +211,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public static bool operator >(Version a, Version b)
         {
-            if (ReferenceEquals(a, null))
+            if(ReferenceEquals(a, null))
             {
                 return false;
             }
@@ -253,7 +220,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public static bool operator >=(Version a, Version b)
         {
-            if (ReferenceEquals(a, null))
+            if(ReferenceEquals(a, null))
             {
                 return ReferenceEquals(b, null) ? true : false;
             }
@@ -262,7 +229,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public static bool operator <(Version a, Version b)
         {
-            if (ReferenceEquals(a, null))
+            if(ReferenceEquals(a, null))
             {
                 return ReferenceEquals(b, null) ? false : true;
             }
@@ -271,11 +238,39 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public static bool operator <=(Version a, Version b)
         {
-            if (ReferenceEquals(a, null))
+            if(ReferenceEquals(a, null))
             {
                 return true;
             }
             return a.CompareTo(b) <= 0;
         }
+
+        private readonly string _inputString;
+
+        private static readonly Regex strictRegex = new Regex(@"^
+            \s*v?
+            (\d+)                     # major version
+            \.
+            (\d+)                     # minor version
+            \.
+            (\d+)                     # patch version
+            (\-([0-9A-Za-z\-\.]+))?   # pre-release version
+            (\+([0-9A-Za-z\-\.]+))?   # build metadata
+            \s*
+            $",
+                                                              RegexOptions.IgnorePatternWhitespace);
+
+        private static readonly Regex looseRegex = new Regex(@"^
+            [v=\s]*
+            (\d+)                     # major version
+            \.
+            (\d+)                     # minor version
+            \.
+            (\d+)                     # patch version
+            (\-?([0-9A-Za-z\-\.]+))?  # pre-release version
+            (\+([0-9A-Za-z\-\.]+))?   # build metadata
+            \s*
+            $",
+                                                             RegexOptions.IgnorePatternWhitespace);
     }
 }

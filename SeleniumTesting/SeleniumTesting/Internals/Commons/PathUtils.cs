@@ -8,9 +8,9 @@ namespace SKBKontur.SeleniumTesting.Internals.Commons
         public static string FindContainingDirectory(string filename)
         {
             var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            while (!File.Exists(Path.Combine(currentDirectory, filename)))
+            while(!File.Exists(Path.Combine(currentDirectory, filename)))
             {
-                if (Directory.GetParent(currentDirectory) == null)
+                if(Directory.GetParent(currentDirectory) == null)
                     throw new Exception(string.Format("Cannot find directory containing {1}. Trying to find from: '{0}'", AppDomain.CurrentDomain.BaseDirectory, filename));
                 currentDirectory = Directory.GetParent(currentDirectory).FullName;
             }

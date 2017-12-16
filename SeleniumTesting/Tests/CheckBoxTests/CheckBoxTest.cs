@@ -29,7 +29,6 @@ namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
         public void TestLabelPresenceOnCheckboxWithLabel()
         {
             page.CheckboxWithLabel.Label.ExpectTo().BePresent().And.Text.EqualTo("Checkbox label");
-
         }
 
         [Test]
@@ -39,7 +38,7 @@ namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
             page.CheckboxToDisable.Label.Click();
             page.CheckboxWithDisabledState.ExpectTo().BeDisabled();
         }
-        
+
         [Test]
         public void TestCheckboxDisabledAndCheckedStates()
         {
@@ -51,17 +50,17 @@ namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
 
             page.CheckboxWithDisabledState.Click();
             page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeChecked();
-            
+
             page.CheckboxToDisable.Label.Click();
             page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeChecked();
-            
+
             page.CheckboxWithDisabledState.Click();
             page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeUnchecked();
-            
+
             page.CheckboxToDisable.Label.Click();
             page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeUnchecked();
         }
-        
+
         [Test]
         public void TestCheckboxDisabledNegative()
         {

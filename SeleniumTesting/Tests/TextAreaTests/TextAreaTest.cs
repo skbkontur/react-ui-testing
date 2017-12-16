@@ -30,7 +30,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TextAreaTests
             page.SimpleTextarea.ClearAndInputText("another-test");
             page.SimpleTextarea.ExpectTo().Value.EqualTo("another-test");
         }
-        
+
         [Test]
         public void TestClear()
         {

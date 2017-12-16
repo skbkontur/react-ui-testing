@@ -6,48 +6,23 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 {
     internal class PartialVersion
     {
-        public int? Major { get; set; }
-
-        public int? Minor { get; set; }
-
-        public int? Patch { get; set; }
-
-        public string PreRelease { get; set; }
-
-        private static Regex regex = new Regex(@"^
-                [v=\s]*
-                (\d+|[Xx\*])                      # major version
-                (
-                    \.
-                    (\d+|[Xx\*])                  # minor version
-                    (
-                        \.
-                        (\d+|[Xx\*])              # patch version
-                        (\-?([0-9A-Za-z\-\.]+))?  # pre-release version
-                        (\+([0-9A-Za-z\-\.]+))?   # build version (ignored)
-                    )?
-                )?
-                $",
-                                               RegexOptions.IgnorePatternWhitespace);
-
         public PartialVersion(string input)
         {
+            string[] xValues = {"X", "x", "*"};
 
-            string[] xValues = { "X", "x", "*" };
-
-            if (input.Trim() == "")
+            if(input.Trim() == "")
             {
                 // Empty input means any version
                 return;
             }
 
             var match = regex.Match(input);
-            if (!match.Success)
+            if(!match.Success)
             {
                 throw new ArgumentException($"Invalid version string: \"{input}\"");
             }
 
-            if (xValues.Contains(match.Groups[1].Value))
+            if(xValues.Contains(match.Groups[1].Value))
             {
                 Major = null;
             }
@@ -56,9 +31,9 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 Major = Int32.Parse(match.Groups[1].Value);
             }
 
-            if (match.Groups[2].Success)
+            if(match.Groups[2].Success)
             {
-                if (xValues.Contains(match.Groups[3].Value))
+                if(xValues.Contains(match.Groups[3].Value))
                 {
                     Minor = null;
                 }
@@ -68,9 +43,9 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 }
             }
 
-            if (match.Groups[4].Success)
+            if(match.Groups[4].Success)
             {
-                if (xValues.Contains(match.Groups[5].Value))
+                if(xValues.Contains(match.Groups[5].Value))
                 {
                     Patch = null;
                 }
@@ -80,11 +55,19 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 }
             }
 
-            if (match.Groups[6].Success)
+            if(match.Groups[6].Success)
             {
                 PreRelease = match.Groups[7].Value;
             }
         }
+
+        public int? Major { get; set; }
+
+        public int? Minor { get; set; }
+
+        public int? Patch { get; set; }
+
+        public string PreRelease { get; set; }
 
         public Version ToZeroVersion()
         {
@@ -99,5 +82,21 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         {
             return Major.HasValue && Minor.HasValue && Patch.HasValue;
         }
+
+        private static readonly Regex regex = new Regex(@"^
+                [v=\s]*
+                (\d+|[Xx\*])                      # major version
+                (
+                    \.
+                    (\d+|[Xx\*])                  # minor version
+                    (
+                        \.
+                        (\d+|[Xx\*])              # patch version
+                        (\-?([0-9A-Za-z\-\.]+))?  # pre-release version
+                        (\+([0-9A-Za-z\-\.]+))?   # build version (ignored)
+                    )?
+                )?
+                $",
+                                                        RegexOptions.IgnorePatternWhitespace);
     }
 }

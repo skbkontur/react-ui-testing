@@ -10,9 +10,6 @@ namespace SKBKontur.SeleniumTesting
 {
     public class ViaPortalBy : By
     {
-        private readonly By portalSelector;
-        private readonly By afterPortalSelector;
-
         public ViaPortalBy(By portalSelector, By afterPortalSelector)
         {
             this.portalSelector = portalSelector;
@@ -23,7 +20,7 @@ namespace SKBKontur.SeleniumTesting
         {
             var portalContainer = context.FindElement(portalSelector);
             var renderContainerId = portalContainer.GetAttribute("data-render-container-id");
-            var portal = GetGlobalContext(context).FindElement(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']"));
+            var portal = GetGlobalContext(context).FindElement(CssSelector($"[data-rendered-container-id='{renderContainerId}']"));
             return portal.FindElement(afterPortalSelector);
         }
 
@@ -44,11 +41,13 @@ namespace SKBKontur.SeleniumTesting
         {
             var portalContainer = context.FindElement(portalSelector);
             var renderContainerId = portalContainer.GetAttribute("data-render-container-id");
-            var portal = GetGlobalContext(context).FindElement(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']"));
+            var portal = GetGlobalContext(context).FindElement(CssSelector($"[data-rendered-container-id='{renderContainerId}']"));
             return portal.FindElements(afterPortalSelector);
         }
-    }
 
+        private readonly By portalSelector;
+        private readonly By afterPortalSelector;
+    }
 
     public class UniversalSelector : ISelector
     {
@@ -73,7 +72,7 @@ namespace SKBKontur.SeleniumTesting
                         By.CssSelector(ConvertUniversalSelectorToCssSelector(a[0])),
                         By.CssSelector(ConvertUniversalSelectorToCssSelector(a[1])));
                 }
-                if (selectorString == "::local")
+                if(selectorString == "::local")
                     return By.XPath(".");
                 return By.CssSelector(ConvertUniversalSelectorToCssSelector(selectorString));
             }

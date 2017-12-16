@@ -40,7 +40,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
             page.SimpleInput.ExpectTo().Value.EqualTo("");
             page.DisabledInput.ExpectTo().Value.EqualTo("");
         }
-        
+
         [Test]
         public void TestClearValue()
         {

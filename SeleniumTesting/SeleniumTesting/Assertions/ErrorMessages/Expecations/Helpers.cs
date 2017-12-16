@@ -36,7 +36,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
         {
             var result = new StringBuilder();
 
-            var prefix = new string(' ' , spacesBeforeEachLine);
+            var prefix = new string(' ', spacesBeforeEachLine);
             result.AppendLine(prefix + "[");
             foreach(var actualValue in actualValues)
             {

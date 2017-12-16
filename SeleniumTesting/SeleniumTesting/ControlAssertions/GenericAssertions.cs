@@ -1,4 +1,3 @@
-using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Bases;
 
 namespace SKBKontur.SeleniumTesting

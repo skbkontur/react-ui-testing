@@ -6,14 +6,12 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 {
     internal class ComparatorSet : IEquatable<ComparatorSet>
     {
-        private readonly List<Comparator> _comparators;
-
         public ComparatorSet(string spec)
         {
-            _comparators = new List<Comparator> { };
+            _comparators = new List<Comparator> {};
 
             spec = spec.Trim();
-            if (spec == "")
+            if(spec == "")
             {
                 spec = "*";
             }
@@ -21,22 +19,23 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             int position = 0;
             int end = spec.Length;
 
-            while (position < end)
+            while(position < end)
             {
                 int iterStartPosition = position;
 
                 // A comparator set might be an advanced range specifier
                 // like ~1.2.3, ^1.2, or 1.*.
                 // Check for these first before standard comparators:
-                foreach (var desugarer in new Func<string, Tuple<int, Comparator[]>>[] {
-                    Desugarer.HyphenRange,
-                    Desugarer.TildeRange,
-                    Desugarer.CaretRange,
-                    Desugarer.StarRange,
-                })
+                foreach(var desugarer in new Func<string, Tuple<int, Comparator[]>>[]
+                    {
+                        Desugarer.HyphenRange,
+                        Desugarer.TildeRange,
+                        Desugarer.CaretRange,
+                        Desugarer.StarRange,
+                    })
                 {
                     var result = desugarer(spec.Substring(position));
-                    if (result != null)
+                    if(result != null)
                     {
                         position += result.Item1;
                         _comparators.AddRange(result.Item2);
@@ -45,13 +44,13 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
                 // Check for standard comparator with operator and version:
                 var comparatorResult = Comparator.TryParse(spec.Substring(position));
-                if (comparatorResult != null)
+                if(comparatorResult != null)
                 {
                     position += comparatorResult.Item1;
                     _comparators.Add(comparatorResult.Item2);
                 }
 
-                if (position == iterStartPosition)
+                if(position == iterStartPosition)
                 {
                     // Didn't manage to read any valid comparators
                     throw new ArgumentException($"Invalid range specification: \"{spec}\"");
@@ -67,7 +66,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
         public bool IsSatisfied(Version version)
         {
             bool satisfied = _comparators.All(c => c.IsSatisfied(version));
-            if (version.PreRelease != null)
+            if(version.PreRelease != null)
             {
                 // If the version is a pre-release, then one of the
                 // comparators must have the same version and also include
@@ -98,7 +97,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 _comparators.Concat(other._comparators)
                             .Where(operatorIsLessThan)
                             .OrderBy(c => c.Version).FirstOrDefault();
-            if (maxOfMins != null && minOfMaxs != null && maxOfMins.Version > minOfMaxs.Version)
+            if(maxOfMins != null && minOfMaxs != null && maxOfMins.Version > minOfMaxs.Version)
             {
                 return null;
             }
@@ -109,20 +108,20 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                             .Where(c => c.ComparatorType == Comparator.Operator.Equal)
                             .Select(c => c.Version)
                             .ToList();
-            if (equalityVersions.Count > 1)
+            if(equalityVersions.Count > 1)
             {
-                if (equalityVersions.Any(v => v != equalityVersions[0]))
+                if(equalityVersions.Any(v => v != equalityVersions[0]))
                 {
                     return null;
                 }
             }
-            if (equalityVersions.Count > 0)
+            if(equalityVersions.Count > 0)
             {
-                if (maxOfMins != null && !maxOfMins.IsSatisfied(equalityVersions[0]))
+                if(maxOfMins != null && !maxOfMins.IsSatisfied(equalityVersions[0]))
                 {
                     return null;
                 }
-                if (minOfMaxs != null && !minOfMaxs.IsSatisfied(equalityVersions[0]))
+                if(minOfMaxs != null && !minOfMaxs.IsSatisfied(equalityVersions[0]))
                 {
                     return null;
                 }
@@ -134,11 +133,11 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             }
 
             var comparators = new List<Comparator>();
-            if (maxOfMins != null)
+            if(maxOfMins != null)
             {
                 comparators.Add(maxOfMins);
             }
-            if (minOfMaxs != null)
+            if(minOfMaxs != null)
             {
                 comparators.Add(minOfMaxs);
             }
@@ -148,7 +147,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
         public bool Equals(ComparatorSet other)
         {
-            if (ReferenceEquals(other, null))
+            if(ReferenceEquals(other, null))
             {
                 return false;
             }
@@ -172,5 +171,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             // of the order of comparators.
             return _comparators.Aggregate(0, (accum, next) => accum ^ next.GetHashCode());
         }
+
+        private readonly List<Comparator> _comparators;
     }
 }

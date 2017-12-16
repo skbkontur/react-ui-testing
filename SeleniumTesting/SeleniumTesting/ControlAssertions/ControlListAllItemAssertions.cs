@@ -47,12 +47,8 @@ namespace SKBKontur.SeleniumTesting
                 );
         }
 
-        private readonly IAssertable<ControlListBase<T>> subject;
+        public TimeSpan WaitInterval { get { return subject.WaitInterval; } set { subject.WaitInterval = value; } }
 
-        public TimeSpan WaitInterval
-        {
-            get { return subject.WaitInterval; }
-            set { subject.WaitInterval = value; }
-        }
+        private readonly IAssertable<ControlListBase<T>> subject;
     }
 }

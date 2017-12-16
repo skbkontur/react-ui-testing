@@ -27,7 +27,7 @@ namespace SKBKontur.SeleniumTesting
                 "ожидалось не подходящим под шаблон",
                 Helpers.FormatStringValue(matchString));
         }
-        
+
         public static IAndContraint<IPropertyControlContext<string>> StartWith(this IPropertyControlContext<string> context, string startString)
         {
             return context.Satisfy(

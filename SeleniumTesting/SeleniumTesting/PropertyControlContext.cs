@@ -51,7 +51,7 @@ namespace SKBKontur.SeleniumTesting
                             var valueAsString = value != null ? value.ToString() : "<null>";
                             result.WithActual(valueAsString);
                         }
-                            
+
                         return result;
                     }
                 );

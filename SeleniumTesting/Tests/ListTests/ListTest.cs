@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using FluentAssertions;
-
-using Kontur.RetryableAssertions.Extensions;
 
 using NUnit.Framework;
 
@@ -71,7 +68,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
             // control.Items.Wait().Single(x => x.Text.That(Is.EqualTo("expected")));
             // control.Items.Count.Wait().That(Is.EqualTo(9));
         }
-        
+
         [Test]
         public void Test1()
         {
@@ -86,22 +83,13 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         [Test]
         public void Test2()
         {
-            Following.CodeFails(() =>
-                {
-                    page.InputWithoutTidList.ExpectTo().During(TimeSpan.FromSeconds(1)).AllItems().ExpectTo().Satisfy(x =>
-                        {
-                            x.Value.Should().Be("value");
-                        }, "ожадалось значение 'value'");
-                });
+            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().During(TimeSpan.FromSeconds(1)).AllItems().ExpectTo().Satisfy(x => { x.Value.Should().Be("value"); }, "ожадалось значение 'value'"); });
         }
- 
+
         [Test]
         public void Test3()
         {
-            Following.CodeFails(() =>
-                {
-                    page.InputWithoutTidList.ExpectTo().ItemsAs(x => x.Value, x => x.ShouldAllBeEquivalentTo(new [] { "", "value", "value 2" }));
-                });            
+            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().ItemsAs(x => x.Value, x => x.ShouldAllBeEquivalentTo(new[] {"", "value", "value 2"})); });
         }
 
         [Test]
@@ -111,7 +99,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
             page.InputWithoutTidList.ExpectTo().ExecFluentAssertings(x =>
                 {
                     x.GetItems().Select(z => z.Value)
-                        .ShouldAllBeEquivalentTo(new [] { "", "wrong value 1", "", }, c => c.WithStrictOrdering());
+                     .ShouldAllBeEquivalentTo(new[] {"", "wrong value 1", "",}, c => c.WithStrictOrdering());
                 }, "Zzz");
         }
 

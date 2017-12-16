@@ -41,7 +41,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
                 .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 2");
         }
-        
+
         [Test]
         public void TestNestingDomElements()
         {
@@ -53,7 +53,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
                 .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 2");
         }
- 
+
         [Test]
         public void TestDoubleNestingComponents()
         {
@@ -65,7 +65,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
                 .ExpectTo().BePresent().And
                 .Text.EqualTo("Вложение 2");
         }
-        
+
         [Test]
         public void TestDoubleNestingComponentsSelectByComponentName()
         {
@@ -78,7 +78,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
             page.DoubleNestingComponentsCase.NestedComp1.ExpectTo().BePresent();
             page.DoubleNestingComponentsCase.NestedComp2.ExpectTo().BeAbsent();
         }
-        
+
         [Test]
         public void TestTable()
         {
@@ -91,7 +91,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
             page.SimpleTable.Footer1.ExpectTo().Text.EqualTo("Footer 1");
             page.SimpleTable.Footer2.ExpectTo().Text.EqualTo("Footer 2");
         }
-        
+
         [Test]
         public void TestFilterProps()
         {
@@ -118,7 +118,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
             changeStateCase.State1
                            .ExpectTo().BePresent().And
                            .Text.Contain("Состояние 1").And
-                                .Contain("Контент 1");
+                           .Contain("Контент 1");
             changeStateCase.State2.ExpectTo().BeAbsent();
 
             changeStateCase.SwitchState.Click();
@@ -127,7 +127,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
             changeStateCase.State2
                            .ExpectTo().BePresent().And
                            .Text.Contain("Состояние 2").And
-                                .Contain("Контент 2");
+                           .Contain("Контент 2");
         }
 
         private ExposeTidToDomTestPage page;

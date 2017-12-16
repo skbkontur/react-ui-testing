@@ -15,7 +15,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
             var regex = new Regex(pattern);
             var match = regex.Match(spec);
-            if (!match.Success)
+            if(!match.Success)
             {
                 return null;
             }
@@ -24,7 +24,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             Version maxVersion = null;
 
             var version = new PartialVersion(match.Groups[1].Value);
-            if (version.Minor.HasValue)
+            if(version.Minor.HasValue)
             {
                 // Doesn't matter whether patch version is null or not,
                 // the logic is the same, min patch version will be zero if null.
@@ -50,7 +50,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
             var regex = new Regex(pattern);
             var match = regex.Match(spec);
-            if (!match.Success)
+            if(!match.Success)
             {
                 return null;
             }
@@ -60,25 +60,25 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
             var version = new PartialVersion(match.Groups[1].Value);
 
-            if (version.Major.Value > 0)
+            if(version.Major.Value > 0)
             {
                 // Don't allow major version change
                 minVersion = version.ToZeroVersion();
                 maxVersion = new Version(version.Major.Value + 1, 0, 0);
             }
-            else if (!version.Minor.HasValue)
+            else if(!version.Minor.HasValue)
             {
                 // Don't allow major version change, even if it's zero
                 minVersion = version.ToZeroVersion();
                 maxVersion = new Version(version.Major.Value + 1, 0, 0);
             }
-            else if (!version.Patch.HasValue)
+            else if(!version.Patch.HasValue)
             {
                 // Don't allow minor version change, even if it's zero
                 minVersion = version.ToZeroVersion();
                 maxVersion = new Version(0, version.Minor.Value + 1, 0);
             }
-            else if (version.Minor > 0)
+            else if(version.Minor > 0)
             {
                 // Don't allow minor version change
                 minVersion = version.ToZeroVersion();
@@ -102,7 +102,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
 
             var regex = new Regex(pattern);
             var match = regex.Match(spec);
-            if (!match.Success)
+            if(!match.Success)
             {
                 return null;
             }
@@ -117,7 +117,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 minPartialVersion = new PartialVersion(match.Groups[1].Value);
                 maxPartialVersion = new PartialVersion(match.Groups[2].Value);
             }
-            catch (ArgumentException)
+            catch(ArgumentException)
             {
                 return null;
             }
@@ -131,16 +131,16 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             Version maxVersion = null;
 
             // Partial upper range means supplied version values can't change
-            if (!maxPartialVersion.Major.HasValue)
+            if(!maxPartialVersion.Major.HasValue)
             {
                 // eg. upper range = "*", then maxVersion remains null
                 // and there's only a minimum
             }
-            else if (!maxPartialVersion.Minor.HasValue)
+            else if(!maxPartialVersion.Minor.HasValue)
             {
                 maxVersion = new Version(maxPartialVersion.Major.Value + 1, 0, 0);
             }
-            else if (!maxPartialVersion.Patch.HasValue)
+            else if(!maxPartialVersion.Patch.HasValue)
             {
                 maxVersion = new Version(maxPartialVersion.Major.Value, maxPartialVersion.Minor.Value + 1, 0);
             }
@@ -153,6 +153,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
                 match.Length,
                 minMaxComparators(minVersion, maxVersion, maxOperator));
         }
+
         // A version that might not have a minor or patch
         // number, for use in ranges like "^1.2" or "2.x"
         public static Tuple<int, Comparator[]> StarRange(string spec)
@@ -163,7 +164,7 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             var regex = new Regex(pattern);
             var match = regex.Match(spec);
 
-            if (!match.Success)
+            if(!match.Success)
             {
                 return null;
             }
@@ -173,26 +174,26 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             {
                 version = new PartialVersion(match.Groups[1].Value);
             }
-            catch (ArgumentException)
+            catch(ArgumentException)
             {
                 return null;
             }
 
             // If partial version match is actually a full version,
             // then this isn't a star range, so return null.
-            if (version.IsFull())
+            if(version.IsFull())
             {
                 return null;
             }
 
             Version minVersion = null;
             Version maxVersion = null;
-            if (!version.Major.HasValue)
+            if(!version.Major.HasValue)
             {
                 minVersion = version.ToZeroVersion();
                 // no max version
             }
-            else if (!version.Minor.HasValue)
+            else if(!version.Minor.HasValue)
             {
                 minVersion = version.ToZeroVersion();
                 maxVersion = new Version(version.Major.Value + 1, 0, 0);
@@ -214,15 +215,15 @@ namespace SKBKontur.SeleniumTesting.Internals.SemVer
             var minComparator = new Comparator(
                 Comparator.Operator.GreaterThanOrEqual,
                 minVersion);
-            if (maxVersion == null)
+            if(maxVersion == null)
             {
-                return new[] { minComparator };
+                return new[] {minComparator};
             }
             else
             {
                 var maxComparator = new Comparator(
                     maxOperator, maxVersion);
-                return new[] { minComparator, maxComparator };
+                return new[] {minComparator, maxComparator};
             }
         }
     }

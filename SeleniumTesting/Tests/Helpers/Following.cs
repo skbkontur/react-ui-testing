@@ -2,8 +2,6 @@ using System;
 
 using NUnit.Framework;
 
-using SKBKontur.SeleniumTesting.Tests.ListTests;
-
 namespace SKBKontur.SeleniumTesting.Tests.Helpers
 {
     public static class Following

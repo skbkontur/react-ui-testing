@@ -17,4 +17,4 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
 
         private readonly string expected;
     }
-    }
+}

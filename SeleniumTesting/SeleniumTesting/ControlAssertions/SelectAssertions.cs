@@ -1,10 +1,9 @@
-using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class SelectAssertions: ControlBaseAssertions<Select, SelectAssertions>
+    public class SelectAssertions : ControlBaseAssertions<Select, SelectAssertions>
     {
         public SelectAssertions(IAssertable<Select> subject)
             : base(subject)

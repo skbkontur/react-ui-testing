@@ -6,21 +6,19 @@ namespace SKBKontur.SeleniumTesting.Internals.Selectors
     {
         public BySelector(By by)
         {
-            this.@by = @by;
+            this.SeleniumBy = @by;
         }
 
         public override string ToString()
         {
-            return @by.ToString();
+            return SeleniumBy.ToString();
         }
 
-        public By SeleniumBy { get { return @by; } }
+        public By SeleniumBy { get; }
 
         public bool MatchElement(IWebElement cachedContext)
         {
             return true;
         }
-
-        private readonly By @by;
     }
 }

@@ -9,10 +9,9 @@
     {
         public AndContraint(T context)
         {
-            this.context = context;
+            this.And = context;
         }
 
-        public T And { get { return context; } }
-        private readonly T context;
+        public T And { get; }
     }
 }
