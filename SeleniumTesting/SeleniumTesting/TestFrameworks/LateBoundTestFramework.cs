@@ -11,9 +11,7 @@ namespace SKBKontur.SeleniumTesting.TestFrameworks
             Type exceptionType = assembly.GetType(ExceptionFullName);
             if(exceptionType == null)
             {
-                throw new Exception(string.Format(
-                    "Failed to create the assertion exception for the current test framework: \"{0}, {1}\"",
-                    ExceptionFullName, assembly.FullName));
+                throw new Exception($"Failed to create the assertion exception for the current test framework: \"{ExceptionFullName}, {assembly.FullName}\"");
             }
 
             throw (Exception)Activator.CreateInstance(exceptionType, message);

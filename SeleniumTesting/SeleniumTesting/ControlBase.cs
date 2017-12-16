@@ -119,19 +119,32 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
+        public void Dangerously_WihtoutWaitForDisplayed_ExecuteAction([NotNull] Action<IWebElement> action)
+        {
+            try
+            {
+                action(GetNativeElement());
+            }
+            catch(StaleElementReferenceException)
+            {
+                ClearCachedElement();
+                action(GetNativeElement());
+            }
+        }
+
         private string GetZ(TimeSpan timeout, string actionDescription, Exception exception)
         {
             var result = new StringBuilder();
-            result.AppendLine(string.Format("{0}({1}): требовалось действие {2}, но", GetControlTypeDesription(), GetAbsolutePathBySelectors(), actionDescription));
+            result.AppendLine($"{GetControlTypeDesription()}({GetAbsolutePathBySelectors()}): С‚СЂРµР±РѕРІР°Р»РѕСЃСЊ РґРµР№СЃС‚РІРёРµ {actionDescription}, РЅРѕ");
             if(exception is ElementNotFoundException)
             {
                 var notFountException = exception as ElementNotFoundException;
-                result.AppendLine(string.Format("  не смогли долждаться присутсвия элемента: {0}({1})", notFountException.Control.GetControlTypeDesription(), notFountException.Control.GetAbsolutePathBySelectors()));
-                result.AppendLine(string.Format("Время ожидания: {0}.", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
+                result.AppendLine($"  РЅРµ СЃРјРѕРіР»Рё РґРѕР»Р¶РґР°С‚СЊСЃСЏ РїСЂРёСЃСѓС‚СЃРІРёСЏ СЌР»РµРјРµРЅС‚Р°: {notFountException.Control.GetControlTypeDesription()}({notFountException.Control.GetAbsolutePathBySelectors()})");
+                result.AppendLine($"Р’СЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ: {timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))}.");
             }
             else
             {
-                result.AppendLine(string.Format("  не смогли дождаться присутсвия элемента (время ожидания: {0}), т.к. было получено исключение:", timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))));
+                result.AppendLine($"  РЅРµ СЃРјРѕРіР»Рё РґРѕР¶РґР°С‚СЊСЃСЏ РїСЂРёСЃСѓС‚СЃРІРёСЏ СЌР»РµРјРµРЅС‚Р° (РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ: {timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))}), С‚.Рє. Р±С‹Р»Рѕ РїРѕР»СѓС‡РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ:");
                 result.AppendLine(exception.ToString());
             }
             return result.ToString();
@@ -144,7 +157,7 @@ namespace SKBKontur.SeleniumTesting
 
         protected T GetReactProp<T>(string propName)
         {
-            var propValue = GetValueFromElement(x => x.GetAttribute(string.Format("data-prop-{0}", propName)));
+            var propValue = GetValueFromElement(x => x.GetAttribute($"data-prop-{propName}"));
             if(typeof(T) == typeof(string))
             {
                 return (T)(object)propValue;
@@ -241,6 +254,11 @@ namespace SKBKontur.SeleniumTesting
         protected IControlProperty<string> TextProperty(string description = null)
         {
             return Property(() => GetValueFromElement(element => element.Text), description ?? "text");
+        }
+
+        protected IControlProperty<T> ValueFromElement<T>(Func<IWebElement, T> action, string description = null)
+        {
+            return Property(() => GetValueFromElement(action), description ?? "text");
         }
 
         protected IControlProperty<T> ReactProperty<T>(string property, string description = null)

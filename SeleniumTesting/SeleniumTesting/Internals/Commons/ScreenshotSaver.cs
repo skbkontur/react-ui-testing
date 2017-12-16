@@ -23,7 +23,7 @@ namespace SKBKontur.SeleniumTesting.Internals.Commons
                 Console.WriteLine(exception);
             }
 
-            var remoteAddress = string.Format("http://sickcat:2201/screenshot/{0}/{1}/{2}", now.ToString("yyyy-MM-dd"), GetShortTestName(testName), now.ToString("HH-mm-ss"));
+            var remoteAddress = $"http://sickcat:2201/screenshot/{now.ToString("yyyy-MM-dd")}/{GetShortTestName(testName)}/{now.ToString("HH-mm-ss")}";
             try
             {
                 using (var client = new WebClient())

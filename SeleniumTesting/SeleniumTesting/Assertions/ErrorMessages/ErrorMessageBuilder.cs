@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -56,8 +56,8 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages
         public string Build()
         {
             var result = new StringBuilder();
-            result.AppendLine(string.Format("{0}: {1}", GetTargetControlDescription(), GetErrorDescription()));
-            result.AppendLine(string.Format("Время ожидания: {0}.", GetTimeoutDescription()));
+            result.AppendLine($"{GetTargetControlDescription()}: {GetErrorDescription()}");
+            result.AppendLine($"Р’СЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ: {GetTimeoutDescription()}.");
             return result.ToString();
         }
 
@@ -70,7 +70,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages
             }
             if(propertyDescription != null)
             {
-                result.AppendFormat("поле {0} ", propertyDescription);
+                result.AppendFormat("РїРѕР»Рµ {0} ", propertyDescription);
             }
             expectationFormatter.Format(result, new ActualContainer
                 {
@@ -82,10 +82,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages
 
         private string GetTargetControlDescription()
         {
-            return string.Format(
-                "{0}({1})",
-                subject.GetControlTypeDesription(),
-                subject.GetAbsolutePathBySelectors());
+            return $"{subject.GetControlTypeDesription()}({subject.GetAbsolutePathBySelectors()})";
         }
 
         public IErrorMessageBuilder WithPropertyDescription(string target)

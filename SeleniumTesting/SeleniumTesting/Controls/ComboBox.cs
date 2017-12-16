@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,6 +33,18 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             Click();
             InputText(inputText);
+            GetItemsAs((x, y) => new Label(x, y)).ExpectTo().Count.EqualTo(1);
+            var result = GetItemsAs((x, y) => new Label(x, y)).First();
+            if(result != null)
+            {
+                SelectByIndex(0);
+            }
+        }
+
+        public void InputTextAndSelectFirst(string inputText)
+        {
+            Click();
+            InputText(inputText);
             GetItemsAs((x, y) => new Label(x, y)).ExpectTo().Count.GreaterThan(0);
             var result = GetItemsAs((x, y) => new Label(x, y)).First();
             if(result != null)
@@ -50,7 +62,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                         x.FindElement(By.CssSelector("input")).Clear();
                         x.FindElement(By.CssSelector("input")).SendKeys(text);
                     },
-                string.Format("InputText('{0}')", text));
+                $"InputText('{text}')");
         }
 
         [NotNull]
@@ -59,7 +71,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             try
             {
                 var renderContainer = GetRenderContainer();
-                return renderContainer.FindElements(By.CssSelector(string.Format("[data-comp-name='{0}']", "MenuItem"))).Select(x => (object)x.Text).ToList();
+                return renderContainer.FindElements(By.CssSelector($"[data-comp-name='{"MenuItem"}']")).Select(x => (object)x.Text).ToList();
             }
             catch(NoSuchElementException)
             {
@@ -69,7 +81,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         private IWebElement GetRenderContainer()
         {
-            Waiter.Wait(() => GetRenderContainerInternal() != null, "ÕÂ ÔÓˇ‚ËÎÒˇ RenderContainer");
+            Waiter.Wait(() => GetRenderContainerInternal() != null, "–ù–µ –ø–æ—è–≤–∏–ª—Å—è RenderContainer");
             return GetRenderContainerInternal();
         }
 
@@ -77,13 +89,13 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             try
             {
-                if (GetReactProp<bool>("disablePortal"))
+                if(GetReactProp<bool>("disablePortal"))
                 {
                     return container.Search(new BySelector(By.CssSelector("[data-comp-name=\'DropdownContainer\']")));
                 }
                 var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
-                var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector(string.Format("[data-rendered-container-id='{0}']", renderContainerId))));
+                var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
                 return renderContainer;
             }
             catch
@@ -95,7 +107,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public void SelectByIndex(int index)
         {
             var renderContainer = GetRenderContainer();
-            renderContainer.FindElements(By.CssSelector(string.Format("[data-comp-name='{0}']", "MenuItem")))
+            renderContainer.FindElements(By.CssSelector($"[data-comp-name='{"MenuItem"}']"))
                            .Skip(index)
                            .FirstOrDefault()
                            .Click();

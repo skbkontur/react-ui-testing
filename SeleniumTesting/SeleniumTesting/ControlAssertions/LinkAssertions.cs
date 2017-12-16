@@ -1,4 +1,4 @@
-using SKBKontur.SeleniumTesting.Assertions.Bases;
+Ôªøusing SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
 namespace SKBKontur.SeleniumTesting
@@ -22,6 +22,6 @@ namespace SKBKontur.SeleniumTesting
             return AndThis();
         }
 
-        public PropertyControlContext<Link, string> Text { get { return HaveComplexProperty(x => x.Text, "ÚÂÍÒÚ"); } }
+        public PropertyControlContext<Link, string> Text { get { return HaveComplexProperty(x => x.Text, "—Ç–µ–∫—Å—Ç"); } }
     }
 }

@@ -9,14 +9,13 @@ namespace SKBKontur.SeleniumTesting
     {
         public PropertyControlContext(
             IAssertable<TControl> subject,
-            Expression<Func<TControl, T>> propertyPicker,
+            Func<TControl, T> propertyPicker,
             string target
             )
         {
             this.subject = subject;
-            this.propertyPicker = propertyPicker;
             this.target = target;
-            this.compiledPropertyPicker = propertyPicker.Compile();
+            this.compiledPropertyPicker = propertyPicker;
         }
 
         public PropertyControlContext<TControl, T> Not()

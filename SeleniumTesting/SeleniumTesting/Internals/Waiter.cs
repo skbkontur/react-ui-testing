@@ -15,7 +15,7 @@ namespace SKBKontur.SeleniumTesting.Internals
         public static void Wait(Func<bool> tryFunc, string actionDescription, string actualText = "", int? timeout = null)
         {
             timeout = (int)IncreseFirstTimeoutIfNeedForTeamcity(TimeSpan.FromMilliseconds(timeout ?? defaultTimeout)).TotalMilliseconds;
-            DoWait(tryFunc, () => TestFrameworkProvider.Throw(string.Format("Действие {0} не выполнилось за {1} мс. {2}", actionDescription, GetActualTimeout(timeout), actualText)), timeout);
+            DoWait(tryFunc, () => TestFrameworkProvider.Throw($"Действие {actionDescription} не выполнилось за {GetActualTimeout(timeout)} мс. {actualText}"), timeout);
         }
 
         private static TimeSpan IncreseFirstTimeoutIfNeedForTeamcity(TimeSpan timeout)

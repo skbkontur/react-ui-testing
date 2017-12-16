@@ -1,11 +1,11 @@
-using System;
+п»їusing System;
 
 namespace SKBKontur.SeleniumTesting
 {
     public class ElementNotFoundException : Exception
     {
         public ElementNotFoundException(ControlBase control, ISearchContainer container, Type getType, ISelector selector, Exception exception)
-            : base(string.Format("Элемент {0} по правилу {1} не найден внутри элемента {2}", getType, selector, container.GetType().Name), exception)
+            : base($"Р­Р»РµРјРµРЅС‚ {getType} РїРѕ РїСЂР°РІРёР»Сѓ {selector} РЅРµ РЅР°Р№РґРµРЅ РІРЅСѓС‚СЂРё СЌР»РµРјРµРЅС‚Р° {container.GetType().Name}", exception)
         {
             Control = control;
             Container = container;

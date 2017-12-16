@@ -1,4 +1,4 @@
-using SKBKontur.SeleniumTesting.Assertions;
+﻿using SKBKontur.SeleniumTesting.Assertions;
 using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
@@ -11,17 +11,17 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<Input, string> Value { get { return HaveProperty(x => x.Value, "value"); } }
+        public PropertyControlContext<Input, string> Value { get { return HaveProperty(x => x.Value.Get(), "value"); } }
 
         public IAndContraint<InputAssertions> BeDisabled()
         {
-            HaveProperty(x => x.IsDisabled, "disabled").BeTrue();
+            HaveProperty(x => x.IsDisabled.Get(), "disabled").BeTrue();
             return AndThis();
         }
 
         public IAndContraint<InputAssertions> BeEnabled()
         {
-            HaveProperty(x => x.IsDisabled, "disabled").BeFalse();
+            HaveProperty(x => x.IsDisabled.Get(), "disabled").BeFalse();
             return AndThis();
         }
     }

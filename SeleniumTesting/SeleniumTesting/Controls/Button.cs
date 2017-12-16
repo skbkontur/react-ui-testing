@@ -1,4 +1,4 @@
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
@@ -14,10 +14,9 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteAction(
                 x => ExecuteScript("arguments[0].click();", x.FindElement(By.TagName("button"))),
                 "ClickViaJavascript");
-            
         }
 
-        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
-        public string Text { get { return GetValueFromElement(x => x.Text); } }
+        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
+        public IControlProperty<string> Text => ValueFromElement(x => x.Text);
     }
 }

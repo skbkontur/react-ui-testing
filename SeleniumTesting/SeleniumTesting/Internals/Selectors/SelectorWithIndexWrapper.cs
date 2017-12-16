@@ -1,4 +1,4 @@
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Internals.Selectors
 {
@@ -12,7 +12,7 @@ namespace SKBKontur.SeleniumTesting.Internals.Selectors
 
         public override string ToString()
         {
-            return string.Format("{0}[{1}]", selector, index);
+            return $"{selector}[{index}]";
         }
 
         public By SeleniumBy { get { return new ByNthOfBy(selector.SeleniumBy, index); } }

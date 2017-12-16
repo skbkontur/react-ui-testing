@@ -32,7 +32,7 @@ namespace SKBKontur.SeleniumTesting
                     },
                 (x, me, z) =>
                     {
-                        me.WithListQuantifier(string.Format("для одного из {0}", x.GetRelativePathToItems()));
+                        me.WithListQuantifier($"для одного из {x.GetRelativePathToItems()}");
                         if(!x.IsPresentObsolete)
                         {
                             messageBuilder(null, me, z);

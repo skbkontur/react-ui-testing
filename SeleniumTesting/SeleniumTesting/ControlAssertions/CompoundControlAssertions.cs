@@ -11,6 +11,6 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<T, string> Text { get { return HaveComplexProperty(x => x.Text, "текст"); } }
+        public PropertyControlContext<T, string> Text { get { return HaveComplexProperty(x => x.Text.Get(), "С‚РµРєСЃС‚"); } }
     }
 }

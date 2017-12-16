@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 
 using SKBKontur.SeleniumTesting.Assertions.Context;
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages;
@@ -34,7 +34,7 @@ namespace SKBKontur.SeleniumTesting.Assertions
                             }
                             else
                             {
-                                throw new Exception(string.Format("Невозможно построить сообщений об ошибке. Произошла непредвиденная ошибка: {0}", exception), exception);
+                                throw new Exception($"РќРµРІРѕР·РјРѕР¶РЅРѕ РїРѕСЃС‚СЂРѕРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёР№ РѕР± РѕС€РёР±РєРµ. РџСЂРѕРёР·РѕС€Р»Р° РЅРµРїСЂРµРґРІРёРґРµРЅРЅР°СЏ РѕС€РёР±РєР°: {exception}", exception);
                             }
                         }
                         else

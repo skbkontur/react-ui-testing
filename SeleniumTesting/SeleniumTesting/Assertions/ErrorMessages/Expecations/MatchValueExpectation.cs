@@ -1,4 +1,4 @@
-using System.Text;
+п»їusing System.Text;
 
 namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
 {
@@ -11,8 +11,8 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
 
         public void Format(StringBuilder result, ActualContainer actualValues, bool negation)
         {
-            result.AppendLine(negation ? "ожидалось не соотвествующим regex-у:" : "ожидалось соотвествующим regex-у:");
-            result.Append(string.Format(@"  '{0}', но {1}", expected, Helpers.FormatActualValues(actualValues)));
+            result.AppendLine(negation ? "РѕР¶РёРґР°Р»РѕСЃСЊ РЅРµ СЃРѕРѕС‚РІРµСЃС‚РІСѓСЋС‰РёРј regex-Сѓ:" : "РѕР¶РёРґР°Р»РѕСЃСЊ СЃРѕРѕС‚РІРµСЃС‚РІСѓСЋС‰РёРј regex-Сѓ:");
+            result.Append($@"  '{expected}', РЅРѕ {Helpers.FormatActualValues(actualValues)}");
         }
 
         private readonly string expected;

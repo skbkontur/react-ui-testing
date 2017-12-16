@@ -1,4 +1,4 @@
-using NUnit.Framework;
+ï»¿using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 
@@ -17,9 +17,9 @@ namespace SKBKontur.SeleniumTesting.Tests
         {
             if(new NpmLibVersion(retailUiVersion) < new NpmLibVersion(minRetailUiVersion))
             {
-                //todo ïåðåäåëàòü íà TestFixtureSource, êîãäà â ReSharper ïî÷èíÿò ðàáîòó ñ íèì
+                //todo Ð¿ÐµÑ€ÐµÐ´ÐµÐ»Ð°Ñ‚ÑŒ Ð½Ð° TestFixtureSource, ÐºÐ¾Ð³Ð´Ð° Ð² ReSharper Ð¿Ð¾Ñ‡Ð¸Ð½ÑÑ‚ Ñ€Ð°Ð±Ð¾Ñ‚Ñƒ Ñ Ð½Ð¸Ð¼
                 //https://youtrack.jetbrains.com/issues?q=TestFixtureSource
-                Assert.Ignore($"Òåñò çàïóñêàåòñÿ äëÿ âåðññèè react-ui íà÷èíàÿ ñ {minRetailUiVersion}\n");
+                Assert.Ignore($"Ð¢ÐµÑÑ‚ Ð·Ð°Ð¿ÑƒÑÐºÐ°ÐµÑ‚ÑÑ Ð´Ð»Ñ Ð²ÐµÑ€ÑÑÐ¸Ð¸ react-ui Ð½Ð°Ñ‡Ð¸Ð½Ð°Ñ Ñ {minRetailUiVersion}\n");
             }
         }
 
@@ -31,7 +31,7 @@ namespace SKBKontur.SeleniumTesting.Tests
 
         protected Browser OpenUrl(string url)
         {
-            return BrowserSetUpFixture.browser.OpenUrl(string.Format("{0}/{1}/{2}", reactVersion, retailUiVersion, url));
+            return BrowserSetUpFixture.browser.OpenUrl($"{reactVersion}/{retailUiVersion}/{url}");
         }
 
         private readonly string reactVersion;

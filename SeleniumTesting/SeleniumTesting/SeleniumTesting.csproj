@@ -47,7 +47,8 @@
     <Reference Include="JetBrains.Annotations">
       <HintPath>..\Assemblies\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Kontur.RetryableAssertions">
+    <Reference Include="Kontur.RetryableAssertions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\RetryableAssertions\Kontur.RetryableAssertions.dll</HintPath>
     </Reference>
     <Reference Include="MoreLinq">

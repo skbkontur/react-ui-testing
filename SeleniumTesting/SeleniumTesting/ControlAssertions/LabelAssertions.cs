@@ -10,6 +10,6 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<Label, string> Text { get { return HaveProperty(x => x.TextObsolete, "текст"); } }
+        public PropertyControlContext<Label, string> Text { get { return HaveComplexProperty(x => x.Text.Get(), "текст"); } }
     }
 }

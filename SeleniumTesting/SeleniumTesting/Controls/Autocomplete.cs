@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using JetBrains.Annotations;
@@ -17,7 +16,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public void InputText([NotNull] string text)
         {
-            ExecuteAction(x => x.FindElement(By.CssSelector("label > input")).SendKeys(text), string.Format("InputText({0})", text));
+            ExecuteAction(x => x.FindElement(By.CssSelector("label > input")).SendKeys(text), $"InputText({text})");
         }
 
         [NotNull]

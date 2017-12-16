@@ -8,10 +8,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteInitAction();
         }
 
-        public virtual string Text
-        {
-            get { return GetValueFromElement(x => x.Text); }
-        }
+        public virtual IControlProperty<string> Text => TextProperty();
 
         private void ExecuteInitAction()
         {

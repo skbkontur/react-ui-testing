@@ -12,13 +12,6 @@
             ExecuteAction(element => element.Click(), "Select");
         }
 
-        public bool Selected
-        {
-            get
-            {
-                var isSelected = GetValueFromElement(element => element.GetAttribute("checked"));
-                return isSelected == "true";
-            }
-        }
+        public IControlProperty<bool> Selected => ValueFromElement(element => element.GetAttribute("checked") == "true");
     }
 }

@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,24 +14,22 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
             {
                 if(actualValues.Count == 1)
                 {
-                    return string.Format("было:" + Environment.NewLine + "  '{0}'", actualValues.Single());
+                    return string.Format("Р±С‹Р»Рѕ:" + Environment.NewLine + "  '{0}'", actualValues.Single());
                 }
                 var result = new StringBuilder();
-                result.AppendLine("было:");
+                result.AppendLine("Р±С‹Р»Рѕ:");
                 result.Append(FormatStringValues(actualValues, 2));
                 return result.ToString();
             }
             else
             {
-                return string.Format("не был найден контрол {0}({1})",
-                                     actualContainer.NotFoundMessage.ControlType.Name,
-                                     actualContainer.NotFoundMessage.Control.GetAbsolutePathBySelectors());
+                return $"РЅРµ Р±С‹Р» РЅР°Р№РґРµРЅ РєРѕРЅС‚СЂРѕР» {actualContainer.NotFoundMessage.ControlType.Name}({actualContainer.NotFoundMessage.Control.GetAbsolutePathBySelectors()})";
             }
         }
 
         public static string FormatStringValue(string actualValue)
         {
-            return string.Format("  '{0}'", actualValue);
+            return $"  '{actualValue}'";
         }
 
         public static string FormatStringValues(IEnumerable<string> actualValues, int spacesBeforeEachLine)
