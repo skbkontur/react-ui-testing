@@ -5,7 +5,7 @@
         public Checkbox(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-            Label = new Label(this, new UniversalSelector("*:nth-child(3)"));
+            Label = new Label(this, new UniversalSelector("*:first-child + * + *"));
         }
 
         public Label Label { get; private set; }
