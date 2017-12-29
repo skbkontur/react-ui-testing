@@ -16,8 +16,13 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteAction(x =>
                 {
                     var element = x.FindElement(By.CssSelector("input"));
-                    element.SendKeys(Keys.Control + "a");
-                    element.SendKeys(Keys.Backspace);
+                    element.SendKeys(Keys.End);
+                    var length = element.GetAttribute("value").Length;
+                    while(length > 0)
+                    {
+                        element.SendKeys(Keys.Backspace);
+                        length--;
+                    }
                     element.SendKeys(Keys.Tab);
                 }, "Clear");
         }
@@ -51,6 +56,6 @@ namespace SKBKontur.SeleniumTesting.Controls
         }
 
         public string Value { get { return GetValueFromElement(x => container.ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string); } }
-         public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
-   }
+        public bool IsDisabled { get { return GetReactProp<bool>("disabled"); } }
+    }
 }
