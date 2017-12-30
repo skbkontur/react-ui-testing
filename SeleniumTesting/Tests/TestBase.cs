@@ -61,6 +61,11 @@ namespace SKBKontur.SeleniumTesting.Tests
             p.Start();
             var output = p.StandardOutput.ReadToEnd();
             var errorOutput = p.StandardError.ReadToEnd();
+            Console.WriteLine("Begin output from printVersions.bat");
+            Console.WriteLine(output);
+            Console.WriteLine("=================");
+            Console.WriteLine(errorOutput);
+            Console.WriteLine("End output from printVersions.bat");
             p.WaitForExit();
             if(p.ExitCode != 0)
             {
