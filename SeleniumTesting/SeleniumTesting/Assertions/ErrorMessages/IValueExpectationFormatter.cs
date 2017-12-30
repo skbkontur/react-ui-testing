@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations;
 

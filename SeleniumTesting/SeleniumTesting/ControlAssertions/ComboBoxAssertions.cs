@@ -1,4 +1,4 @@
-using SKBKontur.SeleniumTesting.Assertions.Bases;
+ï»¿using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Controls;
 
 namespace SKBKontur.SeleniumTesting
@@ -10,6 +10,6 @@ namespace SKBKontur.SeleniumTesting
         {
         }
 
-        public PropertyControlContext<ComboBox, string> Text { get { return HaveProperty(x => x.Text, "òåêñò"); } }
+        public PropertyControlContext<ComboBox, string> Text { get { return HaveProperty(x => x.Text, "Ñ‚ĞµĞºÑÑ‚"); } }
     }
 }

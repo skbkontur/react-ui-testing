@@ -1,4 +1,4 @@
-using System.Text;
+п»їusing System.Text;
 
 namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
 {
@@ -6,7 +6,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations
     {
         public void Format(StringBuilder result, ActualContainer actualValues, bool negation)
         {
-            result.Append(negation ? "ожидалось отсутствие" : "ожидалось присутствие");
+            result.Append(negation ? "РѕР¶РёРґР°Р»РѕСЃСЊ РѕС‚СЃСѓС‚СЃС‚РІРёРµ" : "РѕР¶РёРґР°Р»РѕСЃСЊ РїСЂРёСЃСѓС‚СЃС‚РІРёРµ");
         }
     }
 }
