@@ -48,6 +48,28 @@ namespace SKBKontur.SeleniumTesting.Tests
     {
         public static string[][] GetRetailAndReactVersions()
         {
+            var output = GetOutputWithRetries();
+            return JsonConvert.DeserializeObject<Dictionary<string, string[]>>(output)
+                              .SelectMany(x => x.Value.Select(y => new[] {x.Key, y}))
+                              .ToArray();
+        }
+
+        private static string GetOutputWithRetries()
+        {
+            for(var i = 0; i < 10; i++)
+            {
+                var result = GetOutput();
+                if(string.IsNullOrWhiteSpace(result) || string.IsNullOrWhiteSpace(result.Trim()))
+                {
+                    continue;
+                }
+                return result;
+            }
+            throw new Exception("Cannot extract versions");
+        }
+
+        private static string GetOutput()
+        {
             var p = new Process
                 {
                     StartInfo =
@@ -61,19 +83,12 @@ namespace SKBKontur.SeleniumTesting.Tests
             p.Start();
             var output = p.StandardOutput.ReadToEnd();
             var errorOutput = p.StandardError.ReadToEnd();
-            Console.WriteLine("Begin output from printVersions.bat");
-            Console.WriteLine(output);
-            Console.WriteLine("=================");
-            Console.WriteLine(errorOutput);
-            Console.WriteLine("End output from printVersions.bat");
             p.WaitForExit();
             if(p.ExitCode != 0)
             {
                 throw new Exception(errorOutput);
             }
-            return JsonConvert.DeserializeObject<Dictionary<string, string[]>>(output)
-                              .SelectMany(x => x.Value.Select(y => new[] {x.Key, y}))
-                              .ToArray();
+            return output;
         }
     }
 
