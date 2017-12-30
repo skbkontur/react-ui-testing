@@ -1,15 +1,19 @@
-﻿using NUnit.Framework;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+
+using Newtonsoft.Json;
+
+using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 
 namespace SKBKontur.SeleniumTesting.Tests
 {
-    //[TestFixture("0.14.3", "0.6.10")]
-    //[TestFixture("15.3.0", "0.6.10")]
-    //[TestFixture("0.14.3", "0.7.4")]
-    //[TestFixture("15.3.0", "0.7.4")]
     [TestFixture("15.4.2", "0.9.0")]
-    //[TestFixture("16.0.0", "0.9.7")]
+    [TestFixtureSource(typeof(RetailUIAndReactVersions))]
     public abstract class TestBase
     {
         protected TestBase(string reactVersion, string retailUiVersion, string minRetailUiVersion)
@@ -36,5 +40,42 @@ namespace SKBKontur.SeleniumTesting.Tests
 
         private readonly string reactVersion;
         private readonly string retailUiVersion;
+    }
+
+    public static class ProcessUtils
+    {
+        public static string[][] GetRetailAndReactVersions()
+        {
+            var p = new Process
+                {
+                    StartInfo =
+                        {
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true,
+                            FileName = Path.Combine(PathUtils.FindProjectRootFolder(), "printVersions.bat")
+                        }
+                };
+            p.Start();
+            string output = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
+            return JsonConvert.DeserializeObject<Dictionary<string, string[]>>(output)
+                              .SelectMany(x => x.Value.Select(y => new[] {x.Key, y}))
+                              .ToArray();
+        }
+    }
+
+    public class RetailUIAndReactVersions : IEnumerable
+    {
+        public IEnumerator GetEnumerator()
+        {
+            if(!TeamCityEnvironment.IsExecutionViaTeamCity)
+            {
+                yield break;
+            }
+            foreach(var versionPair in ProcessUtils.GetRetailAndReactVersions())
+            {
+                yield return versionPair;
+            }
+        }
     }
 }

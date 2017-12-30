@@ -12,6 +12,21 @@ using SKBKontur.SeleniumTesting.Tests.Helpers;
 
 namespace SKBKontur.SeleniumTesting.Tests
 {
+    internal class TeamCityEnvironment
+    {
+        public static bool IsExecutionViaTeamCity
+        {
+            get
+            {
+                if(isExecutionViaTeamCity == null)
+                    isExecutionViaTeamCity = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TEAMCITY_VERSION"));
+                return isExecutionViaTeamCity.Value;
+            }
+        }
+
+        private static bool? isExecutionViaTeamCity;
+    }
+
     [SetUpFixture]
     [SaveScreenshotOfFailure]
     public class TestEnvironmentFixture
@@ -55,18 +70,21 @@ namespace SKBKontur.SeleniumTesting.Tests
         [OneTimeSetUp]
         public void SetUp()
         {
-            KillWebPackDevServer();
+            if(TeamCityEnvironment.IsExecutionViaTeamCity)
+            {
+                KillWebPackDevServer();
 
-            KillChromeDrivers();
-            chromeDriverProcess = CreateChromeDriverProcess();
-            chromeDriverProcess.Start();
+                KillChromeDrivers();
+                chromeDriverProcess = CreateChromeDriverProcess();
+                chromeDriverProcess.Start();
 
-            WaitResponse("http://localhost:9515/");
+                WaitResponse("http://localhost:9515/");
 
-            webServerProcess = CreateWebServerProcess();
-            webServerProcess.Start();
+                webServerProcess = CreateWebServerProcess();
+                webServerProcess.Start();
 
-            WaitResponse("http://localhost:8083/");
+                WaitResponse("http://localhost:8083/");
+            }
 
             BrowserSetUp.SetUp();
         }
@@ -154,9 +172,12 @@ namespace SKBKontur.SeleniumTesting.Tests
         public void TearDown()
         {
             BrowserSetUp.TearDown();
-            KillProcessAndChildren(webServerProcess.Id);
-            chromeDriverProcess.CloseMainWindow();
-            chromeDriverProcess.WaitForExit(10000);
+            if(TeamCityEnvironment.IsExecutionViaTeamCity)
+            {
+                KillProcessAndChildren(webServerProcess.Id);
+                chromeDriverProcess.CloseMainWindow();
+                chromeDriverProcess.WaitForExit(10000);
+            }
         }
 
         private static void KillProcessAndChildren(int pid)
