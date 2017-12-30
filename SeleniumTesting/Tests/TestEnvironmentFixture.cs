@@ -156,7 +156,7 @@ namespace SKBKontur.SeleniumTesting.Tests
             BrowserSetUp.TearDown();
             KillProcessAndChildren(webServerProcess.Id);
             chromeDriverProcess.CloseMainWindow();
-            chromeDriverProcess.WaitForExit();
+            chromeDriverProcess.WaitForExit(10000);
         }
 
         private static void KillProcessAndChildren(int pid)
