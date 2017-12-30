@@ -112,7 +112,7 @@ namespace SKBKontur.SeleniumTesting.Tests
 
         private static void WaitResponse(string url)
         {
-            for(var i = 0; i < 100; i++)
+            for(var i = 0; i < 2000; i++)
             {
                 var httpResponse = (HttpWebRequest)WebRequest.CreateHttp(url);
                 httpResponse.Timeout = (int)TimeSpan.FromHours(1).TotalMilliseconds;
@@ -153,6 +153,7 @@ namespace SKBKontur.SeleniumTesting.Tests
                     Thread.Sleep(2000);
                 }
             }
+            throw new Exception("Cannot wait response");
         }
 
         private static Process CreateWebServerProcess()
