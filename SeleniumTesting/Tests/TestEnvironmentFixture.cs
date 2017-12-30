@@ -31,6 +31,39 @@ namespace SKBKontur.SeleniumTesting.Tests
     [SaveScreenshotOfFailure]
     public class TestEnvironmentFixture
     {
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            if (TeamCityEnvironment.IsExecutionViaTeamCity)
+            {
+                KillWebPackDevServer();
+                KillChromeDrivers();
+                chromeDriverProcess = CreateChromeDriverProcess();
+                chromeDriverProcess.Start();
+
+                WaitResponse("http://localhost:9515/");
+
+                webServerProcess = CreateWebServerProcess();
+                webServerProcess.Start();
+
+                WaitResponse("http://localhost:8083/");
+            }
+
+            BrowserSetUp.SetUp();
+        }
+
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            BrowserSetUp.TearDown();
+            if (TeamCityEnvironment.IsExecutionViaTeamCity)
+            {
+                KillProcessAndChildren(webServerProcess.Id);
+                chromeDriverProcess.CloseMainWindow();
+                chromeDriverProcess.WaitForExit(10000);
+            }
+        }
+
         private static string GetCommandLine(Process process)
         {
             try
@@ -67,35 +100,13 @@ namespace SKBKontur.SeleniumTesting.Tests
             }
         }
 
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            if(TeamCityEnvironment.IsExecutionViaTeamCity)
-            {
-                KillWebPackDevServer();
-
-                KillChromeDrivers();
-                chromeDriverProcess = CreateChromeDriverProcess();
-                chromeDriverProcess.Start();
-
-                WaitResponse("http://localhost:9515/");
-
-                webServerProcess = CreateWebServerProcess();
-                webServerProcess.Start();
-
-                WaitResponse("http://localhost:8083/");
-            }
-
-            BrowserSetUp.SetUp();
-        }
 
         private static void KillChromeDrivers()
         {
             var processes = Process.GetProcessesByName("chromedriver");
             foreach(var process in processes)
             {
-                process.CloseMainWindow();
-                process.WaitForExit();
+                process.Kill();
             }
         }
 
@@ -166,18 +177,6 @@ namespace SKBKontur.SeleniumTesting.Tests
                 {
                     StartInfo = chromeProcessStartInfo
                 };
-        }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            BrowserSetUp.TearDown();
-            if(TeamCityEnvironment.IsExecutionViaTeamCity)
-            {
-                KillProcessAndChildren(webServerProcess.Id);
-                chromeDriverProcess.CloseMainWindow();
-                chromeDriverProcess.WaitForExit(10000);
-            }
         }
 
         private static void KillProcessAndChildren(int pid)
