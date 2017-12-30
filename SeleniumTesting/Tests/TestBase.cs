@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 
 using NUnit.Framework;
 
+using SKBKontur.SeleniumTesting.Tests;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 
 namespace SKBKontur.SeleniumTesting.Tests
@@ -52,12 +54,18 @@ namespace SKBKontur.SeleniumTesting.Tests
                         {
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
+                            RedirectStandardError = true,
                             FileName = Path.Combine(PathUtils.FindProjectRootFolder(), "printVersions.bat")
                         }
                 };
             p.Start();
-            string output = p.StandardOutput.ReadToEnd();
+            var output = p.StandardOutput.ReadToEnd();
+            var errorOutput = p.StandardError.ReadToEnd();
             p.WaitForExit();
+            if(p.ExitCode != 0)
+            {
+                throw new Exception(errorOutput);
+            }
             return JsonConvert.DeserializeObject<Dictionary<string, string[]>>(output)
                               .SelectMany(x => x.Value.Select(y => new[] {x.Key, y}))
                               .ToArray();
