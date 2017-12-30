@@ -31,7 +31,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             return BrowserSetUp.browser.OpenUrl($"{reactVersion}/{retailUiVersion}/{url}");
         }
 
-        protected IgnoreIfReactVersionSatisfies(string reactVersionsRange, string reason)
+        protected void IgnoreIfReactVersionSatisfies(string reactVersionsRange, string reason)
         {
             if(reactVersion.IsVersionSatisfy(reactVersionsRange))
             {
