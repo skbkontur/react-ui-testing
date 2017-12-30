@@ -28,6 +28,23 @@ namespace SKBKontur.SeleniumTesting.Internals
             throw AssertionExceptionHelper.CreateException(stringBuilder.ToString());
         }
 
+        internal static void AssertGreaterThan(this int actual, int expected, string message = null)
+        {
+            if(actual > expected)
+            {
+                return;
+            }
+            var stringBuilder = new StringBuilder();
+            if(!string.IsNullOrEmpty(message))
+            {
+                stringBuilder.AppendLine(message);
+            }
+            stringBuilder.AppendLine($"Expected: {expected}");
+            stringBuilder.AppendLine($"But was: {actual}");
+
+            throw AssertionExceptionHelper.CreateException(stringBuilder.ToString());
+        }
+
         internal static void AssertStartsWith(this IControlProperty<string> actual, string expected)
         {
             AssertStartsWith(actual.Get(), expected, actual.GetDescription());

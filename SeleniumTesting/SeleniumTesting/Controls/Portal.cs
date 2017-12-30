@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+
+using OpenQA.Selenium;
 
 using SKBKontur.SeleniumTesting.Internals.Selectors;
 
@@ -27,6 +29,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 });
         }
 
+        [Obsolete]
         public override bool IsPresentObsolete
         {
             get

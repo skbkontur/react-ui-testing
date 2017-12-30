@@ -21,52 +21,59 @@ namespace SKBKontur.SeleniumTesting.Tests.CheckBoxTests
         [Test]
         public void TestPresenceAndNoLabelVisible()
         {
-            page.SimpleCheckbox.ExpectTo().BePresent();
-            page.SimpleCheckbox.Label.ExpectTo().BeAbsent();
+            page.SimpleCheckbox.IsPresent.Wait().That(Is.True);
+            page.SimpleCheckbox.Label.IsPresent.Wait().That(Is.False);
         }
 
         [Test]
         public void TestLabelPresenceOnCheckboxWithLabel()
         {
-            page.CheckboxWithLabel.Label.ExpectTo().BePresent().And.Text.EqualTo("Checkbox label");
+            page.CheckboxWithLabel.Label.IsPresent.Wait().That(Is.True);
+            page.CheckboxWithLabel.Label.Text.Wait().That(Is.EqualTo("Checkbox label"));
         }
 
         [Test]
         public void TestCheckboxDisabled()
         {
-            page.CheckboxWithDisabledState.ExpectTo().BeEnabled();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.False);
             page.CheckboxToDisable.Label.Click();
-            page.CheckboxWithDisabledState.ExpectTo().BeDisabled();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.True);
         }
 
         [Test]
         public void TestCheckboxDisabledAndCheckedStates()
         {
             page.CheckboxWithDisabledState.Click();
-            page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeChecked();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.False);
+            page.CheckboxWithDisabledState.IsChecked.Wait().That(Is.True);
 
             page.CheckboxToDisable.Label.Click();
-            page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeChecked();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.True);
+            page.CheckboxWithDisabledState.IsChecked.Wait().That(Is.True);
 
             page.CheckboxWithDisabledState.Click();
-            page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeChecked();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.True);
+            page.CheckboxWithDisabledState.IsChecked.Wait().That(Is.True);
 
             page.CheckboxToDisable.Label.Click();
-            page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeChecked();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.False);
+            page.CheckboxWithDisabledState.IsChecked.Wait().That(Is.True);
 
             page.CheckboxWithDisabledState.Click();
-            page.CheckboxWithDisabledState.ExpectTo().BeEnabled().And.BeUnchecked();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.False);
+            page.CheckboxWithDisabledState.IsChecked.Wait().That(Is.False);
 
             page.CheckboxToDisable.Label.Click();
-            page.CheckboxWithDisabledState.ExpectTo().BeDisabled().And.BeUnchecked();
+            page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.True);
+            page.CheckboxWithDisabledState.IsChecked.Wait().That(Is.False);
         }
 
         [Test]
         public void TestCheckboxDisabledNegative()
         {
-            Following.CodeFails(() => page.CheckboxWithDisabledState.ExpectTo().BeDisabled());
+            Following.CodeFails(() => page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.True));
             page.CheckboxToDisable.Click();
-            Following.CodeFails(() => page.CheckboxWithDisabledState.ExpectTo().BeEnabled());
+            Following.CodeFails(() => page.CheckboxWithDisabledState.IsDisabled.Wait().That(Is.False));
         }
 
         private CheckBoxTestPage page;

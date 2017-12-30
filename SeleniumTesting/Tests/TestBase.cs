@@ -4,12 +4,12 @@ using SKBKontur.SeleniumTesting.Tests.Helpers;
 
 namespace SKBKontur.SeleniumTesting.Tests
 {
-    [TestFixture("0.14.3", "0.6.10")]
-    [TestFixture("15.3.0", "0.6.10")]
-    [TestFixture("0.14.3", "0.7.4")]
-    [TestFixture("15.3.0", "0.7.4")]
+    //[TestFixture("0.14.3", "0.6.10")]
+    //[TestFixture("15.3.0", "0.6.10")]
+    //[TestFixture("0.14.3", "0.7.4")]
+    //[TestFixture("15.3.0", "0.7.4")]
     [TestFixture("15.4.2", "0.9.0")]
-    [TestFixture("16.0.0", "0.9.7")]
+    //[TestFixture("16.0.0", "0.9.7")]
     public abstract class TestBase
     {
         protected TestBase(string reactVersion, string retailUiVersion, string minRetailUiVersion)
@@ -31,7 +31,7 @@ namespace SKBKontur.SeleniumTesting.Tests
 
         protected Browser OpenUrl(string url)
         {
-            return BrowserSetUpFixture.browser.OpenUrl($"{reactVersion}/{retailUiVersion}/{url}");
+            return BrowserSetUp.browser.OpenUrl($"{reactVersion}/{retailUiVersion}/{url}");
         }
 
         private readonly string reactVersion;

@@ -59,7 +59,6 @@ namespace SKBKontur.SeleniumTesting
         }
 
         private readonly IAssertable<TControl> subject;
-        private readonly Expression<Func<TControl, T>> propertyPicker;
         private readonly string target;
         private readonly Func<TControl, T> compiledPropertyPicker;
         private bool negation;

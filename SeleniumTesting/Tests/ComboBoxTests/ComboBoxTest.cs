@@ -2,6 +2,8 @@
 
 using NUnit.Framework;
 
+using SKBKontur.SeleniumTesting.Tests.Helpers;
+
 namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
 {
     public class ComboBoxTest : TestBase
@@ -39,7 +41,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         public void TestSelectViaCustomPortalSelector()
         {
             page.SimpleComboBox.Click();
-            page.SimpleComboBoxItems.ExpectTo().HaveCount(17);
+            page.SimpleComboBoxItems.Count.Wait().That(Is.EqualTo(17));
         }
 
         [Test]

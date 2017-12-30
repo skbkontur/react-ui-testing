@@ -29,11 +29,11 @@ namespace SKBKontur.SeleniumTesting.Controls
                        new ControlListBase<T>(portal, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z);
         }
 
-        public void InputTextAndSelectSingle(string inputText)
+        public void InputTextAndSelectSingle(string inputText, Timings timings = null)
         {
             Click();
             InputText(inputText);
-            GetItemsAs((x, y) => new Label(x, y)).ExpectTo().Count.EqualTo(1);
+            GetItemsAs((x, y) => new Label(x, y)).Count.Wait().That(x => x.AssertEqualTo(1), timings);
             var result = GetItemsAs((x, y) => new Label(x, y)).First();
             if(result != null)
             {
@@ -41,11 +41,11 @@ namespace SKBKontur.SeleniumTesting.Controls
             }
         }
 
-        public void InputTextAndSelectFirst(string inputText)
+        public void InputTextAndSelectFirst(string inputText, Timings timings = null)
         {
             Click();
             InputText(inputText);
-            GetItemsAs((x, y) => new Label(x, y)).ExpectTo().Count.GreaterThan(0);
+            GetItemsAs((x, y) => new Label(x, y)).Count.Wait().That(x => x.AssertGreaterThan(0), timings);
             var result = GetItemsAs((x, y) => new Label(x, y)).First();
             if(result != null)
             {

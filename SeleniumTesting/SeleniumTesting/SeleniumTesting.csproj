@@ -85,7 +85,6 @@
     <Compile Include="ControlAssertions\SelectAssertions.cs" />
     <Compile Include="Controls\InternalCompoundControl.cs" />
     <Compile Include="Controls\Portal.cs" />
-    <Compile Include="Controls\PlacedInPortalCompoundControl.cs" />
     <Compile Include="ControlAssertions\CompoundControlAssertions.cs" />
     <Compile Include="ControlAssertions\ControlBaseAssertions.cs" />
     <Compile Include="ControlAssertions\ControlListAnyOfItemAssertions.cs" />

@@ -27,21 +27,21 @@ namespace SKBKontur.SeleniumTesting.Controls
             SelectValueByValue(value);
         }
 
-        public void SelectValueByText(string text)
+        public void SelectValueByText(string text, Timings timings = null)
         {
             Click();
             var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
-            controlList.ExpectTo().BePresent();
-            controlList.First(x => x.TextObsolete == text).Click();
+            controlList.IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
+            controlList.First(x => x.Text.Get() == text).Click();
         }
 
-        public void SelectValueByValue(object value)
+        public void SelectValueByValue(object value, Timings timings = null)
         {
             Click();
             var items = GetReactProp<JArray>("items");
             var index = items.ToList().FindIndex(x => ElementMatchToValue(value, x));
             var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
-            controlList[index].ExpectTo().BePresent();
+            controlList[index].IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
             controlList[index].Click();
         }
 

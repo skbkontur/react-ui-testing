@@ -18,7 +18,7 @@ namespace SKBKontur.SeleniumTesting.Tests.Helpers
             if(TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
             {
                 var now = DateTime.Now;
-                ScreenshotSaver.Save(Convert.FromBase64String(BrowserSetUpFixture.browser.GetScreenshot()), TestContext.CurrentContext.Test.FullName, now);
+                ScreenshotSaver.Save(Convert.FromBase64String(BrowserSetUp.browser.GetScreenshot()), TestContext.CurrentContext.Test.FullName, now);
             }
         }
 

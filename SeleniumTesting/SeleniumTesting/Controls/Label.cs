@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SKBKontur.SeleniumTesting.Controls
+﻿namespace SKBKontur.SeleniumTesting.Controls
 {
     public class Label : ControlBase
     {
@@ -12,8 +10,5 @@ namespace SKBKontur.SeleniumTesting.Controls
         public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
 
         public IControlProperty<string> Text => TextProperty();
-
-        [Obsolete]
-        public string TextObsolete => Text.Get();
     }
 }
