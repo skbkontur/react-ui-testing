@@ -156,7 +156,6 @@ namespace SKBKontur.SeleniumTesting.Tests
             BrowserSetUp.TearDown();
             KillProcessAndChildren(webServerProcess.Id);
             chromeDriverProcess.CloseMainWindow();
-            webServerProcess.WaitForExit();
             chromeDriverProcess.WaitForExit();
         }
 
@@ -180,7 +179,6 @@ namespace SKBKontur.SeleniumTesting.Tests
         }
 
         private Process chromeDriverProcess;
-
         private Process webServerProcess;
     }
 
