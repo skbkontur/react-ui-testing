@@ -21,24 +21,6 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         }
 
         [Test]
-        public void TestEnterAndSelectValue()
-        {
-            page.SimpleComboBox.InputText("Item 1");
-            page.SimpleComboBox.SelectByIndex(0);
-            throw new AssertionException("Неоднозначность");
-            //page.SimpleComboBox.ExpectTo().TextObsolete.EqualTo("Item 1");
-        }
-
-        [Test]
-        public void TestSelectMultipleItems()
-        {
-            page.SimpleComboBox.InputText("Item");
-            page.SimpleComboBox.SelectByIndex(5);
-            throw new AssertionException("Неоднозначность");
-            //page.SimpleComboBox.ExpectTo().TextObsolete.EqualTo("Item 6");
-        }
-
-        [Test]
         public void TestSelectViaCustomPortalSelector()
         {
             page.SimpleComboBox.Click();
@@ -50,7 +32,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         {
             page.ComboBoxNoPortal.Click();
             page.ComboBoxNoPortal.GetResults().Count.Should().Be(17);
-            page.ComboBoxNoPortal.InputTextAndSelectSingle("Item 1");
+            page.ComboBoxNoPortal.InputTextAndSelectFirst("Item 1");
         }
 
         private ComboBoxesTestPage page;

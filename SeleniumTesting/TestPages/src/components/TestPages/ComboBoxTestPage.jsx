@@ -1,14 +1,25 @@
 import React from 'react';
 import Button from 'retail-ui/components/Button'
-import ComboBox from 'retail-ui/components/ComboBox'
 import { CaseSuite, Case } from '../Case';
 
+function __import_default__(requireResult) {
+    return requireResult.__esModule ? requireResult.default : requireResult;
+}
+
+let ComboBox;
+if (process.env.newCombobox) {
+    ComboBox = __import_default__(require('retail-ui/components/ComboBoxOld'));
+} else {
+    ComboBox = __import_default__(require('retail-ui/components/ComboBox'));
+}
+console.log(ComboBox);
+
 function withDelay(timeout, result) {
-    return (...args) => 
+    return (...args) =>
         new Promise(
-            resolve => 
+            resolve =>
             setTimeout(
-                () => resolve(result(...args)), 
+                () => resolve(result(...args)),
                 timeout));
  }
 
@@ -45,7 +56,7 @@ export default class ComboBoxTestPage extends React.Component {
                         <ComboBox
                             data-tid='SimpleComboBox'
                             info={withDelay(1000, id => testItems.find(x => x.id === id))}
-                            value={this.state.simpleComboBoxValue} 
+                            value={this.state.simpleComboBoxValue}
                             onChange={(e, value) => this.setState({ simpleComboBoxValue: value })}
                             source={withDelay(1000, q => ({
                                 values: testItems.filter(x => x.value1.includes(q)).map(x => x.id),
@@ -61,7 +72,7 @@ export default class ComboBoxTestPage extends React.Component {
                     </Case.Body>
                 </Case>
                 <Case title='Комбобокс без портала'>
-                    <Case.Body>
+                    <Case.Body style={{ height: "500px" }}>
                         <ComboBox
                             data-tid='ComboBoxNoPortal'
                             disablePortal

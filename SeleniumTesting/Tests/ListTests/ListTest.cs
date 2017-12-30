@@ -27,16 +27,15 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         [Test]
         public void TestPresense()
         {
-            page.InputWithoutTidList.ExpectTo().BePresent();
+            page.InputWithoutTidList.IsPresent.Wait().That(Is.True);
         }
 
         [Test]
         public void TestAccessToListItems()
         {
-            page.InputWithoutTidList[0].ExpectTo().BePresent();
-            page.InputWithoutTidList[1].ExpectTo().BePresent();
-            page.InputWithoutTidList[2].ExpectTo().BePresent();
-            page.InputWithoutTidList[3].ExpectTo().BeAbsent();
+            page.InputWithoutTidList[0].IsPresent.Wait().That(Is.True);
+            page.InputWithoutTidList[1].IsPresent.Wait().That(Is.True);
+            page.InputWithoutTidList[2].IsPresent.Wait().That(Is.True);
         }
 
         [Test]
@@ -91,17 +90,6 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         public void Test3()
         {
             Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().ItemsAs(x => x.Value, x => x.ShouldAllBeEquivalentTo(new[] {"", "value", "value 2"})); });
-        }
-
-        [Test]
-        public void TestItemsWithFluentAssertions()
-        {
-            page.InputWithoutTidList[1].ClearAndInputText("value 1");
-            page.InputWithoutTidList.ExpectTo().ExecFluentAssertings(x =>
-                {
-                    x.GetItems().Select(z => z.Value)
-                     .ShouldAllBeEquivalentTo(new[] {"", "wrong value 1", "",}, c => c.WithStrictOrdering());
-                }, "Zzz");
         }
 
         [Test]
