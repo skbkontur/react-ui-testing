@@ -2,6 +2,7 @@
 
 using NUnit.Framework;
 
+using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
@@ -106,7 +107,8 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         [Test]
         public void TestDivInsideParagraph()
         {
-            page.DivInsideParagraph.ExpectTo().Text.EqualTo("Value");
+            IgnoreIfReactVersionSatisfies("<15.0.0", " скрипт ломает некорректный порядок тэгов например, div внутри p");
+            page.DivInsideParagraph.Text.Wait().That(Is.EqualTo("Value"));
         }
 
         [Test]

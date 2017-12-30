@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 
+using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 
 namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
@@ -28,6 +29,14 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
         protected Browser OpenUrl(string url)
         {
             return BrowserSetUp.browser.OpenUrl($"{reactVersion}/{retailUiVersion}/{url}");
+        }
+
+        protected IgnoreIfReactVersionSatisfies(string reactVersionsRange, string reason)
+        {
+            if(reactVersion.IsVersionSatisfy(reactVersionsRange))
+            {
+                Assert.Ignore($"Ignored for react {reactVersionsRange}: {reason}");
+            }
         }
 
         private readonly string reactVersion;
