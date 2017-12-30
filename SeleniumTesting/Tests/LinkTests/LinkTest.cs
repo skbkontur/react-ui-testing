@@ -1,5 +1,7 @@
 using NUnit.Framework;
 
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
+
 namespace SKBKontur.SeleniumTesting.Tests.LinkTests
 {
     [DefaultWaitInterval(2000)]

@@ -61,7 +61,11 @@
     <Compile Include="AutoFill\ChildSelectorAttribute.cs" />
     <Compile Include="AutoFill\SelectorAttribute.cs" />
     <Compile Include="AutoFill\SkipAutoFillAttribute.cs" />
-    <Compile Include="BrowserSetUp.cs" />
+    <Compile Include="TestEnvironment\PathUtils.cs" />
+    <Compile Include="TestEnvironment\ProcessUtils.cs" />
+    <Compile Include="TestEnvironment\RetailUIAndReactVersions.cs" />
+    <Compile Include="TestEnvironment\TeamCityEnvironment.cs" />
+    <Compile Include="TestEnvironment\BrowserSetUp.cs" />
     <Compile Include="Helpers\AssertionExtensions.cs" />
     <Compile Include="Helpers\NpmLibVersion.cs" />
     <Compile Include="PagingTests\PagingTest.cs" />
@@ -86,7 +90,7 @@
     <Compile Include="RadioGroupTests\RadioGroupTestPage.cs" />
     <Compile Include="RadioTests\RadioTest.cs" />
     <Compile Include="RadioTests\RadioTestPage.cs" />
-    <Compile Include="SatisfyTest.cs" />
+    <Compile Include="UtilsTests\SatisfyTest.cs" />
     <Compile Include="SelectTests\SelectTest.cs" />
     <Compile Include="ComboBoxTests\ComboBoxesTestPage.cs" />
     <Compile Include="InputTests\InputTestPage.cs" />
@@ -108,14 +112,14 @@
     <Compile Include="InputTests\InputTest.cs" />
     <Compile Include="PageActionAttributesTests\PageActionAttributesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestBase.cs" />
+    <Compile Include="TestEnvironment\TestBase.cs" />
     <Compile Include="TestEnvironmentFixture.cs" />
-    <Compile Include="TestStringAssertions.cs" />
+    <Compile Include="UtilsTests\TestStringAssertions.cs" />
     <Compile Include="TextAreaTests\TextAreaTest.cs" />
     <Compile Include="TextAreaTests\TextAreaTestPage.cs" />
     <Compile Include="TooltipTests\TooltipTest.cs" />
     <Compile Include="TooltipTests\TooltipTestPage.cs" />
-    <Compile Include="DefaultWaitIntervalAttribute.cs" />
+    <Compile Include="TestEnvironment\DefaultWaitIntervalAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SeleniumTesting\SeleniumTesting.csproj">

@@ -3,6 +3,7 @@
 using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.PageActionAttributesTests.PageActionAttributes;
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.PageActionAttributesTests
 {

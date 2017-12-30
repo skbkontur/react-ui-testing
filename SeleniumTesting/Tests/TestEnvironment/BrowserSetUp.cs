@@ -1,4 +1,4 @@
-﻿namespace SKBKontur.SeleniumTesting.Tests
+﻿namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
     public class BrowserSetUp
     {

@@ -4,8 +4,9 @@ using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.InputTests;
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
-namespace SKBKontur.SeleniumTesting.Tests
+namespace SKBKontur.SeleniumTesting.Tests.UtilsTests
 {
     [DefaultWaitInterval(2000)]
     public class TestStringAssertions : TestBase

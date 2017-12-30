@@ -2,7 +2,7 @@
 
 using SKBKontur.SeleniumTesting.Internals;
 
-namespace SKBKontur.SeleniumTesting.Tests
+namespace SKBKontur.SeleniumTesting.Tests.UtilsTests
 {
     public class VersionSatisfyTest
     {

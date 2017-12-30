@@ -4,6 +4,7 @@ using OpenQA.Selenium.Remote;
 
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.SelectTests
 {

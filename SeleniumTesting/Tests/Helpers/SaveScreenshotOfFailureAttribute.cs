@@ -4,6 +4,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
 using SKBKontur.SeleniumTesting.Internals.Commons;
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.Helpers
 {

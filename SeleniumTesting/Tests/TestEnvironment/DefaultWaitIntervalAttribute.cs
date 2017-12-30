@@ -5,7 +5,7 @@ using NUnit.Framework.Interfaces;
 
 using SKBKontur.SeleniumTesting.Assertions.Context;
 
-namespace SKBKontur.SeleniumTesting.Tests
+namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
     public class DefaultWaitIntervalAttribute : TestActionAttribute
     {

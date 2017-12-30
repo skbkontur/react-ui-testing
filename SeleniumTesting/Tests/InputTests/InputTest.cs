@@ -5,6 +5,7 @@ using FluentAssertions;
 using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.InputTests
 {

@@ -9,24 +9,10 @@ using System.Threading;
 using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests
 {
-    internal class TeamCityEnvironment
-    {
-        public static bool IsExecutionViaTeamCity
-        {
-            get
-            {
-                if(isExecutionViaTeamCity == null)
-                    isExecutionViaTeamCity = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TEAMCITY_VERSION"));
-                return isExecutionViaTeamCity.Value;
-            }
-        }
-
-        private static bool? isExecutionViaTeamCity;
-    }
-
     [SetUpFixture]
     [SaveScreenshotOfFailure]
     public class TestEnvironmentFixture
@@ -88,7 +74,7 @@ namespace SKBKontur.SeleniumTesting.Tests
             }
         }
 
-        static void KillWebPackDevServer()
+        private static void KillWebPackDevServer()
         {
             var processes = Process.GetProcesses();
             foreach(var process in processes)
@@ -99,7 +85,6 @@ namespace SKBKontur.SeleniumTesting.Tests
                 }
             }
         }
-
 
         private static void KillChromeDrivers()
         {
@@ -167,7 +152,7 @@ namespace SKBKontur.SeleniumTesting.Tests
             return new Process {StartInfo = processStartInfo};
         }
 
-        private Process CreateChromeDriverProcess()
+        private static Process CreateChromeDriverProcess()
         {
             var chromeProcessStartInfo = new ProcessStartInfo
                 {
@@ -201,25 +186,5 @@ namespace SKBKontur.SeleniumTesting.Tests
 
         private Process chromeDriverProcess;
         private Process webServerProcess;
-    }
-
-    internal static class PathUtils
-    {
-        public static string FindContainingDirectory(string filename)
-        {
-            var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            while(!File.Exists(Path.Combine(currentDirectory, filename)))
-            {
-                if(Directory.GetParent(currentDirectory) == null)
-                    throw new Exception(string.Format("Cannot find directory containing {1}. Trying to find from: '{0}'", AppDomain.CurrentDomain.BaseDirectory, filename));
-                currentDirectory = Directory.GetParent(currentDirectory).FullName;
-            }
-            return currentDirectory;
-        }
-
-        public static string FindProjectRootFolder()
-        {
-            return FindContainingDirectory("SeleniumTesting.sln");
-        }
     }
 }

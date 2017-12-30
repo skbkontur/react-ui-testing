@@ -1,5 +1,7 @@
 using NUnit.Framework;
 
+using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
+
 namespace SKBKontur.SeleniumTesting.Tests.RadioTests
 {
     [DefaultWaitInterval(2000)]
