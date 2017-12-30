@@ -82,7 +82,7 @@ namespace SKBKontur.SeleniumTesting.Tests
             }
             foreach(var versionPair in ProcessUtils.GetRetailAndReactVersions())
             {
-                yield return new TestFixtureData(versionPair[0], versionPair[0]);
+                yield return new TestFixtureData(versionPair[0], versionPair[1]);
             }
         }
     }
