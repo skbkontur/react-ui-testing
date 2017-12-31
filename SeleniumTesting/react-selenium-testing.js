@@ -294,7 +294,6 @@ function hasDataChanged(prevFiber, nextFiber) {
 
 function findDomElementByFiberNode(node) {
     let result = null;
-    console.log(node);
     if (typeof node.setAttribute === 'function') {
         return node;
     }
