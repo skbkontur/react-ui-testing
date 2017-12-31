@@ -1,5 +1,7 @@
 # react-ui-testing
 
+[![TeamCity](https://tcat.skbkontur.ru/app/rest/builds/buildType:(id:ReactUiSeleniumTesting_Tests)/statusIcon)](https://tcat.skbkontur.ru/project.html?projectId=ReactUiSeleniumTesting&tab=projectOverview)
+
 Набор инструментов для тестирования фронтэнд приложений написаных на React-е, в том числе с использованием библиотеки
 [react-ui](https://github.com/skbkontur/retail-ui).
 
