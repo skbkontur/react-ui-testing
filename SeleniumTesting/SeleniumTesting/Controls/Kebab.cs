@@ -24,6 +24,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             Menu.GetItemThat(assertion).Click();
         }
 
+        public PopupBase Popup => popup;
         public Menu Menu => popup.Menu;
 
         public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");

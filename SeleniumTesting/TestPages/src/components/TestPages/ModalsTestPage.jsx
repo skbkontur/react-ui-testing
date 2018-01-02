@@ -14,13 +14,13 @@ export default class InputTextPage extends React.Component {
             <CaseSuite title='Модальные окна'>
                 <Case title='Модальное окно на stateless компоненте, которое принимает свойство show'>
                     <Case.Body data-tid='ModalWithStatelessComponentWithShowPropsCase'>
-                        <Button 
+                        <Button
                             data-tid='Open'
                             onClick={() => this.setState({ showModalWithStatelessComp: true })}
                         >
                             Открыть
                         </Button>
-                        <StatelessModal 
+                        <StatelessModal
                             data-tid='Modal'
                             show={this.state.showModalWithStatelessComp}
                             onClose={() => this.setState({ showModalWithStatelessComp: false })}
@@ -29,13 +29,13 @@ export default class InputTextPage extends React.Component {
                 </Case>
                 <Case title='Модальное окно на statefull компоненте, которое принимает свойство show'>
                     <Case.Body data-tid='ModalWithStatefullComponentWithShowPropsCase'>
-                        <Button 
+                        <Button
                             data-tid='Open'
                             onClick={() => this.setState({ showModalWithStatefullComp: true })}
                         >
                             Открыть
                         </Button>
-                        <StateFullModal 
+                        <StateFullModal
                             data-tid='Modal'
                             show={this.state.showModalWithStatefullComp}
                             onClose={() => this.setState({ showModalWithStatefullComp: false })}

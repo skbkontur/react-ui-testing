@@ -257,7 +257,8 @@ function updateIfNecessaryFiberNode(node, hasChildOrderChanged) {
 
 function syncDomNodeWithFiberNode(node) {
     const attrs = {};
-    fillAttrsForDomElementByFiberNodeRecursive(attrs, node);
+    const visitedNodes = [];
+    fillAttrsForDomElementByFiberNodeRecursive(attrs, node, visitedNodes);
     const domElement = findDomElementByFiberNode(node);
     if (domElement != null) {
         if (typeof domElement.setAttribute === 'function') {
@@ -309,10 +310,39 @@ function findDomElementByFiberNode(node) {
     return result;
 }
 
-function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node) {
+function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node, visitedNodes) {
+    if (visitedNodes.includes(node)) {
+        return;
+    }
+    visitedNodes.push(node);
     fillAttrsForDomElementByFiberNode(attrContainer, node);
-    if (node.stateNode == null && node.child != null) {
-        fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child);
+    if (node.tag === 1 || node.tag === 2) {
+        fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes);
+    }
+    else if (node.tag === 5) {
+        // I dont know what does it mean
+    }
+    else if (node.tag === 4) {
+        // I dont know what does it mean
+    }
+    else {
+        // I dont know what does it mean
+    }
+    if ((node && node.memoizedProps && node.memoizedProps["data-render-container-id"]) || node.key === "portal-ref") {
+        if (node.child) {
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes);
+        }
+        if (node.return) {
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes);
+        }
+        // Этот странный код в общем случае неверен, работает только для Modal-ов
+        if (node.return && node.return.return && node.return.return.return) {
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return, visitedNodes);
+        }
+        // Этот странный код в общем случае неверен, работает только для Popup-ов
+        if (node.return && node.return.return && node.return.return.return && node.return.return.return) {
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return.return, visitedNodes);
+        }
     }
     // var ownerInstance = instance._currentElement && instance._currentElement._owner;
     // if (ownerInstance) {

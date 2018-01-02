@@ -12,7 +12,6 @@ if (process.env.newCombobox) {
 } else {
     ComboBox = __import_default__(require('retail-ui/components/ComboBox'));
 }
-console.log(ComboBox);
 
 function withDelay(timeout, result) {
     return (...args) =>
