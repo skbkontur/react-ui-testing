@@ -61,6 +61,8 @@
     <Compile Include="AutoFill\ChildSelectorAttribute.cs" />
     <Compile Include="AutoFill\SelectorAttribute.cs" />
     <Compile Include="AutoFill\SkipAutoFillAttribute.cs" />
+    <Compile Include="SidePages\SidePageTestPage.cs" />
+    <Compile Include="SidePages\SidePageTests.cs" />
     <Compile Include="TestEnvironment\PathUtils.cs" />
     <Compile Include="TestEnvironment\ProcessUtils.cs" />
     <Compile Include="TestEnvironment\RetailUIAndReactVersions.cs" />
