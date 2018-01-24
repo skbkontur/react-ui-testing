@@ -80,6 +80,7 @@ function createConfig(reactVersion, retailUIVersion, pairs) {
                 'process.env.enableReactTesting': JSON.stringify(true),
                 'process.env.hasKebab': JSON.stringify(semver.satisfies(retailUIVersion, '>=0.9.0')),
                 'process.env.hasPaging': JSON.stringify(semver.satisfies(retailUIVersion, '>=0.9.0')),
+                'process.env.hasSidePage': JSON.stringify(semver.satisfies(retailUIVersion, '>=0.11.0')),
                 'process.env.newCombobox': JSON.stringify(semver.satisfies(retailUIVersion, '>=0.7.0')),
                 'process.env.retailUIVersion': JSON.stringify(retailUIVersion),
                 'process.env.baseUrl': JSON.stringify('/' + reactVersion + '/' + retailUIVersion),

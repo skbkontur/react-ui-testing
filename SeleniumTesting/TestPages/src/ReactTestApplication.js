@@ -30,6 +30,12 @@ if (process.env.hasPaging)
 else
     PagingTestPage = () => <div>Does not work</div>;
 
+let SidePageTestPage;
+if(process.env.hasSidePage)
+    SidePageTestPage = require("./components/TestPages/SidePageTestPage").default;
+else
+    SidePageTestPage = () => <div>Does not work</div>;
+
 import './styles/reset.less';
 import './styles/typography.less';
 
@@ -54,6 +60,7 @@ export default function ReactTestApplication() {
                 <Route path='ExposeTidToDom' component={ExposeTidToDomTestPage} />
                 <Route path='Kebab' component={KebabTestPage} />
                 <Route path='Paging' component={PagingTestPage} />
+                <Route path='SidePage' component={SidePageTestPage}/>
             </Route>
         </Router>
     )

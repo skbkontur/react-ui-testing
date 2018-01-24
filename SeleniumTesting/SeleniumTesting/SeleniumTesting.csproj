@@ -72,6 +72,7 @@
     <Compile Include="Controls\MenuItem.cs" />
     <Compile Include="Controls\Paging.cs" />
     <Compile Include="Controls\PopupBase.cs" />
+    <Compile Include="Controls\SidePageBase.cs" />
     <Compile Include="IAndContraint.cs" />
     <Compile Include="Assertions\Bases\ControlBaseAssertions.cs" />
     <Compile Include="Assertions\Context\AssertionsContext.cs" />

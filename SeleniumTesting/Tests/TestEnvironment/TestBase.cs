@@ -5,7 +5,7 @@ using SKBKontur.SeleniumTesting.Tests.Helpers;
 
 namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
-    [TestFixture("15.4.2", "0.10.8")]
+    [TestFixture("15.4.2", "0.11.0")]
     //[TestFixture("16.0.0", "0.9.7")]
     [TestFixtureSource(typeof(RetailUIAndReactVersions))]
     public abstract class TestBase
