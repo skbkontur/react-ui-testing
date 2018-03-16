@@ -51,9 +51,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\RetryableAssertions\Kontur.RetryableAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="MoreLinq">
-      <HintPath>..\Assemblies\MoreLinq\MoreLinq.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Assemblies\json.net\Newtonsoft.Json.dll</HintPath>
     </Reference>
