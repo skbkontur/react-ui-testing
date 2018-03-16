@@ -38,12 +38,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Humanizer">
-      <HintPath>..\Assemblies\Humanizer\Humanizer.dll</HintPath>
-    </Reference>
-    <Reference Include="Humanizer.resources">
-      <HintPath>..\Assemblies\Humanizer\ru\Humanizer.resources.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Annotations">
       <HintPath>..\Assemblies\JetBrains.Annotations.dll</HintPath>
     </Reference>

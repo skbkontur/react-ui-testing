@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-
-using Humanizer;
 
 using JetBrains.Annotations;
 
@@ -140,11 +137,11 @@ namespace SKBKontur.SeleniumTesting
             {
                 var notFountException = exception as ElementNotFoundException;
                 result.AppendLine($"  не смогли долждаться присутсвия элемента: {notFountException.Control.GetControlTypeDesription()}({notFountException.Control.GetAbsolutePathBySelectors()})");
-                result.AppendLine($"Время ожидания: {timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))}.");
+                result.AppendLine($"Время ожидания: {(int)timeout.TotalMilliseconds}ms.");
             }
             else
             {
-                result.AppendLine($"  не смогли дождаться присутсвия элемента (время ожидания: {timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"))}), т.к. было получено исключение:");
+                result.AppendLine($"  не смогли дождаться присутсвия элемента (время ожидания: {(int)timeout.TotalMilliseconds}ms), т.к. было получено исключение:");
                 result.AppendLine(exception.ToString());
             }
             return result.ToString();
