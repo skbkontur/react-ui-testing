@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
-
-using Humanizer;
 
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations;
 
@@ -93,7 +90,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.ErrorMessages
 
         private string GetTimeoutDescription()
         {
-            return timeout.Humanize(culture : CultureInfo.GetCultureInfo("ru-RU"));
+            return $"{(int)timeout.TotalMilliseconds}ms";
         }
 
         private ControlBase subject;
