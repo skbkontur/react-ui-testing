@@ -18,10 +18,6 @@ pushd SeleniumTesting\bin\%Configuration%
 
 %ILMergeExe% /xmldocs /v4 /internalize /out:%OutputDir%\SKBKontur.SeleniumTesting.dll^
  SKBKontur.SeleniumTesting.dll^
- Humanizer.dll^
- Humanizer.resources.dll^
- ru\Humanizer.resources.dll^
- MoreLinq.dll^
  Newtonsoft.Json.dll^
  Kontur.RetryableAssertions.dll
 
