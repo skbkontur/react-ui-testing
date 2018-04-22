@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using MoreLinq;
-
 using SKBKontur.SeleniumTesting.Assertions.Bases;
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations;
 using SKBKontur.SeleniumTesting.Controls;
@@ -41,7 +39,10 @@ namespace SKBKontur.SeleniumTesting
                 (x, m) =>
                     {
                         m = m.WithExpectation(new ArraysEquivalentExpectation(expected));
-                        x.GetItems().Select(propertySelector).ForEach(a => m.WithActual(a));
+                        foreach(var item in x.GetItems().Select(propertySelector))
+                        {
+                            m.WithActual(item);
+                        }
                         return m;
                     });
             return AndThis();
