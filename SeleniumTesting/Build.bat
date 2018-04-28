@@ -1,7 +1,7 @@
 SET OutputDir=%~dp0Output
 SET Configuration=Release
-SET ILMergeExe=%~dp0Assemblies\ILMerge\ILMerge.exe
-SET MSBuildExe="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
+SET ILRepackExe=%~dp0packages\ILRepack.2.0.15\tools\ILRepack.exe
+SET MSBuildExe="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\MSBuild.exe"
 SET NpmExe=npm
 
 pushd %~dp0
@@ -16,7 +16,7 @@ call %NpmExe% run build
 
 pushd SeleniumTesting\bin\%Configuration%
 
-%ILMergeExe% /xmldocs /v4 /internalize /out:%OutputDir%\SKBKontur.SeleniumTesting.dll^
+%ILRepackExe% /xmldocs /v4 /internalize /out:%OutputDir%\SKBKontur.SeleniumTesting.dll^
  SKBKontur.SeleniumTesting.dll^
  Newtonsoft.Json.dll^
  Kontur.RetryableAssertions.dll
