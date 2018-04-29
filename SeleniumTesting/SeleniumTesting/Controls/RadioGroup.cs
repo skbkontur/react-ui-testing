@@ -4,9 +4,9 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
-using Newtonsoft.Json.Linq;
-
 using OpenQA.Selenium;
+
+using SimpleJson;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
@@ -33,28 +33,22 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             ExecuteAction(element =>
                 {
-                    var items = GetReactProp<JArray>("items");
+                    var items = GetReactProp<JsonArray>("items");
                     var index = items.ToList().FindIndex(x => ElementMatchToValue(id, x));
                     element.FindElements(By.CssSelector($"[data-comp-name='{"Radio"}']")).ElementAt(index).Click();
                 }, $"SelectItemById({id})");
         }
 
-        private static bool ElementMatchToValue(object value, JToken x)
+        private static bool ElementMatchToValue(object value, object x)
         {
             object actualValue = null;
-            if(x is JArray)
+            if(x is JsonArray)
             {
-                if(x[0] is JValue)
-                {
-                    actualValue = ((JValue)x[0]).Value;
-                }
+                actualValue = (x as JsonArray)[0];
             }
             else
             {
-                if(x is JValue)
-                {
-                    actualValue = ((JValue)x).Value;
-                }
+                actualValue = x;
             }
             if(actualValue == null)
             {

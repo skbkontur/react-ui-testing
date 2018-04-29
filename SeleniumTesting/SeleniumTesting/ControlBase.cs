@@ -4,8 +4,6 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-using Newtonsoft.Json;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
@@ -163,7 +161,7 @@ namespace SKBKontur.SeleniumTesting
             {
                 return default(T);
             }
-            return JsonConvert.DeserializeObject<T>(propValue);
+            return SimpleJson.SimpleJson.DeserializeObject<T>(propValue);
         }
 
         [NotNull]

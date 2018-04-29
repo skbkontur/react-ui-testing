@@ -18,7 +18,6 @@ pushd SeleniumTesting\bin\%Configuration%
 
 %ILRepackExe% /xmldocs /v4 /internalize /out:%OutputDir%\SKBKontur.SeleniumTesting.dll^
  SKBKontur.SeleniumTesting.dll^
- Newtonsoft.Json.dll^
  Kontur.RetryableAssertions.dll
 
 popd

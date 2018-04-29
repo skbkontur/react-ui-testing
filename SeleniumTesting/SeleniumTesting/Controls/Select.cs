@@ -4,9 +4,9 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
-using Newtonsoft.Json.Linq;
-
 using OpenQA.Selenium;
+
+using SimpleJson;
 
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Internals.Selectors;
@@ -38,29 +38,23 @@ namespace SKBKontur.SeleniumTesting.Controls
         public void SelectValueByValue(object value, Timings timings = null)
         {
             Click();
-            var items = GetReactProp<JArray>("items");
+            var items = GetReactProp<JsonArray>("items");
             var index = items.ToList().FindIndex(x => ElementMatchToValue(value, x));
             var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
             controlList[index].IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
             controlList[index].Click();
         }
 
-        private static bool ElementMatchToValue(object value, JToken x)
+        private static bool ElementMatchToValue(object value, object x)
         {
             object actualValue = null;
-            if(x is JArray)
+            if(x is JsonArray)
             {
-                if(x[0] is JValue)
-                {
-                    actualValue = ((JValue)x[0]).Value;
-                }
+                actualValue = (x as JsonArray)[0];
             }
             else
             {
-                if(x is JValue)
-                {
-                    actualValue = ((JValue)x).Value;
-                }
+                actualValue = x;
             }
             if(actualValue == null)
             {

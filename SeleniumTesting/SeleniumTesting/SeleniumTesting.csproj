@@ -46,9 +46,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\RetryableAssertions\Kontur.RetryableAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Assemblies\json.net\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="WebDriver">
@@ -156,6 +153,7 @@
     <Compile Include="Internals\Commons\ChainedNullCheckExtensions.cs" />
     <Compile Include="Internals\Commons\TeamCityEnvironment.cs" />
     <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="SimpleJson\SimpleJson.cs" />
     <Compile Include="TestFrameworks\FallbackTestFramework.cs" />
     <Compile Include="TestFrameworks\MSTestFrameworkV2.cs" />
     <Compile Include="TestFrameworks\XUnitTestFramework.cs" />
