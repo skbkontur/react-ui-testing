@@ -258,8 +258,8 @@ function updateIfNecessaryFiberNode(node, hasChildOrderChanged) {
 function syncDomNodeWithFiberNode(node) {
     const attrs = {};
     const visitedNodes = [];
-    fillAttrsForDomElementByFiberNodeRecursive(attrs, node, visitedNodes);
     const domElement = findDomElementByFiberNode(node);
+    fillAttrsForDomElementByFiberNodeRecursive(attrs, node, visitedNodes, domElement);
     if (domElement != null) {
         if (typeof domElement.setAttribute === 'function') {
             for (var attrName in attrs) {
@@ -310,13 +310,13 @@ function findDomElementByFiberNode(node) {
     return result;
 }
 
-function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node, visitedNodes) {
-    if (visitedNodes.includes(node)) {
+function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node, visitedNodes, domElement) {
+    if (node == null || visitedNodes.includes(node)) {
         return;
     }
     visitedNodes.push(node);
     fillAttrsForDomElementByFiberNode(attrContainer, node);
-    if (node.tag === 1 || node.tag === 2) {
+    if (node.tag === 1 || node.tag === 2 || node.tag === 12 || node.tag === 13 || node.tag === 10) {
         fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes);
     }
     else if (node.tag === 5) {
@@ -326,30 +326,29 @@ function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node, visited
         // I dont know what does it mean
     }
     else {
-        // I dont know what does it mean
+    }
+    if (node.return) {
+        const parentDomElement = findDomElementByFiberNode(node.return);
+        if (parentDomElement == domElement) {
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes, domElement);
+        }
     }
     if ((node && node.memoizedProps && node.memoizedProps["data-render-container-id"]) || node.key === "portal-ref") {
         if (node.child) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes);
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes, domElement);
         }
         if (node.return) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes);
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes, domElement);
         }
         // Этот странный код в общем случае неверен, работает только для Modal-ов
         if (node.return && node.return.return && node.return.return.return) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return, visitedNodes);
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return, visitedNodes, domElement);
         }
         // Этот странный код в общем случае неверен, работает только для Popup-ов
         if (node.return && node.return.return && node.return.return.return && node.return.return.return) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return.return, visitedNodes);
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return.return, visitedNodes, domElement);
         }
     }
-    // var ownerInstance = instance._currentElement && instance._currentElement._owner;
-    // if (ownerInstance) {
-    //     if (sameHostNodes(ownerInstance, instance)) {
-    //         attrContainer = fillPropsForDomElementRecursive(attrContainer, ownerInstance);
-    //     }
-    // }
 }
 
 function fillAttrsForDomElementByFiberNode(attrContainer, node) {
