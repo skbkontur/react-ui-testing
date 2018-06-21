@@ -7,6 +7,7 @@ export default class InputTextPage extends React.Component {
     state = {
         showModalWithStatelessComp: false,
         showModalWithStatefullComp: false,
+        showModalWithoutComp: false,
     };
 
     render(): React.Element<*> {
@@ -42,7 +43,30 @@ export default class InputTextPage extends React.Component {
                         />
                     </Case.Body>
                 </Case>
-           </CaseSuite>
+                <Case title='Модальное окно без компоненты'>
+                    <Case.Body data-tid='ModalWithStatefullComponentWithShowPropsCase'>
+                        <Button
+                            data-tid='Open'
+                            onClick={() => this.setState({ showModalWithoutComp: true })}
+                        >
+                            Открыть
+                        </Button>
+                        {this.state.showModalWithoutComp &&
+                            <Modal data-tid="ModalWithoutComp" onClose={() => this.setState({ showModalWithoutComp: false })}>
+                                <Modal.Header>Modal header</Modal.Header>
+                                <Modal.Body>
+                                    <div data-tid='Content'>
+                                        Modal content
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer panel>
+                                    <Button data-tid='Close' onClick={() => this.setState({ showModalWithoutComp: false })} use='primary'>Close</Button>
+                                </Modal.Footer>
+                            </Modal>
+                        }
+                    </Case.Body>
+                </Case>
+            </CaseSuite>
         );
     }
 }

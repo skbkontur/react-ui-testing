@@ -49,7 +49,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
                 .ShouldThrow<AssertionException>().Which.Message
                 .Should().Be(To.Text(
                     @"TestModal(##ModalWithStatefullComponentWithShowPropsCase ##Modal): ожидалось присутствие",
-                    @"Время ожидания: 5 секунд."
+                    @"Время ожидания: 5000ms."
                                  ));
         }
 
@@ -65,7 +65,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
                 .ShouldThrow<AssertionException>().Which.Message
                 .Should().Be(To.Text(
                     @"TestModal(##ModalWithStatefullComponentWithShowPropsCase ##Modal): ожидалось отсутствие",
-                    @"Время ожидания: 5 секунд."
+                    @"Время ожидания: 5000ms."
                                  ));
         }
 
