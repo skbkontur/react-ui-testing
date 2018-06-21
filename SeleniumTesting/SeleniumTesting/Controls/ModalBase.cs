@@ -13,7 +13,14 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public void Close()
         {
-            Search(new BySelector(By.LinkText("×"))).Click();
+            try
+            {
+                Search(new BySelector(By.CssSelector("[data-comp-name~='Header'] div > button"))).Click();
+            }
+            catch (NoSuchElementException)
+            {
+                Search(new BySelector(By.LinkText("×"))).Click();
+            }
         }
     }
 }
