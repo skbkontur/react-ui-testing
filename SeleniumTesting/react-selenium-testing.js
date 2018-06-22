@@ -258,18 +258,35 @@ function updateIfNecessaryFiberNode(node, hasChildOrderChanged) {
 function syncDomNodeWithFiberNode(node) {
     const attrs = {};
     const visitedNodes = [];
-    const domElement = findDomElementByFiberNode(node);
-    fillAttrsForDomElementByFiberNodeRecursive(attrs, node, visitedNodes, domElement);
-    if (domElement != null) {
-        if (typeof domElement.setAttribute === 'function') {
-            for (var attrName in attrs) {
-                domElement.setAttribute(attrName, attrs[attrName]);
+    if (node.tag === 4 && node.sibling) {
+        console.log(node);
+        const domElement = findDomElementByFiberNode(node.sibling);
+        const targetDomElement = findDomElementByFiberNode(node.sibling.return);
+        console.log(domElement, targetDomElement)
+        fillAttrsForDomElementByFiberNodeRecursive(attrs, node.sibling, visitedNodes, domElement);
+        fillAttrsForDomElementByFiberNodeRecursive(attrs, node.sibling.return, visitedNodes, targetDomElement);
+        console.log(attrs)
+        if (domElement != null) {
+            if (typeof domElement.setAttribute === 'function') {
+                for (var attrName in attrs) {
+                    domElement.setAttribute(attrName, attrs[attrName]);
+                }
             }
-        } else {
-            // TODO
-            // console.log(node)
         }
-    } else {
+    }
+    else {
+        const domElement = findDomElementByFiberNode(node);
+        fillAttrsForDomElementByFiberNodeRecursive(attrs, node, visitedNodes, domElement);
+        if (attrs["data-comp-name"] === "Portal") {
+            console.log(node);
+        }
+        if (domElement != null) {
+            if (typeof domElement.setAttribute === 'function') {
+                for (var attrName in attrs) {
+                    domElement.setAttribute(attrName, attrs[attrName]);
+                }
+            }
+        }
     }
 }
 
@@ -333,20 +350,10 @@ function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node, visited
             fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes, domElement);
         }
     }
-    if ((node && node.memoizedProps && node.memoizedProps["data-render-container-id"]) || node.key === "portal-ref") {
-        if (node.child) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes, domElement);
-        }
+    if (node && node.memoizedProps && node.key === "portal-ref") {
         if (node.return) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes, domElement);
-        }
-        // Этот странный код в общем случае неверен, работает только для Modal-ов
-        if (node.return && node.return.return && node.return.return.return) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return, visitedNodes, domElement);
-        }
-        // Этот странный код в общем случае неверен, работает только для Popup-ов
-        if (node.return && node.return.return && node.return.return.return && node.return.return.return) {
-            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return.return.return.return, visitedNodes, domElement);
+            const parentDomElement = findDomElementByFiberNode(node.return);
+            fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes, parentDomElement);
         }
     }
 }
