@@ -259,13 +259,10 @@ function syncDomNodeWithFiberNode(node) {
     const attrs = {};
     const visitedNodes = [];
     if (node.tag === 4 && node.sibling) {
-        console.log(node);
         const domElement = findDomElementByFiberNode(node.sibling);
         const targetDomElement = findDomElementByFiberNode(node.sibling.return);
-        console.log(domElement, targetDomElement)
         fillAttrsForDomElementByFiberNodeRecursive(attrs, node.sibling, visitedNodes, domElement);
         fillAttrsForDomElementByFiberNodeRecursive(attrs, node.sibling.return, visitedNodes, targetDomElement);
-        console.log(attrs)
         if (domElement != null) {
             if (typeof domElement.setAttribute === 'function') {
                 for (var attrName in attrs) {
@@ -277,9 +274,6 @@ function syncDomNodeWithFiberNode(node) {
     else {
         const domElement = findDomElementByFiberNode(node);
         fillAttrsForDomElementByFiberNodeRecursive(attrs, node, visitedNodes, domElement);
-        if (attrs["data-comp-name"] === "Portal") {
-            console.log(node);
-        }
         if (domElement != null) {
             if (typeof domElement.setAttribute === 'function') {
                 for (var attrName in attrs) {
