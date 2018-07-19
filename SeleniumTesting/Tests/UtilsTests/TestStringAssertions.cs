@@ -26,10 +26,10 @@ namespace SKBKontur.SeleniumTesting.Tests.UtilsTests
         public void TestInvalidAssertions()
         {
             page.SimpleInput.ClearAndInputText("hello");
-            Following.Code(() => page.SimpleInput.ExpectTo().Value.BeOneOf("1", "2", "3")).ShouldThrow<AssertionException>();
-            Following.Code(() => page.SimpleInput.ExpectTo().Value.BeEmpty()).ShouldThrow<AssertionException>();
-            Following.Code(() => page.SimpleInput.ExpectTo().Value.HaveLength(3)).ShouldThrow<AssertionException>();
-            Following.Code(() => page.SimpleInput.ExpectTo().Value.Match("*hi*")).ShouldThrow<AssertionException>();
+            Following.Code(() => page.SimpleInput.ExpectTo().Value.BeOneOf("1", "2", "3")).Should().Throw<AssertionException>();
+            Following.Code(() => page.SimpleInput.ExpectTo().Value.BeEmpty()).Should().Throw<AssertionException>();
+            Following.Code(() => page.SimpleInput.ExpectTo().Value.HaveLength(3)).Should().Throw<AssertionException>();
+            Following.Code(() => page.SimpleInput.ExpectTo().Value.Match("*hi*")).Should().Throw<AssertionException>();
         }
 
         [Test]
