@@ -150,7 +150,6 @@
     <Compile Include="Internals\Selectors\BySelector.cs" />
     <Compile Include="ISelector.cs" />
     <Compile Include="Internals\Selectors\SelectorWithIndexWrapper.cs" />
-    <Compile Include="Internals\ArgumentAssertions\Argument.cs" />
     <Compile Include="Internals\Waiter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internals\Commons\ChainedNullCheckExtensions.cs" />
