@@ -1,5 +1,7 @@
 ﻿using JetBrains.Annotations;
 
+using Kontur.Selone.Properties;
+
 using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Controls
@@ -52,8 +54,8 @@ namespace SKBKontur.SeleniumTesting.Controls
                 "Clear");
         }
 
-        public IControlProperty<string> Value => ValueFromElement(x => ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
+        public IProp<string> Value => ValueFromElement(x => ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
 
-        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
     }
 }

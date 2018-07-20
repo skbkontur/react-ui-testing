@@ -4,6 +4,8 @@ using System.Text;
 
 using JetBrains.Annotations;
 
+using Kontur.Selone.Properties;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
@@ -47,7 +49,7 @@ namespace SKBKontur.SeleniumTesting
             return GetValueFromElement(x => x.GetAttribute(attributeName));
         }
 
-        public IControlProperty<bool> IsPresent => Property(() => IsPresentObsolete, "IsPresent");
+        public IProp<bool> IsPresent => Property(() => IsPresentObsolete, "IsPresent");
 
         [Obsolete]
         public virtual bool IsPresentObsolete
@@ -246,24 +248,24 @@ namespace SKBKontur.SeleniumTesting
             return $"{GetControlTypeDesription()}({GetAbsolutePathBySelectors()})";
         }
 
-        protected IControlProperty<string> TextProperty(string description = null)
+        protected IProp<string> TextProperty(string description = null)
         {
             return Property(() => GetValueFromElement(element => element.Text), description ?? "text");
         }
 
-        protected IControlProperty<T> ValueFromElement<T>(Func<IWebElement, T> action, string description = null)
+        protected IProp<T> ValueFromElement<T>(Func<IWebElement, T> action, string description = null)
         {
             return Property(() => GetValueFromElement(action), description ?? "text");
         }
 
-        protected IControlProperty<T> ReactProperty<T>(string property, string description = null)
+        protected IProp<T> ReactProperty<T>(string property, string description = null)
         {
             return Property(() => GetReactProp<T>(property), description ?? $"ReactProperty: '{property}'");
         }
 
-        protected IControlProperty<T> Property<T>(Func<T> property, string description)
+        protected IProp<T> Property<T>(Func<T> property, string description)
         {
-            return ControlProperty.Create(property, FormatDescription(description));
+            return Prop.Create(property, FormatDescription(description));
         }
 
         protected string FormatDescription(string description)

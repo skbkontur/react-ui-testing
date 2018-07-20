@@ -1,3 +1,5 @@
+using Kontur.Selone.Properties;
+
 namespace SKBKontur.SeleniumTesting.Controls
 {
     public class CompoundControl : InternalCompoundControl
@@ -8,7 +10,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             ExecuteInitAction();
         }
 
-        public virtual IControlProperty<string> Text => TextProperty();
+        public virtual IProp<string> Text => TextProperty();
 
         private void ExecuteInitAction()
         {

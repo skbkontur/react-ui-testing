@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Kontur.Selone.Properties;
+
 using SKBKontur.SeleniumTesting.Internals;
 
 namespace SKBKontur.SeleniumTesting.Controls
@@ -27,7 +29,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public PopupBase Popup => popup;
         public Menu Menu => popup.Menu;
 
-        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
         private readonly KebabPopup popup;
 
         public class KebabPopup : PopupBase

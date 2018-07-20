@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Kontur.Selone.Properties;
+
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages;
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages.Expecations;
 
@@ -74,7 +76,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.Bases
             return AndThis();
         }
 
-        public PropertyControlContext<TControl, TProperty> HaveProperty<TProperty>(Func<TControl, IControlProperty<TProperty>> propertyPicker, string a)
+        public PropertyControlContext<TControl, TProperty> HaveProperty<TProperty>(Func<TControl, IProp<TProperty>> propertyPicker, string a)
         {
             return new PropertyControlContext<TControl, TProperty>(Subject, (x) => propertyPicker(x).Get(), a);
         }
@@ -89,7 +91,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.Bases
             return new PropertyControlContext<TControl, TProperty>(Subject, propertyPicker, a);
         }
 
-        public PropertyControlContext<TControl, TProperty> HaveComplexProperty<TProperty>(Func<TControl, IControlProperty<TProperty>> propertyPicker, string a)
+        public PropertyControlContext<TControl, TProperty> HaveComplexProperty<TProperty>(Func<TControl, IProp<TProperty>> propertyPicker, string a)
         {
             return new PropertyControlContext<TControl, TProperty>(Subject, (x) => propertyPicker(x).Get(), a);
         }

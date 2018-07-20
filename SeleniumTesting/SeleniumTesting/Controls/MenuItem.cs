@@ -1,4 +1,6 @@
-﻿namespace SKBKontur.SeleniumTesting.Controls
+﻿using Kontur.Selone.Properties;
+
+namespace SKBKontur.SeleniumTesting.Controls
 {
     public class MenuItem : ControlBase
     {
@@ -7,6 +9,6 @@
         {
         }
 
-        public IControlProperty<string> Text => TextProperty();
+        public IProp<string> Text => TextProperty();
     }
 }
