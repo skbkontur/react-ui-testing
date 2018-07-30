@@ -19,6 +19,8 @@ namespace SKBKontur.SeleniumTesting.Controls
             this.portal = this.Find<Portal>().By("noscript");
         }
 
+        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
+
         [Obsolete]
         public string Text { get { return GetValueFromElement(x => x.Text); } }
 
