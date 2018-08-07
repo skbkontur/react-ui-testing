@@ -6,6 +6,7 @@ using System.Linq;
 using JetBrains.Annotations;
 
 using Kontur.RetryableAssertions.Extensions;
+using Kontur.Selone.Properties;
 
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Internals.Selectors;
@@ -21,7 +22,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             this.createItem = createItem;
         }
 
-        public IControlProperty<int> Count => Property(() => GetValueFromElement(x => x.FindElements(itemSelector.SeleniumBy)).Count, "items count");
+        public IProp<int> Count => Property(() => GetValueFromElement(x => x.FindElements(itemSelector.SeleniumBy)).Count, "items count");
 
         [NotNull]
         public TItem this[int index] => GetItemAt(index);

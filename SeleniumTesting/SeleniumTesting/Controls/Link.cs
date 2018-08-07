@@ -1,4 +1,6 @@
-﻿namespace SKBKontur.SeleniumTesting.Controls
+﻿using Kontur.Selone.Properties;
+
+namespace SKBKontur.SeleniumTesting.Controls
 {
     public class Link : ControlBase
     {
@@ -7,8 +9,8 @@
         {
         }
 
-        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled", null);
-        public IControlProperty<string> Url => ValueFromElement(element => element.GetAttribute("href"));
-        public IControlProperty<string> Text => ValueFromElement(element => element.Text);
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled", null);
+        public IProp<string> Url => ValueFromElement(element => element.GetAttribute("href"));
+        public IProp<string> Text => ValueFromElement(element => element.Text);
     }
 }

@@ -94,7 +94,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                         page.InputAppearsAfterTimeout.ClearAndInputText("hello");
                         page.InputAppearsAfterTimeout.ExpectTo().Value.EqualTo("hello");
                     })
-                .ShouldThrow<AssertionException>().Which.Message
+                .Should().Throw<AssertionException>().Which.Message
                 .Should().Be(To.Text(
                     @"Input(##InputAppearsAfterTimeout): требовалось действие InputText(hello), но",
                     @"  не смогли долждаться присутсвия элемента: Input(##InputAppearsAfterTimeout)",
@@ -135,7 +135,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                                 .BeDisabled().And
                                 .HaveProperty(x => x.Value, "Value").EqualTo("hello");
                         })
-                .ShouldThrow<AssertionException>().Which.Message
+                .Should().Throw<AssertionException>().Which.Message
                 .Should().Be(To.Text(
                     @"Input(##SimpleInput): поле disabled ожидалось истиным, но было:",
                     @"  'False'",
@@ -148,7 +148,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         {
             Following
                 .Code(() => page.SimpleInput.ExpectTo().BeAbsent())
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): ожидалось отсутствие",
                     @"Время ожидания: 2 секунды."));
@@ -159,7 +159,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         {
             Following
                 .Code(() => page.SimpleInput.ExpectTo().HaveProperty(x => x.IsDisabled, "disabled").BeTrue())
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): поле disabled ожидалось истиным, но было:",
                     "  'False'",
@@ -171,7 +171,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         {
             Following
                 .Code(() => page.SimpleInput.ExpectTo().Satisfy(x => x.Value.Get() == "Blah", "ожидалось волшебство"))
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): ожидалось волшебство",
                     @"Время ожидания: 2 секунды."));
@@ -182,7 +182,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         {
             Following
                 .Code(() => page.NotExistentInput.ExpectTo().HaveProperty(x => x.Value, "value").EqualTo("bye"))
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##NotExistentInput): поле value ожидалось равным:",
                     @"  'bye', но не был найден контрол Input(##NotExistentInput)",
@@ -195,7 +195,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         {
             Following
                 .Code(() => page.NotExistentInput.ExpectTo().BePresent())
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##NotExistentInput): ожидалось присутствие",
                     @"Время ожидания: 2 секунды."
@@ -208,7 +208,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
             page.SimpleInput.ClearAndInputText("hello");
             Following
                 .Code(() => page.SimpleInput.ExpectTo().HaveProperty(x => x.Value, "value").EqualTo("bye"))
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): поле value ожидалось равным:",
                     @"  'bye', но было:",
@@ -223,7 +223,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
             page.SimpleInput.ClearAndInputText("hello");
             Following
                 .Code(() => page.SimpleInput.ExpectTo().HaveProperty(x => x.Value, "value").Not().EqualTo("hello"))
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): поле value ожидалось не равным:",
                     @"  'hello', но было:",
@@ -237,7 +237,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
             page.SimpleInput.ClearAndInputText("hello");
             Following
                 .Code(() => page.SimpleInput.ExpectTo().HaveProperty(x => x.Value, "value").MatchToRegex(new Regex(@"\d+")))
-                .ShouldThrow<AssertionException>().Which.Message.Should()
+                .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): поле value ожидалось соотвествующим regex-у:",
                     @"  '\d+', но было:",

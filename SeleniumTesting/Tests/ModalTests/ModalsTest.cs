@@ -46,7 +46,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
         {
             Following
                 .Code(() => page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BePresent())
-                .ShouldThrow<AssertionException>().Which.Message
+                .Should().Throw<AssertionException>().Which.Message
                 .Should().Be(To.Text(
                     @"TestModal(##ModalWithStatefullComponentWithShowPropsCase ##Modal): ожидалось присутствие",
                     @"Время ожидания: 5000ms."
@@ -62,7 +62,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
                         page.ModalWithStatefullComponentWithShowPropsCase.Open.Click();
                         page.ModalWithStatefullComponentWithShowPropsCase.Modal.ExpectTo().BeAbsent();
                     })
-                .ShouldThrow<AssertionException>().Which.Message
+                .Should().Throw<AssertionException>().Which.Message
                 .Should().Be(To.Text(
                     @"TestModal(##ModalWithStatefullComponentWithShowPropsCase ##Modal): ожидалось отсутствие",
                     @"Время ожидания: 5000ms."

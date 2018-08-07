@@ -1,140 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6F73A478-3FD4-46D4-9CD7-B178AEDC4EBC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SKBKontur.SeleniumTesting.Tests</RootNamespace>
     <AssemblyName>SKBKontur.SeleniumTesting.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <Authors>Kontur</Authors>
+    <Company>Kontur</Company>
+    <Product>SKBKontur.SeleniumTesting.Tests</Product>
+    <RootNamespace>SKBKontur.SeleniumTesting.Tests</RootNamespace>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Version>1.0.0.0$(VersionSuffix)</Version>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net45</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions">
-      <HintPath>..\Assemblies\FluentAssertions\FluentAssertions.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentAssertions.Core">
-      <HintPath>..\Assemblies\FluentAssertions\FluentAssertions.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\Assemblies\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Kontur.RetryableAssertions">
-      <HintPath>..\Assemblies\RetryableAssertions\Kontur.RetryableAssertions.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
-    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Assemblies\NUnit\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <ProjectReference Include="..\SeleniumTesting\SeleniumTesting.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.4.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="10.0.0" />
+    <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.1" />
+    <PackageReference Include="Kontur.Selone" Version="0.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NUnit" Version="3.8.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.Management" />
-    <Reference Include="System.XML" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebDriver">
-      <HintPath>..\Assemblies\WebDriver\WebDriver.dll</HintPath>
-    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AutoFill\AutoFillControlsAttribute.cs" />
-    <Compile Include="AutoFill\ChildSelectorAttribute.cs" />
-    <Compile Include="AutoFill\SelectorAttribute.cs" />
-    <Compile Include="AutoFill\SkipAutoFillAttribute.cs" />
-    <Compile Include="SidePages\SidePageTestPage.cs" />
-    <Compile Include="SidePages\SidePageTests.cs" />
-    <Compile Include="TestEnvironment\PathUtils.cs" />
-    <Compile Include="TestEnvironment\ProcessUtils.cs" />
-    <Compile Include="TestEnvironment\RetailUIAndReactVersions.cs" />
-    <Compile Include="TestEnvironment\TeamCityEnvironment.cs" />
-    <Compile Include="TestEnvironment\BrowserSetUp.cs" />
-    <Compile Include="Helpers\AssertionExtensions.cs" />
-    <Compile Include="Helpers\NpmLibVersion.cs" />
-    <Compile Include="PagingTests\PagingTest.cs" />
-    <Compile Include="PagingTests\PagingTestPage.cs" />
-    <Compile Include="KebabTests\KebabTest.cs" />
-    <Compile Include="KebabTests\KebabTestPage.cs" />
-    <Compile Include="ButtonTests\ButtonTest.cs" />
-    <Compile Include="ButtonTests\ButtonTestPage.cs" />
-    <Compile Include="CheckBoxTests\CheckBoxTest.cs" />
-    <Compile Include="CheckBoxTests\CheckBoxTestPage.cs" />
-    <Compile Include="ComboBoxTests\ComboBoxTest.cs" />
-    <Compile Include="DatePickerTests\DatePickerTest.cs" />
-    <Compile Include="DatePickerTests\DatePickerTestPage.cs" />
-    <Compile Include="ExposeTidToDomTests\ExposeTidToDomTest.cs" />
-    <Compile Include="ExposeTidToDomTests\ExposeTidToDomTestPage.cs" />
-    <Compile Include="LinkTests\LinkTest.cs" />
-    <Compile Include="LinkTests\LinkTestPage.cs" />
-    <Compile Include="ListTests\ConvertUniversalSelectorToCssSelectorTests.cs" />
-    <Compile Include="ListTests\ListTest.cs" />
-    <Compile Include="ModalTests\ModalsTest.cs" />
-    <Compile Include="RadioGroupTests\RadioGroupTest.cs" />
-    <Compile Include="RadioGroupTests\RadioGroupTestPage.cs" />
-    <Compile Include="RadioTests\RadioTest.cs" />
-    <Compile Include="RadioTests\RadioTestPage.cs" />
-    <Compile Include="UtilsTests\SatisfyTest.cs" />
-    <Compile Include="SelectTests\SelectTest.cs" />
-    <Compile Include="ComboBoxTests\ComboBoxesTestPage.cs" />
-    <Compile Include="InputTests\InputTestPage.cs" />
-    <Compile Include="ListTests\ListsTestPage.cs" />
-    <Compile Include="ModalTests\ModalsTestPage.cs" />
-    <Compile Include="ModalTests\ModalWithStatefullComponentWithShowPropsCase.cs" />
-    <Compile Include="ModalTests\ModalWithStatelessComponentWithShowPropsCase.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributes\Base1PageBase.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributes\Base2PageBase.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributes\IPageInterface.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributes\IPageInterface1.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributes\IPageInterface2.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributes\PageActionAttributeTestPage.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributes\TestPageActionAttribute.cs" />
-    <Compile Include="ModalTests\TestModal.cs" />
-    <Compile Include="Helpers\Following.cs" />
-    <Compile Include="Helpers\SaveScreenshotOfFailureAttribute.cs" />
-    <Compile Include="Helpers\To.cs" />
-    <Compile Include="InputTests\InputTest.cs" />
-    <Compile Include="PageActionAttributesTests\PageActionAttributesTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestEnvironment\TestBase.cs" />
-    <Compile Include="TestEnvironmentFixture.cs" />
-    <Compile Include="UtilsTests\TestStringAssertions.cs" />
-    <Compile Include="TextAreaTests\TextAreaTest.cs" />
-    <Compile Include="TextAreaTests\TextAreaTestPage.cs" />
-    <Compile Include="TooltipTests\TooltipTest.cs" />
-    <Compile Include="TooltipTests\TooltipTestPage.cs" />
-    <Compile Include="TestEnvironment\DefaultWaitIntervalAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SeleniumTesting\SeleniumTesting.csproj">
-      <Project>{99a2553d-9b4e-410c-870b-665cadb13070}</Project>
-      <Name>SeleniumTesting</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

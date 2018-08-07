@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Tests.PageActionAttributesTests
         {
             TestPageActionAttribute.executedActions.Clear();
             OpenUrl("Input").GetPageAs<PageActionAttributeTestPage>();
-            TestPageActionAttribute.executedActions.ShouldAllBeEquivalentTo(new[]
+            TestPageActionAttribute.executedActions.Should().BeEquivalentTo(new[]
                 {
                     "IPageInterface2",
                     "Base2PageBase",

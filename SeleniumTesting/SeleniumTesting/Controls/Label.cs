@@ -1,4 +1,6 @@
-﻿namespace SKBKontur.SeleniumTesting.Controls
+﻿using Kontur.Selone.Properties;
+
+namespace SKBKontur.SeleniumTesting.Controls
 {
     public class Label : ControlBase
     {
@@ -7,8 +9,8 @@
         {
         }
 
-        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
 
-        public IControlProperty<string> Text => TextProperty();
+        public IProp<string> Text => TextProperty();
     }
 }

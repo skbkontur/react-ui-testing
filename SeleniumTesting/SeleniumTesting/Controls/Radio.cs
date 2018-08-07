@@ -1,4 +1,6 @@
-﻿namespace SKBKontur.SeleniumTesting.Controls
+﻿using Kontur.Selone.Properties;
+
+namespace SKBKontur.SeleniumTesting.Controls
 {
     public class Radio : ControlBase
     {
@@ -12,6 +14,6 @@
             ExecuteAction(element => element.Click(), "Select");
         }
 
-        public IControlProperty<bool> Selected => ValueFromElement(element => element.GetAttribute("checked") == "true");
+        public IProp<bool> Selected => ValueFromElement(element => element.GetAttribute("checked") == "true");
     }
 }

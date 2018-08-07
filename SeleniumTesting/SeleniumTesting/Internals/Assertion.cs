@@ -1,12 +1,13 @@
 ﻿using System.Text;
 
 using Kontur.RetryableAssertions.TestFramework;
+using Kontur.Selone.Properties;
 
 namespace SKBKontur.SeleniumTesting.Internals
 {
     internal static class Assertion
     {
-        internal static void AssertEqualTo<T>(this IControlProperty<T> actual, T expected)
+        internal static void AssertEqualTo<T>(this IProp<T> actual, T expected)
         {
             AssertEqualTo(actual.Get(), expected, actual.GetDescription());
         }
@@ -45,7 +46,7 @@ namespace SKBKontur.SeleniumTesting.Internals
             throw AssertionExceptionHelper.CreateException(stringBuilder.ToString());
         }
 
-        internal static void AssertStartsWith(this IControlProperty<string> actual, string expected)
+        internal static void AssertStartsWith(this IProp<string> actual, string expected)
         {
             AssertStartsWith(actual.Get(), expected, actual.GetDescription());
         }

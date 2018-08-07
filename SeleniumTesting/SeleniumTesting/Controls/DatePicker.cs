@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Kontur.Selone.Properties;
+
 using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Controls
@@ -52,7 +54,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 );
         }
 
-        public IControlProperty<string> Value => ValueFromElement(x => container.ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
-        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
+        public IProp<string> Value => ValueFromElement(x => container.ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
     }
 }

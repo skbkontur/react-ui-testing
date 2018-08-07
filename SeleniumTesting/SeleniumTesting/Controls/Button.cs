@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Kontur.Selone.Properties;
+
+using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
@@ -16,7 +18,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 "ClickViaJavascript");
         }
 
-        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled");
-        public IControlProperty<string> Text => ValueFromElement(x => x.Text);
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
+        public IProp<string> Text => ValueFromElement(x => x.Text);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 
 using Kontur.RetryableAssertions.Configuration;
 using Kontur.RetryableAssertions.ValueProviding;
+using Kontur.Selone.Properties;
 
 using NUnit.Framework.Constraints;
 
@@ -13,12 +14,12 @@ namespace SKBKontur.SeleniumTesting.Tests.Helpers
 {
     public static class AssertionExtensions
     {
-        public static IValueProvider<T, T> Wait<T>(this IControlProperty<T> property)
+        public static IValueProvider<T, T> Wait<T>(this IProp<T> property)
         {
             return ValueProvider.Create(property.Get, property.GetDescription);
         }
 
-        public static IValueProvider<T[], T[]> Wait<T>(this IEnumerable<IControlProperty<T>> properties)
+        public static IValueProvider<T[], T[]> Wait<T>(this IEnumerable<IProp<T>> properties)
         {
             return ValueProvider.Create(() => properties.Select(x => x.Get()).ToArray(), string.Join("\n", properties.Select(x => x.GetDescription())));
         }
@@ -35,7 +36,7 @@ namespace SKBKontur.SeleniumTesting.Tests.Helpers
             return Kontur.RetryableAssertions.Wait.Assertion(provider, configuration);
         }
 
-        public static void Assert<T>(this IControlProperty<T> property, IResolveConstraint constraint)
+        public static void Assert<T>(this IProp<T> property, IResolveConstraint constraint)
         {
             NUnit.Framework.Assert.That(property.Get(), new ReusableConstraint(constraint), property.GetDescription());
         }

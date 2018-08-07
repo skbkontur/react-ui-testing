@@ -4,6 +4,8 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
+using Kontur.Selone.Properties;
+
 using OpenQA.Selenium;
 
 using SimpleJson;
@@ -66,8 +68,8 @@ namespace SKBKontur.SeleniumTesting.Controls
                 actualValue.ToString().ToLower().Equals(value.ToString().ToLower());
         }
 
-        public IControlProperty<string> SelectedValueText => ValueFromElement(x => x.Text);
-        public IControlProperty<bool> IsDisabled => ReactProperty<bool>("disabled", null);
+        public IProp<string> SelectedValueText => ValueFromElement(x => x.Text);
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled", null);
 
         [NotNull]
         public List<string> GetItems()

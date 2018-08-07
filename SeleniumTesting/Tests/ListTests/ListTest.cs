@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using FluentAssertions;
 
@@ -89,7 +88,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         [Test]
         public void Test3()
         {
-            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().ItemsAs(x => x.Value, x => x.ShouldAllBeEquivalentTo(new[] {"", "value", "value 2"})); });
+            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().ItemsAs(x => x.Value, x => x.Should().AllBeEquivalentTo(new[] {"", "value", "value 2"})); });
         }
 
         [Test]

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 using Kontur.RetryableAssertions.Extensions;
+using Kontur.Selone.Properties;
 
 using OpenQA.Selenium;
 
@@ -26,7 +27,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             this.AsEnumerable().Wait().Single(x => x.Text.AssertStartsWith("Дальше"), timings.GetConfiguration()).Click();
         }
 
-        public IControlProperty<int> ActivePage => ReactProperty<int>("ActivePage");
-        public IControlProperty<int> PagesCount => ReactProperty<int>("PagesCount");
+        public IProp<int> ActivePage => ReactProperty<int>("ActivePage");
+        public IProp<int> PagesCount => ReactProperty<int>("PagesCount");
     }
 }
