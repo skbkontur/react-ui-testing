@@ -139,7 +139,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                 .Should().Be(To.Text(
                     @"Input(##SimpleInput): поле disabled ожидалось истиным, но было:",
                     @"  'False'",
-                    @"Время ожидания: 2 секунды."
+                    @"Время ожидания: 2000ms."
                                  ));
         }
 
@@ -151,7 +151,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                 .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): ожидалось отсутствие",
-                    @"Время ожидания: 2 секунды."));
+                    @"Время ожидания: 2000ms."));
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                 .Be(To.Text(
                     @"Input(##SimpleInput): поле disabled ожидалось истиным, но было:",
                     "  'False'",
-                    @"Время ожидания: 2 секунды."));
+                    @"Время ожидания: 2000ms."));
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                 .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##SimpleInput): ожидалось волшебство",
-                    @"Время ожидания: 2 секунды."));
+                    @"Время ожидания: 2000ms."));
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                 .Be(To.Text(
                     @"Input(##NotExistentInput): поле value ожидалось равным:",
                     @"  'bye', но не был найден контрол Input(##NotExistentInput)",
-                    @"Время ожидания: 2 секунды."
+                    @"Время ожидания: 2000ms."
                         ));
         }
 
@@ -198,7 +198,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                 .Should().Throw<AssertionException>().Which.Message.Should()
                 .Be(To.Text(
                     @"Input(##NotExistentInput): ожидалось присутствие",
-                    @"Время ожидания: 2 секунды."
+                    @"Время ожидания: 2000ms."
                         ));
         }
 
@@ -213,7 +213,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                     @"Input(##SimpleInput): поле value ожидалось равным:",
                     @"  'bye', но было:",
                     @"  'hello'",
-                    @"Время ожидания: 2 секунды."
+                    @"Время ожидания: 2000ms."
                         ));
         }
 
@@ -228,7 +228,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                     @"Input(##SimpleInput): поле value ожидалось не равным:",
                     @"  'hello', но было:",
                     @"  'hello'",
-                    @"Время ожидания: 2 секунды."));
+                    @"Время ожидания: 2000ms."));
         }
 
         [Test]
@@ -242,7 +242,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                     @"Input(##SimpleInput): поле value ожидалось соотвествующим regex-у:",
                     @"  '\d+', но было:",
                     @"  'hello'",
-                    @"Время ожидания: 2 секунды."));
+                    @"Время ожидания: 2000ms."));
         }
 
         [Test]
