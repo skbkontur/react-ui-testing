@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
-
+using Kontur.Selone.Extensions;
+using Microsoft.Win32;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-
-using SKBKontur.SeleniumTesting.Internals;
+using OpenQA.Selenium.Remote;
 using SKBKontur.SeleniumTesting.Internals.Commons;
 
 namespace SKBKontur.SeleniumTesting
@@ -36,27 +38,22 @@ namespace SKBKontur.SeleniumTesting
             return WebDriver.Url;
         }
 
-        public void Close()
+        public void Dispose()
         {
-            WebDriver.Close();
+            WebDriver.Dispose();
         }
 
         public void SaveScreenshot(string testName)
         {
-            var screenshotBytesInBase64 = GetScreenshot();
-            if(screenshotBytesInBase64 == null)
+            var screenshot = GetScreenshot();
+            if(screenshot == null)
                 throw new Exception("Can't take screenshot");
-            ScreenshotSaver.Save(Convert.FromBase64String(screenshotBytesInBase64), testName, DateTime.Now);
+            ScreenshotSaver.Save(screenshot.AsByteArray, testName, DateTime.Now);
         }
 
-        public string GetScreenshot()
+        public Screenshot GetScreenshot()
         {
-            return WebDriver.GetScreenshot();
-        }
-
-        public void SetAuthTokenCookie(string cookieValue)
-        {
-            WebDriver.Manage().Cookies.AddCookie(new Cookie("auth.sid", cookieValue, "dev.kontur", "/", null));
+            return WebDriver.Screenshoter().GetScreenshot();
         }
 
         public T GetPageAs<T>() where T : PageBase
@@ -64,30 +61,34 @@ namespace SKBKontur.SeleniumTesting
             return PageBase.InitializePage<T>(WebDriver);
         }
 
-        private RemoteWebDriverForAccessToProtected WebDriver
+        private RemoteWebDriver WebDriver
         {
             get
             {
-                if(webDriver != null) return webDriver;
-                webDriver = new RemoteWebDriverForAccessToProtected(new Uri("http://localhost:9515"), GetChromeCapabilities());
-                TryFixChromePosition();
+                if (webDriver != null) return webDriver;
+
+                var assembliesDirectory = FindAssembliesDirectory();
+                var chromeDirectory = Path.Combine(assembliesDirectory, "Chrome");
+                var chromeExe = Path.Combine(chromeDirectory, "chrome.exe");
+
+                SetChromeVersionToRegistry(chromeExe);
+
+                var chromeDriverService = ChromeDriverService.CreateDefaultService(chromeDirectory);
+                webDriver = new ChromeDriver(chromeDriverService, GetChromeCapabilities(chromeExe));
+                webDriver.Manage().Window.Size = new Size(1280, 1024);
                 return webDriver;
             }
         }
 
-        private static ICapabilities GetChromeCapabilities()
+        private static ChromeOptions GetChromeCapabilities(string chromeExe)
         {
-            var assembliesDirectory = FindAssembliesDirectory();
-            var chromePath = Path.Combine(assembliesDirectory, "Chrome", "chrome.exe");
             var chromeOptions = new ChromeOptions
-                {
-                    BinaryLocation = chromePath
-                };
-            chromeOptions.AddUserProfilePreference("download.prompt_for_download", false);
-            chromeOptions.AddUserProfilePreference("download.directory_upgrade", true);
-            chromeOptions.AddUserProfilePreference("safebrowsing.enabled", true);
+            {
+                BinaryLocation = chromeExe
+            };
+            chromeOptions.AddArguments("--no-sandbox", "--start-maximized", "--disable-extensions");
 
-            return chromeOptions.ToCapabilities();
+            return chromeOptions;
         }
 
         private static string FindAssembliesDirectory()
@@ -107,28 +108,6 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
-        private void TryFixChromePosition()
-        {
-            try
-            {
-                const string filename = @".chromeposition";
-                var fileStream = File.OpenText(Path.Combine(PathUtils.FindContainingDirectory(filename), filename));
-                var line = fileStream.ReadLine();
-                if(line == null) return;
-                // TODO Fix
-                //var coordinates = line.Split(' ').Select(int.Parse).ToArray();
-                // WebDriver.Manage().Window.Position = new Point(coordinates[0], coordinates[1]);
-            }
-            catch
-            {
-                // ignored
-            }
-            finally
-            {
-                WebDriver.Manage().Window.Maximize();
-            }
-        }
-
         private string GetAbsoluteUrl(string relativeUrl)
         {
             if(relativeUrl.StartsWith("http://") || relativeUrl.StartsWith("https://"))
@@ -136,7 +115,19 @@ namespace SKBKontur.SeleniumTesting
             return $"http://{defaultDomain}:{defaultPort}/{relativeUrl}/";
         }
 
-        private RemoteWebDriverForAccessToProtected webDriver;
+        private static void SetChromeVersionToRegistry(string chromePath)
+        {
+            var key = Registry.CurrentUser.CreateSubKey(RegistryKey);
+            if (key == null)
+            {
+                throw new Exception($"Не удалось создать ключ {Registry.CurrentUser}\\{RegistryKey}");
+            }
+            key.SetValue("pv", FileVersionInfo.GetVersionInfo(chromePath).ProductVersion);
+            key.Close();
+        }
+
+        private const string RegistryKey = @"Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}";
+        private RemoteWebDriver webDriver;
         private readonly string defaultPort;
         private readonly string defaultDomain;
     }

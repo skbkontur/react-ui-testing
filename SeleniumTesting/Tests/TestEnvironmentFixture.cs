@@ -23,11 +23,6 @@ namespace SKBKontur.SeleniumTesting.Tests
             if (TeamCityEnvironment.IsExecutionViaTeamCity)
             {
                 KillWebPackDevServer();
-                KillChromeDrivers();
-                chromeDriverProcess = CreateChromeDriverProcess();
-                chromeDriverProcess.Start();
-
-                WaitResponse("http://localhost:9515/");
 
                 webServerProcess = CreateWebServerProcess();
                 webServerProcess.Start();
@@ -45,8 +40,6 @@ namespace SKBKontur.SeleniumTesting.Tests
             if (TeamCityEnvironment.IsExecutionViaTeamCity)
             {
                 KillProcessAndChildren(webServerProcess.Id);
-                chromeDriverProcess.CloseMainWindow();
-                chromeDriverProcess.WaitForExit(10000);
             }
         }
 
@@ -86,20 +79,11 @@ namespace SKBKontur.SeleniumTesting.Tests
             }
         }
 
-        private static void KillChromeDrivers()
-        {
-            var processes = Process.GetProcessesByName("chromedriver");
-            foreach(var process in processes)
-            {
-                process.Kill();
-            }
-        }
-
         private static void WaitResponse(string url)
         {
             for(var i = 0; i < 2000; i++)
             {
-                var httpResponse = (HttpWebRequest)WebRequest.CreateHttp(url);
+                var httpResponse = WebRequest.CreateHttp(url);
                 httpResponse.Timeout = (int)TimeSpan.FromHours(1).TotalMilliseconds;
                 try
                 {
@@ -152,30 +136,17 @@ namespace SKBKontur.SeleniumTesting.Tests
             return new Process {StartInfo = processStartInfo};
         }
 
-        private static Process CreateChromeDriverProcess()
-        {
-            var chromeProcessStartInfo = new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    FileName = Path.Combine(PathUtils.FindProjectRootFolder(), "Assemblies", "WebDriver", "chromedriver.exe"),
-                };
-            return new Process
-                {
-                    StartInfo = chromeProcessStartInfo
-                };
-        }
-
         private static void KillProcessAndChildren(int pid)
         {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + pid);
-            ManagementObjectCollection moc = searcher.Get();
-            foreach(ManagementObject mo in moc)
+            var searcher = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + pid);
+            var moc = searcher.Get();
+            foreach(var mo in moc)
             {
                 KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
             }
             try
             {
-                Process proc = Process.GetProcessById(pid);
+                var proc = Process.GetProcessById(pid);
                 proc.Kill();
             }
             catch(ArgumentException)
@@ -184,7 +155,6 @@ namespace SKBKontur.SeleniumTesting.Tests
             }
         }
 
-        private Process chromeDriverProcess;
         private Process webServerProcess;
     }
 }

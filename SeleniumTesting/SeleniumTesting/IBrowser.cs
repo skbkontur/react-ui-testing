@@ -1,8 +1,9 @@
+using System;
 using JetBrains.Annotations;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public interface IBrowser
+    public interface IBrowser : IDisposable
     {
         [NotNull]
         T GetPageAs<T>() where T : PageBase;
@@ -13,8 +14,6 @@ namespace SKBKontur.SeleniumTesting
         [NotNull]
         string GetCurrentUrl();
 
-        void Close();
         void SaveScreenshot([NotNull] string testName);
-        void SetAuthTokenCookie([NotNull] string cookieValue);
     }
 }

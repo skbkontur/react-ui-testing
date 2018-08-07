@@ -9,7 +9,7 @@
 
         public static void TearDown()
         {
-            browser.Close();
+            browser.Dispose();
             browser = null;
         }
 
