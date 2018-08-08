@@ -16,7 +16,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public ComboBox(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-            this.portal = this.Find<Portal>().By("noscript");
+            portal = this.Find<Portal>().By("noscript");
         }
 
         [Obsolete]
@@ -25,7 +25,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> z) where T : ControlBase
         {
             return GetReactProp<bool>("disablePortal") ?
-                       new ControlListBase<T>(container, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z) :
+                       new ControlListBase<T>(this, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z) :
                        new ControlListBase<T>(portal, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z);
         }
 
@@ -91,7 +91,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             {
                 if(GetReactProp<bool>("disablePortal"))
                 {
-                    return container.Search(new BySelector(By.CssSelector("[data-comp-name=\'DropdownContainer\']")));
+                    return Search(new BySelector(By.CssSelector("[data-comp-name~=\'DropdownContainer\']")));
                 }
                 var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
