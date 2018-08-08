@@ -98,7 +98,7 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
                 .Should().Be(To.Text(
                     @"Input(##InputAppearsAfterTimeout): требовалось действие InputText(hello), но",
                     @"  не смогли долждаться присутсвия элемента: Input(##InputAppearsAfterTimeout)",
-                    @"Время ожидания: одна секунда."
+                    @"Время ожидания: 1000ms."
                                  ));
         }
 
