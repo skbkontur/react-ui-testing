@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button'
 import { CaseSuite, Case } from '../Case';
 
 function __import_default__(requireResult) {

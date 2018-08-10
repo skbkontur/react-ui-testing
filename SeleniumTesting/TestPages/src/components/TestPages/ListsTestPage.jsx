@@ -1,20 +1,6 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
-import styled from 'styled-components';
 import { CaseSuite, Case } from '../Case';
-
-const Table = styled.table`
-`;
-
-const Row = styled.tr`
-`;
-
-const Cell = styled.td`
-    border: 1px solid #666;
-    padding: 5px;
-    font-weight: ${props => props.bold ? '600' : '300'};
-`;
 
 export default class InputTextPage extends React.Component {
     state = {

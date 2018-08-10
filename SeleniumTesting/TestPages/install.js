@@ -14,8 +14,8 @@ for (var i = 0; i < reactVersions.length; i++) {
         if (!fs.existsSync(targetDir)){
             fs.mkdirSync(targetDir);
         }
-        fs.createReadStream('./test-page-template/index.js')
-            .pipe(fs.createWriteStream('./' + targetDir + '/index.js'));
+        fs.createReadStream('./test-page-template/index.jsx')
+            .pipe(fs.createWriteStream('./' + targetDir + '/index.jsx'));
         fs.createReadStream('./test-page-template/package.json')
             .pipe(fs.createWriteStream('./' + targetDir + '/package.json'));
         fs.appendFileSync('./' + targetDir + '/.gitignore', '*');

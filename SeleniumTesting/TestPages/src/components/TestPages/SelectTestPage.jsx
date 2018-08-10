@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button'
 import Select from 'retail-ui/components/Select'
 import { CaseSuite, Case } from '../Case';
 

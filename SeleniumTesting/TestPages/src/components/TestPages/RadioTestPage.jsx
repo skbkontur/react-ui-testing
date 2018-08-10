@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button'
 import Radio from 'retail-ui/components/Radio'
 import { CaseSuite, Case } from '../Case';
 

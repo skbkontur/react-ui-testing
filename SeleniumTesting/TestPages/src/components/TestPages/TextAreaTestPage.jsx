@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button'
 import Textarea from 'retail-ui/components/Textarea'
 import { CaseSuite, Case } from '../Case';
 

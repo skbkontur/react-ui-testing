@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button'
 import Link from 'retail-ui/components/Link'
 import { CaseSuite, Case } from '../Case';
 

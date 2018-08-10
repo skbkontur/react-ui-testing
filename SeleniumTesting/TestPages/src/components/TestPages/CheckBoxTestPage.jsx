@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button'
 import Checkbox from 'retail-ui/components/Checkbox'
 import { CaseSuite, Case } from '../Case';
 

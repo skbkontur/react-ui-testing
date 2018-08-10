@@ -91,14 +91,14 @@ export default class TestPage extends React.Component {
             inputValue: '',
             value: 3,
             showModal: false,
-            autoFxInput : true,
+            autoFxInput: true,
             fxInputValue: '',
             radioGroupValue: null,
             acValue: '',
             datePickerValue: null,
-			checkboxValue: false,
-			listValues: [false, false, false],
-			textAreaValue: '',
+            checkboxValue: false,
+            listValues: [false, false, false],
+            textAreaValue: '',
             buttonText: 'bla',
         }
     }
@@ -187,7 +187,7 @@ export default class TestPage extends React.Component {
             <hr/>
 
             <h4>Autocomplete</h4>
-            <Autocomplete {...this::bind('acValue')} data-tid="autocomplete" source={autocompleteValue} ></Autocomplete>
+            <Autocomplete {...this::bind('acValue')} data-tid="autocomplete" source={autocompleteValue} />
             <hr/>
 
             <h4>List</h4>
@@ -220,17 +220,15 @@ export default class TestPage extends React.Component {
     }
 
     renderListItem(item) {
-        return <Checkbox 
-			checked={this.state.listValues[item - 1]} 
-			onChange={e => 
-				{
-					var values = this.state.listValues; 
-					values[item - 1] = !values[item - 1]; 
-					this.setState({listValues: values}); 
-				}
-			} 
-			data-tid="item" key={item-1}
-			>{item}</Checkbox>
+        return <Checkbox
+            checked={this.state.listValues[item - 1]}
+            onChange={e => {
+                var values = this.state.listValues;
+                values[item - 1] = !values[item - 1];
+                this.setState({listValues: values});
+            }}
+            data-tid="item" key={item - 1}
+        >{item}</Checkbox>
     }
 
     fxInputRestore() {
