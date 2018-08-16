@@ -1,7 +1,7 @@
 {
-  "name": "Catalogue.WebWorms.TestFront",
+  "name": "retail-ui-test-pages",
   "version": "0.0.1",
-  "description": "Test Front for WebWorms",
+  "description": "Test pages for retail-ui controls",
   "private": true,
   "scripts": {
     "install-versions": "node install.js",
