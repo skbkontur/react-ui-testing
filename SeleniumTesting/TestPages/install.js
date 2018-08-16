@@ -1,42 +1,53 @@
-var path = require('path');
-var fs = require('fs');
-var versions = require('./versions');
-var reactVersions = Object.keys(versions);
-var exec = require('child_process').exec;
+const path = require('path');
+const fs = require('fs');
+const versions = require('./versions');
+const exec = require('child_process').exec;
 
-for (var i = 0; i < reactVersions.length; i++) {
-    reactVersion = reactVersions[i];
-    retailUiVersions = versions[reactVersions[i]];
+const package = function (name, version) {
+    return `${name}@${version}`;
+};
 
-    for(var j = 0; j < retailUiVersions.length; j++) {
-        var retailUiVersion = retailUiVersions[j];
-        var targetDir = reactVersion + '_' + retailUiVersion;
-        if (!fs.existsSync(targetDir)){
+const install = function (reactVersion, retailUiVersion, dependencies) {
+    return new Promise(resolve => {
+        console.log(`installing packages for react ${reactVersion} and retail-ui ${retailUiVersion} ...`);
+        const targetDir = `${reactVersion}_${retailUiVersion}`;
+        if (!fs.existsSync(targetDir)) {
             fs.mkdirSync(targetDir);
         }
-        fs.createReadStream('./test-page-template/index.jsx')
-            .pipe(fs.createWriteStream('./' + targetDir + '/index.jsx'));
+        fs.createReadStream('./test-page-template/index.js')
+            .pipe(fs.createWriteStream(`./${targetDir}/index.js`));
         fs.createReadStream('./test-page-template/package.json')
-            .pipe(fs.createWriteStream('./' + targetDir + '/package.json'));
-        fs.appendFileSync('./' + targetDir + '/.gitignore', '*');
+            .pipe(fs.createWriteStream(`./${targetDir}/package.json`));
+        fs.appendFileSync(`./${targetDir}/.gitignore`, '*');
 
-        var libs = [
-            "react@" + reactVersion,
-            "react-addons-css-transition-group@" + (reactVersion === "16.0.0" ? "15.6.2" : reactVersion),
-            "react-addons-test-utils@" + (reactVersion === "16.0.0" ? "15.6.2" : reactVersion),
-            "react-dom@" + reactVersion,
-            "retail-ui@" + retailUiVersion
+        const libs = [
+            package('react', reactVersion),
+            package('retail-ui', retailUiVersion),
+            ...Object.keys(dependencies).map(name => package(name, dependencies[name]))
         ];
-        
-        var child = exec('npm install ' + libs.join(' '), { cwd: path.join(__dirname, targetDir) },
-        function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
-            if (error !== null) {
-                console.log('exec error: ' + error);
-            }
-        });        
+
+        const child = exec(
+            `npm install ${libs.join(' ')}`,
+            {cwd: path.join(__dirname, targetDir)},
+            function (error, stdout, stderr) {
+                stdout && console.log(`stdout:\n${stdout}`);
+                stderr && console.log(`stderr:\n${stderr}`);
+                error && console.log(`exec error:\n${error}`);
+                console.log('installed\n');
+                resolve();
+            });
+    })
+};
+
+const installAll = async function () {
+    for (const version of versions) {
+        const reactVersion = version["react"];
+        const retailUiVersions = version["retail-ui"];
+
+        for (const retailUiVersion of retailUiVersions) {
+            await install(reactVersion, retailUiVersion, version.dependencies);
+        }
     }
-}
+};
 
-
+installAll();
