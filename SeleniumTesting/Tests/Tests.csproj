@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>SKBKontur.SeleniumTesting.Tests</AssemblyName>
+    <AssemblyName>Kontur.ReactUI.SeleniumTesting.Tests</AssemblyName>
     <Authors>Kontur</Authors>
     <Company>Kontur</Company>
-    <Product>SKBKontur.SeleniumTesting.Tests</Product>
+    <Product>Kontur.ReactUI.SeleniumTesting.Tests</Product>
     <RootNamespace>SKBKontur.SeleniumTesting.Tests</RootNamespace>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>1.0.0.0$(VersionSuffix)</Version>
-    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <LangVersion>latest</LangVersion>
     <TargetFramework>net45</TargetFramework>
   </PropertyGroup>
