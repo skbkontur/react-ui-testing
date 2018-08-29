@@ -90,6 +90,17 @@ export default class ComboBoxTestPage extends React.Component {
                         />
                     </Case.Body>
                 </Case>
+
+                <Case title='Заблокированный комбобокс'>
+                    <Case.Body>
+                        <ComboBox
+                            data-tid='DisabledComboBox'
+                            value={""}
+                            source={() => Promise.resolve({})}
+                            disabled
+                        />
+                    </Case.Body>
+                </Case>
            </CaseSuite>
         );
     }

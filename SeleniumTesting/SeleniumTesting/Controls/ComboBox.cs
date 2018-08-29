@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using JetBrains.Annotations;
-
+using Kontur.Selone.Properties;
 using OpenQA.Selenium;
 
 using SKBKontur.SeleniumTesting.Internals;
@@ -18,6 +18,8 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             portal = this.Find<Portal>().By("noscript");
         }
+
+        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
 
         [Obsolete]
         public string Text { get { return GetValueFromElement(x => x.Text); } }

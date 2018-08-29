@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
-
 using NUnit.Framework;
-
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
@@ -18,6 +16,18 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         public void SetUp()
         {
             page = OpenUrl("ComboBoxes").GetPageAs<ComboBoxesTestPage>();
+        }
+
+        [Test]
+        public void TestDisabled()
+        {
+            page.DisabledComboBox.IsDisabled.Wait().That(Is.True);
+        }
+
+        [Test]
+        public void TestNotDisabled()
+        {
+            page.SimpleComboBox.IsDisabled.Wait().That(Is.False);
         }
 
         [Test]
