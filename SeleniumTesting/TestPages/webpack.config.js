@@ -24,14 +24,14 @@ function createConfig(reactVersion, retailUIVersion) {
     return {
         entry: {
             [`index_${reactVersion}_${retailUIVersion}`]: [
-                "babel-polyfill",
+                'babel-polyfill',
                 './react-selenium-testing-custom-props.js',
                 '../react-selenium-testing.js',
                 `./${targetDir}/index.js`
             ]
         },
         output: {
-            path: './dist',
+            path: path.resolve(__dirname, './dist'),
             publicPath: '/',
             filename: '[name].js',
         },
@@ -39,20 +39,20 @@ function createConfig(reactVersion, retailUIVersion) {
             loaders: [
                 {
                     test: /\.(css)$/,
-                    loader: 'style!css',
+                    loaders: ['style-loader', 'css-loader']
                 },
                 {
                     test: /\.(less)$/,
-                    loader: 'style!css!less',
+                    loaders: ['style-loader', 'css-loader', 'less-loader']
                 },
                 {
                     test: /\.(woff|eot|png|gif|ttf|woff2)$/,
-                    loader: "file-loader"
+                    loader: 'file-loader'
                 },
                 {
                     test: /\.jsx?$/,
                     exclude: /node_modules/,
-                    loader: 'babel',
+                    loader: 'babel-loader',
                     query: {
                         presets: [
                             require.resolve('babel-preset-react'),
@@ -64,7 +64,7 @@ function createConfig(reactVersion, retailUIVersion) {
                 {
                     test: /\.jsx?$/,
                     include: /(retail\-ui)/,
-                    loader: 'babel',
+                    loader: 'babel-loader',
                     exclude: /(react\-input\-mask)/,
                     query: {
                         presets: [
@@ -77,11 +77,7 @@ function createConfig(reactVersion, retailUIVersion) {
             ]
         },
         resolve: {
-            extensions: [
-                "",
-                ".js",
-                ".jsx",
-            ],
+            extensions: ['.js', '.jsx'],
             alias: {...alias}
         },
         plugins: [
