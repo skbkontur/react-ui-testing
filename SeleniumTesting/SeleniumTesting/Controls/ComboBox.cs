@@ -61,8 +61,9 @@ namespace SKBKontur.SeleniumTesting.Controls
                 x =>
                     {
                         x.Click();
-                        x.FindElement(By.CssSelector("input")).Clear();
-                        x.FindElement(By.CssSelector("input")).SendKeys(text);
+                        var input = x.FindElement(By.CssSelector("input"));
+                        input.Clear();
+                        input.SendKeys(text);
                     },
                 $"InputText('{text}')");
         }
@@ -79,6 +80,21 @@ namespace SKBKontur.SeleniumTesting.Controls
             {
                 return new List<object>();
             }
+        }
+
+        public void Clear()
+        {
+            ExecuteAction(
+                x =>
+                {
+                    x.Click();
+                    var input = x.FindElement(By.CssSelector("input"));
+                    input.SendKeys(Keys.Control + "a");
+                    input.SendKeys(Keys.Delete);
+                    input.SendKeys(Keys.Tab);
+                },
+                "Clear"
+            );
         }
 
         private IWebElement GetRenderContainer()

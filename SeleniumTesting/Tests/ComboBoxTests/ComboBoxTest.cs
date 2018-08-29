@@ -19,6 +19,14 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         }
 
         [Test]
+        public void Clear()
+        {
+            page.FilledComboBox.ExpectTo().Text.EqualTo("Item 1");
+            page.FilledComboBox.Clear();
+            page.FilledComboBox.ExpectTo().Text.BeEmpty();
+        }
+
+        [Test]
         public void TestDisabled()
         {
             page.DisabledComboBox.IsDisabled.Wait().That(Is.True);

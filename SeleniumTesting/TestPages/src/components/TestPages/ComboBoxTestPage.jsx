@@ -44,6 +44,7 @@ const testItems = [
 export default class ComboBoxTestPage extends React.Component {
     state = {
         simpleComboBoxValue: null,
+        filledComboBoxValue: '1'
     };
 
     render(): React.Element<*> {
@@ -98,6 +99,27 @@ export default class ComboBoxTestPage extends React.Component {
                             value={""}
                             source={() => Promise.resolve({})}
                             disabled
+                        />
+                    </Case.Body>
+                </Case>
+
+                <Case title='Заполненный комбобокс'>
+                    <Case.Body>
+                        <ComboBox
+                            data-tid='FilledComboBox'
+                            info={withDelay(1000, id => testItems.find(x => x.id === id))}
+                            value={this.state.filledComboBoxValue}
+                            onChange={(e, value) => this.setState({ filledComboBoxValue: value })}
+                            source={withDelay(1000, q => ({
+                                values: testItems.filter(x => x.value1.includes(q)).map(x => x.id),
+                                infos: testItems.filter(x => x.value1.includes(q)),
+                            }))}
+                            renderItem={(id, x) => x.value1}
+                            valueToString={id => {
+                                var item = testItems.find(x => x.id === id);
+                                return item ? item.value1 : '';
+                            }}
+                            renderValue={(id, x) => x && x.value1}
                         />
                     </Case.Body>
                 </Case>

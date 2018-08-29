@@ -15,6 +15,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
 
         public ComboBox DisabledComboBox { get; private set; }
         public ComboBox SimpleComboBox { get; private set; }
+        public ComboBox FilledComboBox { get; private set; }
 
         [Selector("##SimpleComboBox"), ChildSelector("noscript:portal MenuItem")]
         public ControlList<Label> SimpleComboBoxItems { get; private set; }
