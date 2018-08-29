@@ -8,6 +8,7 @@ install:
 
 build:
   project: SeleniumTesting/SeleniumTesting.sln
+  publish_nuget: true
   verbosity: minimal
 
 test: off
