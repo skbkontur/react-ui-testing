@@ -5,7 +5,7 @@ using System.Linq;
 using Kontur.RetryableAssertions.Configuration;
 using Kontur.RetryableAssertions.ValueProviding;
 using Kontur.Selone.Properties;
-
+using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
 using OpenQA.Selenium;
@@ -44,6 +44,21 @@ namespace SKBKontur.SeleniumTesting.Tests.Helpers
         public static void Assert<T>(this T value, IResolveConstraint constraint, string message = null)
         {
             NUnit.Framework.Assert.That(value, new ReusableConstraint(constraint), message);
+        }
+
+        public static IAssertionResult<T, TSource> EqualTo<T, TSource>(this IValueProvider<T, TSource> provider, T expected)
+        {
+            return provider.That(Is.EqualTo(expected));
+        }
+
+        public static IAssertionResult<bool, TSource> True<TSource>(this IValueProvider<bool, TSource> provider)
+        {
+            return provider.EqualTo(true);
+        }
+
+        public static IAssertionResult<bool, TSource> False<TSource>(this IValueProvider<bool, TSource> provider)
+        {
+            return provider.EqualTo(false);
         }
     }
 }

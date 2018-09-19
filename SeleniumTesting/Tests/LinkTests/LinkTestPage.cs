@@ -14,5 +14,8 @@ namespace SKBKontur.SeleniumTesting.Tests.LinkTests
         }
 
         public Link SimpleLink { get; private set; }
+        public Link DisabledLink { get; private set; }
+        public Link IconicLink { get; private set; }
+        public Link IconicLinkComplex { get; private set; }
     }
 }
