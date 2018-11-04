@@ -1,3 +1,6 @@
+# Переезд
+Содержимое репозитория react-ui-testing переехало в [подрепозеторий reatil-ui](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-testing)
+
 # react-ui-testing
 
 [![TeamCity](https://tcat.skbkontur.ru/app/rest/builds/buildType:(id:ReactUiSeleniumTesting_Tests)/statusIcon)](https://tcat.skbkontur.ru/project.html?projectId=ReactUiSeleniumTesting&tab=projectOverview)
