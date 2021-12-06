@@ -7,8 +7,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = function(/* env */) {
     const PROD = process.env.NODE_ENV === "production";
 
-    const applicationRoot = PROD ? "http://tech.skbkontur.ru/react-ui-testing/" : "/";
-    const applicationAbsoluteRoot = PROD ? "http://tech.skbkontur.ru/react-ui-testing/" : "http://localhost:8080/";
+    const applicationRoot = "/";
+    const applicationAbsoluteRoot = "/";
 
     return [
         {
